@@ -2,6 +2,15 @@
 
           	$query = new mysqli('localhost', 'root','', 'db_pos');
 
+			  function formatRupiah($profit)
+			  {
+				  if (is_numeric($profit)) {
+					  $format_rupiah = 'Rp ' . number_format($profit, '0', ',', '.');
+					  return $format_rupiah;
+				  } else {
+					  echo "Rp 0";
+				  }
+			  }
           ?>
 
           <div class="row tile_count">
@@ -11,7 +20,7 @@
             </div>
             <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
               <span class="count_top"><i class="fa fa-money"></i> Total Profit</span>
-              <div class="count">Rp. <?=$profit?></div>
+              <div class="count"><?= formatRupiah($profit)?></div>
             </div>
             <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
               <span class="count_top"><i class="fa fa-shopping-cart"></i> Today's Order</span>

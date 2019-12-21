@@ -21,7 +21,7 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2><i class="fa fa-bars"></i> Tabs <small>Laporan Pemakaian</small></h2>
+                    <h2><i class="fa fa-bars"></i> Laporan Pemakaian</h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -255,8 +255,8 @@
 																		<tr>
 																			<td><?=$value->nama_jenis.' '.$value->nama_penyajian?></td>
 																			<td><?=($value->pakai != null ? $value->pakai : 0)?></td>
-																			<td><?=$value->harga?></td>
-																			<td><?=($value->pakai != null ? $value->pakai * $value->harga : 0)?></td>
+																			<td><?= 'Rp ' . number_format($value->harga, '0', ',', '.')?></td>
+																			<td><?= 'Rp ' . number_format(($value->pakai != null ? $value->pakai * $value->harga : 0), '0', ',', '.')?></td>
 																		</tr>
 																	<?php
 																}

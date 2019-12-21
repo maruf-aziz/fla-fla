@@ -16,6 +16,27 @@
 					</div>
 
 					<div class="row top_tiles">
+					<?php
+						function formatRupiah($omset_hari)
+						{
+							if (is_numeric($omset_hari)) {
+								$format_rupiah = 'Rp ' . number_format($omset_hari, '0', ',', '.');
+								return $format_rupiah;
+							} else {
+								echo "Rp 0";
+							}
+						}
+
+						function formatRupiah1($omset_bulanan)
+						{
+							if (is_numeric($omset_bulanan)) {
+								$format_rupiah = 'Rp ' . number_format($omset_bulanan, '0', ',', '.');
+								return $format_rupiah;
+							} else {
+								echo "Rp 0";
+							}
+						}
+					?>
             <div class="animated flipInY col-lg-4 col-md-4 col-sm-6 col-xs-12">
               <div class="tile-stats">
                 <div class="icon"><i class="fa fa-shopping-cart"></i></div>
@@ -27,7 +48,7 @@
             <div class="animated flipInY col-lg-4 col-md-4 col-sm-6 col-xs-12">
               <div class="tile-stats">
                 <div class="icon"><i class="fa fa-money"></i></div>
-                <div class="count">Rp. <small><?=$omset_hari?></small></div>
+                <div class="count"><?= formatRupiah($omset_hari)?></div>
                 <br>
                 <h3>Omset Hari Ini</h3>
               </div>
@@ -35,7 +56,7 @@
             <div class="animated flipInY col-lg-4 col-md-4 col-sm-6 col-xs-12">
               <div class="tile-stats">
                 <div class="icon"><i class="fa fa-money"></i></div>
-                <div class="count"><?=$omset_bulanan?></div>
+                <div class="count"><?= formatRupiah1($omset_bulanan)?></div>
                 <br>
                 <h3>Omset Bulan Ini</h3>
               </div>
@@ -69,8 +90,8 @@
 	              <div class="x_content">
 
 	              	<div class="pull-right">          		
-	              		<a class="btn btn-warning btn-sm" onclick="active();"><i class="fa fa-pencil"></i> Update</a>
-			          	</div>
+	              		<a class="btn btn-warning btn-sm" onclick="active();" id="active"><i class="fa fa-pencil"></i> Update</a>
+			        </div>
 
 	              	<form id="demo-form2" name="form_profile" data-parsley-validate class="form-horizontal form-label-left input-mask" method="post" action="<?=base_url('index.php/c_admin/update_profil/'.$admin->id_staff)?>">
 			            	<div class="row">
@@ -121,8 +142,8 @@
 			              <div class="form-group">
 			                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
 			                  <a href="<?=base_url('index.php/c_admin')?>"><button class="btn btn-primary" type="button">Cancel</button></a>
-					  						<button class="btn btn-primary" type="reset">Reset</button>
-			                  <button type="submit" name="submit" class="btn btn-success">Submit</button>
+					  			<button class="btn btn-primary" type="reset" id="reset">Reset</button>
+			                	<button type="submit" name="submit" class="btn btn-success" id="submit">Submit</button>
 			                </div>
 			              </div>
 
@@ -141,5 +162,14 @@
 	        		document.form_profile.contact.disabled = false;
 	        		document.form_profile.alamat.disabled = false;
 	        		document.form_profile.password.disabled = false;
-	        	}
+	        	}	
+				$(document).ready(function(){
+					$("#reset").hide();
+					$("#submit").hide();
+
+					$("#active").click(function(){
+						$("#reset").show();
+						$("#submit").show();
+					})
+				})			
 	        </script>

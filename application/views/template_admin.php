@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="icon" href="<?=base_url()?>assets_admin/production/images/favicon.png" type="image/ico" />
 
-    <title>Fla - FLa Milkshake</title>
+    <title>Administrator | Fla - Fla Milkshakes</title>
 
     <link rel="stylesheet" href="<?=base_url()?>assets_admin/bootstrap-multiselect/bootstrap-multiselect.css" />
     <link rel="stylesheet" href="<?=base_url()?>assets_admin/select2/select2.css" />

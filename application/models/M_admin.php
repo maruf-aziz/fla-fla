@@ -565,7 +565,7 @@
         }
 
         public function get_penjualan($tanggal = null, $region = null){
-            $query = $this->db->query("SELECT nama_jenis, nama_penyajian, SUM(record_pemakaian.pemakaian) AS pakai, harga FROM record_pemakaian RIGHT JOIN powder ON record_pemakaian.id_powder = powder.id_powder JOIN penyajian ON record_pemakaian.id_penyajian = penyajian.id_penyajian JOIN detail_penyajian ON detail_penyajian.id_powder = powder.id_powder JOIN jenis_menu ON powder.id_jenis = jenis_menu.id_jenis GROUP BY jenis_menu.nama_jenis");
+            $query = $this->db->query("SELECT nama_jenis, nama_penyajian, SUM(record_pemakaian.pemakaian) AS pakai, harga FROM record_pemakaian RIGHT JOIN powder ON record_pemakaian.id_powder = powder.id_powder JOIN penyajian ON record_pemakaian.id_penyajian = penyajian.id_penyajian JOIN detail_penyajian ON detail_penyajian.id_powder = powder.id_powder JOIN jenis_menu ON powder.id_jenis = jenis_menu.id_jenis GROUP BY jenis_menu.nama_jenis, penyajian.id_penyajian");
 
             return $query->result();
         }
