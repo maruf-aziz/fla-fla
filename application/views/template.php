@@ -38,7 +38,8 @@
           <div class="navbar-menu-wrapper d-flex align-items-center justify-content-between">
             
             <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-                <a class="navbar-brand brand-logo" href="<?=base_url()?>assets/template/index.html"><img src="<?=base_url()?>assets/template/images/logo.svg" alt="logo"/></a>
+                <!-- <a class="navbar-brand brand-logo" href="<?=base_url()?>assets/template/index.html"><img src="<?=base_url()?>assets/template/images/logo.svg" alt="logo"/></a> -->
+                <a class="navbar-brand brand-logo" href="<?=base_url()?>assets/template/index.html"><h1><span><b>Fla - Fla</b></span></h1></a>
                 <a class="navbar-brand brand-logo-mini" href="<?=base_url()?>assets/template/index.html"><img src="<?=base_url()?>assets/template/images/logo-mini.svg" alt="logo"/></a>
             </div>
             <ul class="navbar-nav navbar-nav-right">

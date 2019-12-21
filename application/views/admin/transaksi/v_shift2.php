@@ -68,6 +68,9 @@
                     			<?php
                     		}
                     	?>
+
+                      <li role="presentation"><a href="#tab_content_search" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Search </a>
+                      </li>
                     </ul>
                     <div id="myTabContent" class="tab-content">
                     	<?php
@@ -151,6 +154,61 @@
                     			<?php
                     		}
                     	?>
+
+
+                      <div role="tabpanel" class="tab-pane fade" id="tab_content_search" aria-labelledby="Custom-tab">
+                          <form data-parsley-validate class="form-horizontal form-label-left input-mask" style="padding-bottom: 20px;">
+                            <div class="row">
+                              <label class="control-label col-md-1 col-sm-1 col-xs-12" for="last-name">Cari Tanggal <span class="required">*</span></label>
+                              <div class='col-lg-2 col-md-2 col-sm-2 col-xs-12 input-group date' id='myDatepicker2'>
+                                <input type="text" class="form-control" name="tanggal" id="tanggal" />
+                                <span class="input-group-addon">
+                                   <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <label class="control-label col-md-1 col-sm-1 col-xs-12" for="last-name">Region <span class="required">*</span></label>
+                              <div class='col-lg-2 col-md-2 col-sm-2 col-xs-12 input-group'>
+                                <select class="form-control" name="region" id="region">
+                                  <option value="">-- Pilih Region --</option>
+                                  <?php
+                                    foreach ($region as $key => $value) {
+                                      ?>
+                                        <option value="<?=$value->id_region?>"><?=$value->nama_region?></option>
+                                      <?php
+                                    }
+                                  ?>
+                                </select>
+                              </div>
+                            </div>
+                            <input type="hidden" name="id_shift" id="id_shift" value="shift2">
+                            <div class="row" style="padding-left: 10px;">
+                              <button type="button" class="btn btn-primary btn-sm">Tampilkan</button>
+                            </div>
+                          </form>
+
+                          <table  class="table table-striped jambo_table bulk_action display">
+                            <thead>
+                              <tr class="headings">
+                                    <th class="column-title">No </th>
+                                    <th class="column-title">Karyawan </th>
+                                    <th class="column-title">Nama Pembeli </th>
+                                    <th class="column-title">Tanggal</th>
+                                    <th class="column-title">Waktu</th>
+                                    <th class="column-title">Nama Menu</th>
+                                    <th class="column-title">Sajian</th>
+                                    <th class="column-title">Nama Topping</th>
+                                    <th class="column-title">Harga</th>
+                                    <th class="column-title">Status</th>
+                                  </tr>
+                            </thead>
+
+                            <tbody id="show_data">
+
+                            </tbody>
+                          </table>
+                        </div>
           
                     </div>
                   </div>
@@ -158,3 +216,80 @@
                 </div>
               </div>
             </div>
+
+            <script>
+              
+              $('button').click(function(){
+                var tanggal = $("#tanggal").val();
+                var id = $("#id_shift").val();
+                var region = $("#region").val();
+
+                if (tanggal == '') {
+                  Swal.fire({
+                    type: 'warning',
+                    title: 'Halllooo ...',
+                    text: 'Tanggal Belum Diisi'
+                  })
+                }
+
+                if (region == '') {
+                  Swal.fire({
+                    type: 'warning',
+                    title: 'Halllooo ...',
+                    text: 'Region Belum Dipilih'
+                  })
+                }
+
+                else{
+                  $.ajax({
+                    url: "<?= base_url('index.php/c_admin/get_search_transaksi') ?>",
+                    type: "post",
+                    data: {
+                      tanggal : tanggal,
+                      region : region,
+                      id : id
+                    },
+                    async: false,
+                    dataType: "json",
+                    success: function(data) {
+                      var html = '';
+                      var i;
+                      var topping;
+                      var status;
+
+                      for (i = 0; i < data.length; i++) {
+                        
+
+                        if (data[i].nama_topping != null) {
+                          topping = data[i].nama_topping;
+                        }
+                        else{
+                          topping = '--';
+                        }
+
+                        if (data[i].status == "Success"){
+                          status = '<span class="label label-success">Success</span>';
+                        }
+                        else{
+                          status = '<span class="label label-warning">Process</span>';
+                        }
+
+                        html += '<tr>' +
+                                  '<td>' + (i + 1) + '</td>' +
+                                  '<td>' + data[i].username + '</td>' +
+                                  '<td>' + data[i].nama_pembeli + '</td>' +
+                                  '<td>' + data[i].tanggal +'</td>' +
+                                  '<td>' + data[i].waktu +'</td>' +
+                                  '<td>' + data[i].nama_powder +'</td>' +
+                                  '<td>' + data[i].nama_penyajian + '</td>' +
+                                  '<td>' + topping + '</td>' +
+                                  '<td>' + data[i].jumlah +'</td>' +
+                                  '<td>' + status + '</td>' +
+                                '</tr>';
+                      }
+                      $('#show_data').html(html);
+                    }
+                  });
+                }               
+              })
+            </script>

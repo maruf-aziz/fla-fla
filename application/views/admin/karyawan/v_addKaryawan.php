@@ -1,5 +1,5 @@
 		<?php
-	    $query = new mysqli('localhost','root','','kasir');
+	    $query = new mysqli('localhost','root','','db_pos');
 	    //cari id terakhir ditanggal hari ini
 	    $query1 = "SELECT MAX(id_staff) as maxID FROM staff";
 	    $hasil = mysqli_query($query, $query1);

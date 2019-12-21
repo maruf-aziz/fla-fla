@@ -71,7 +71,7 @@
 		              </div>
 
 		              <div class="x_content">
-		              	<a href="#" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> ADD</a>
+		              	<a href="<?=base_url('index.php/c_admin/insert_powder')?>" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> ADD</a>
 		              </div>
 
 		          		<div class="x_content" role="tabpanel" data-example-id="togglable-tabs">
@@ -115,16 +115,12 @@
 																			for ($x = 1; $x <= $menu = mysqli_fetch_assoc($kueriMenu); $x++) {
 																				?>
 																					<tr class="gradeX">
-																						<!-- <td style="display:none;"><?php echo $x ?></td>
-																						<td style="display:none;" id="aidi"><?php echo $menu['id_varian'] ?></td> -->
 																						<td><?php echo $menu['nama_jenis'] ?></td>
 																						<td><?php echo $menu['nama_varian'] ?></td>
 																						<td><?php echo $menu['sisa'] ?></td>
-																						<!-- <td style="display:none;" id="region"><?php echo $menu['id_region'] ?></td> -->
 																						<td>
-																							<a href="#"><button type="button" class="btn btn-xs btn-success"><i class="fa fa-search"></i></button></a>
-																							<!-- <a href="#"><button type="button" class="btn-edit-menu mb-xs mt-xs mr-xs btn btn-xs btn-warning"><i class="fa fa-pencil"></i></button></a> -->
-																							<a href="#"><button type="button" class="btn btn-xs btn-danger"><i class="fa fa-trash-o"></i></button></a>
+																							<a href="<?=base_url('index.php/c_admin/update_varian/'.$menu['id_varian'].'/'.$menu['id_region'])?>" class="btn btn-xs btn-success"><i class="fa fa-search"></i></a>
+																							<a href="<?=base_url('index.php/c_admin/delete_varian/'.$menu['id_varian'])?>" class="tombol-hapus btn btn-xs btn-danger"><i class="fa fa-trash-o"></i></a>
 																						</td>
 																					</tr>
 																					<?php
@@ -233,7 +229,7 @@
 		              </div>
 
 		              <div class="x_content">
-		              	<a href="#" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> ADD</a>
+		              	<a href="<?=base_url('index.php/c_admin/insert_ekstra')?>" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> ADD</a>
 		              </div>
 
 		          		<div class="x_content" role="tabpanel" data-example-id="togglable-tabs">
@@ -269,14 +265,11 @@
 																			while ($hasil = mysqli_fetch_array($ekstra)) {
 																				?>
 																					<tr class="gradeX">
-																						<!-- <td style="display:none;" id="aidi"><?php echo $hasil['id_ekstra']; ?></td> -->
 																						<td><?php echo $hasil['nama_ekstra']; ?></td>
 																						<td><?php echo $hasil['sisa'] ?> <?php echo $hasil['satuan'] ?></td>
-																						<!-- <td style="display:none" id="region"><?php echo $hasil['id_region'] ?></td> -->
 																						<td>
-																							<a href="#"><button type="button" class="btn-detail-ekstra mb-xs mt-xs mr-xs btn btn-xs btn-success"><i class="fa fa-search"></i></button></a>
-																							<!-- <a href="#"><button type="button" class="btn-edit-ekstra mb-xs mt-xs mr-xs btn btn-xs btn-warning"><i class="fa fa-pencil"></i></button></a> -->
-																							<a href="#"><button type="button" class="btn-hapus-ekstra mb-xs mt-xs mr-xs btn btn-xs btn-danger"><i class="fa fa-trash-o"></i></button></a>
+																							<a href="<?=base_url('index.php/c_admin/update_ekstra/'.$hasil['id_ekstra'])?>" class="btn-detail-ekstra mb-xs mt-xs mr-xs btn btn-xs btn-success"><i class="fa fa-search"></i></a>
+																							<a href="<?=base_url('index.php/c_admin/delete_ekstra/'.$hasil['id_ekstra'])?>" class="tombol-hapus btn-hapus-ekstra mb-xs mt-xs mr-xs btn btn-xs btn-danger"><i class="fa fa-trash-o"></i></a>
 																						</td>
 																					</tr>
 																				<?php 

@@ -34,6 +34,8 @@
           	</div>         	
             <br />
             <form name="form_update" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left input-mask" method="post" action="<?=base_url('index.php/c_admin/update_topping/'.$topping->id_topping)?>">
+              <!-- get id_region -->
+              <input type="hidden" name="id_region" value="<?=$topping->id_region?>">
             	<div class="row">
             		<label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Nama Topping <span class="required">*</span></label>
             		<div class="col-md-6 col-sm-6 col-xs-10 form-group has-feedback">

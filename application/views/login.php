@@ -66,17 +66,17 @@
 							</label>
 						</div> -->
 
-						<div>
+						<div >
 							<a href="<?=base_url('index.php/auth/forget_pass')?>" class="txt1">
 								Forgot Password?
 							</a>
 						</div>
 
-						<div>
+						<!-- <div>
 							<a href="<?=base_url('index.php/c_admin')?>" class="txt1">
 								admin (sementara)
 							</a>
-						</div>
+						</div> -->
 					</div>
 
 					<div class="container-login100-form-btn">

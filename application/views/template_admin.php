@@ -10,6 +10,8 @@
 
     <title>Fla - FLa Milkshake</title>
 
+    <link rel="stylesheet" href="<?=base_url()?>assets_admin/bootstrap-multiselect/bootstrap-multiselect.css" />
+    <link rel="stylesheet" href="<?=base_url()?>assets_admin/select2/select2.css" />
     <!-- Bootstrap -->
     <link href="<?=base_url()?>assets_admin/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -32,6 +34,10 @@
     <!-- data tables -->
     <link rel="stylesheet" type="text/css" href="<?=base_url()?>assets_admin/Datatables/DataTables-1.10.18/css/jquery.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="<?=base_url()?>assets_admin/Datatables/Buttons-1.5.6/css/buttons.dataTables.min.css">
+
+    <link href="<?=base_url()?>assets_admin/vendors/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css" rel="stylesheet">
+
+    
 
     <!-- jQuery -->
     <script src="<?=base_url()?>assets_admin/vendors/jquery/dist/jquery.min.js"></script>
@@ -90,7 +96,8 @@
                   <li><a href="<?=base_url('index.php/c_admin/discount')?>"><i class="fa fa-money"></i> Diskon</a></li>
                   <li><a href="<?=base_url('index.php/c_admin/region')?>"><i class="fa fa-building-o"></i> Region</a></li>
                   <li><a href="<?=base_url('index.php/c_admin/karyawan')?>"><i class="fa fa-user"></i>Karyawan</a></li>
-                  <li><a><i class="fa fa-bar-chart-o"></i>Laporan (coming soon)</a></li>
+                  <li><a href="<?=base_url('index.php/c_admin/list_penambahan')?>"><i class="fa fa-bar-chart-o "></i>Transaksi Penambahan</a></li>
+                  <li><a href="<?=base_url('index.php/c_admin/get_laporan_pemakaian')?>"><i class="fa fa-book"></i>Laporan Pemakaian</a></li>
                 </ul>
               </div>
 
@@ -131,7 +138,7 @@
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
-                    <li><a href="#"> Profile</a></li>
+                    <li><a href="<?=base_url('index.php/c_admin/profil')?>"> Profile</a></li>
                     <!-- <li>
                       <a href="javascript:;">
                         <span class="badge bg-red pull-right">50%</span>
@@ -332,6 +339,10 @@
         }
     </script>
 
+
+
+    <script src="<?=base_url()?>assets_admin/bootstrap-multiselect/bootstrap-multiselect.js"></script>
+    <script src="<?=base_url()?>assets_admin/select2/select2.js"></script>
     <!-- Bootstrap -->
     <script src="<?=base_url()?>assets_admin/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- FastClick -->
@@ -373,6 +384,16 @@
 
     <script src="<?=base_url()?>assets/alert/sweetalert2.all.min.js"></script>
     <script src="<?=base_url()?>assets/alert/myscript.js"></script>
+
+    <script src="<?=base_url()?>assets_admin/vendors/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+
+    <script>
+      $('#myDatepicker2').datetimepicker({
+          format: 'YYYY-MM-DD'
+      });
+    </script>
+
+
 	
   </body>
 </html>
