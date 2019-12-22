@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Login | Barista</title>
+	<title>Fla-Fla Milkshakes</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->	
@@ -38,7 +38,7 @@
 			<div class="wrap-login100">
 				<div class="login100-form-title" style="background-image: url(<?=base_url()?>assets/login/images/bg-01.jpg);">
 					<span class="login100-form-title-1">
-						Forget Password
+						Forgot Password
 					</span>
                 </div>
                 
@@ -61,7 +61,7 @@
 						<span class="focus-input100"></span>
 					</div> -->
 
-					<div>
+					<div class="container">
 						<a href="<?=base_url('index.php/auth/login')?>" class="txt1">
 							Back To Login
 						</a>
