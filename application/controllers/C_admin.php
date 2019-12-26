@@ -8,7 +8,8 @@ class C_admin extends CI_Controller {
 		check_admin();
 		check_not_login();
         $this->load->library('form_validation');
-        $this->load->model('m_admin', 'model');
+		$this->load->model('m_admin', 'model');
+		$this->load->helper(array('url','download'));
     }
 
 	public function index(){
@@ -27,6 +28,21 @@ class C_admin extends CI_Controller {
 			'order' => $jumlah
 		);
         $this->template_admin->load('template_admin','admin/dashboard/v_dashboard', $data);
+	}
+
+	public function powder()
+	{
+		force_download('import/Powder.csv', NULL);
+	}
+
+	public function ekstra()
+	{
+		force_download('import/Ekstra.csv', NULL);
+	}
+
+	public function topping()
+	{
+		force_download('import/Topping.csv', NULL);
 	}
 
 	public function profil(){
