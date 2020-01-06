@@ -314,6 +314,98 @@
     });
   </script>
 
+  <script>
+    $('.info').on('click', function() {
+      Swal.fire({
+        title: '<strong>Information</strong>',
+        html: '<table width="400px">' +
+          '<thead>' +
+          '<tr>' +
+          '<th colspan="3">ID Jenis</th>' +
+          '<th colspan="4">ID Region</th>' +
+          '<th colspan="3">ID Penyajian</th>' +
+          '<th>Harga</th>' +
+          '</tr>' +
+          '</thead>' +
+          '<tr>' +
+          '<td style="text-align:left">&nbsp;Basic&nbsp;</td>' +
+          '<td>&nbsp;=&nbsp;</td>' +
+          '<td>&nbsp;1&nbsp;</td>' +
+          '<td colspan="4">&nbsp;(Cek Cabang)&nbsp;</td>' +
+          '<td style="text-align:left">&nbsp;Basic&nbsp;</td>' +
+          '<td>&nbsp;=&nbsp;</td>' +
+          '<td>&nbsp;1&nbsp;</td>' +
+          '<td>(menyesuaikan)</td>' +
+          '</tr>' +
+          '<tr>' +
+          '<td style="text-align:left">&nbsp;Premium&nbsp;</td>' +
+          '<td>&nbsp;=&nbsp;</td>' +
+          '<td>&nbsp;2&nbsp;</td>' +
+          '<td>&nbsp;&nbsp;</td>' +
+          '<td>&nbsp;&nbsp;</td>' +
+          '<td>&nbsp;&nbsp;</td>' +
+          '<td>&nbsp;&nbsp;</td>' +
+          '<td style="text-align:left">&nbsp;Pure Milk&nbsp;</td>' +
+          '<td>&nbsp;=&nbsp;</td>' +
+          '<td>&nbsp;2&nbsp;</td>' +
+          '<td>(menyesuaikan)</td>' +
+          '</tr>' +
+          '<tr>' +
+          '<td style="text-align:left">&nbsp;Soklat&nbsp;</td>' +
+          '<td>&nbsp;=&nbsp;</td>' +
+          '<td>&nbsp;3&nbsp;</td>' +
+          '<td>&nbsp;&nbsp;</td>' +
+          '<td>&nbsp;&nbsp;</td>' +
+          '<td>&nbsp;&nbsp;</td>' +
+          '<td>&nbsp;&nbsp;</td>' +
+          '<td style="text-align:left">&nbsp;Hot&nbsp;</td>' +
+          '<td>&nbsp;=&nbsp;</td>' +
+          '<td>&nbsp;3&nbsp;</td>' +
+          '<td>(menyesuaikan)</td>' +
+          '</tr>' +
+          '<tr>' +
+          '<td style="text-align:left">&nbsp;Choco Premium&nbsp;</td>' +
+          '<td>&nbsp;=&nbsp;</td>' +
+          '<td>&nbsp;4&nbsp;</td>' +
+          '<td>&nbsp;</td>' +
+          '<td>&nbsp;</td>' +
+          '<td>&nbsp;</td>' +
+          '<td>&nbsp;</td>' +
+          '<td>&nbsp;&nbsp;</td>' +
+          '</tr>' +
+          '<tr>' +
+          '<td style="text-align:left">&nbsp;Yakult&nbsp;</td>' +
+          '<td>&nbsp;=&nbsp;</td>' +
+          '<td>&nbsp;5&nbsp;</td>' +
+          '<td>&nbsp;</td>' +
+          '<td>&nbsp;</td>' +
+          '<td>&nbsp;</td>' +
+          '<td>&nbsp;</td>' +
+          '<td style="text-align:left">&nbsp;Yakult&nbsp;</td>' +
+          '<td>&nbsp;=&nbsp;</td>' +
+          '<td>&nbsp;4&nbsp;</td>' +
+          '<td>(menyesuaikan)</td>' +
+          '</tr>' +
+          '<tr>' +
+          '<td style="border-bottom: 2px solid #8ebf42; text-align:left">&nbsp;Fresh and Juice&nbsp;</td>' +
+          '<td style="border-bottom: 2px solid #8ebf42">&nbsp;=&nbsp;</td>' +
+          '<td style="border-bottom: 2px solid #8ebf42">&nbsp;6&nbsp;</td>' +
+          '<td colspan="4" style="border-bottom: 2px solid #8ebf42"></td>' +
+          '<td style="border-bottom: 2px solid #8ebf42; text-align:left">&nbsp;Juice&nbsp;</td>' +
+          '<td style="border-bottom: 2px solid #8ebf42">&nbsp;=&nbsp;</td>' +
+          '<td style="border-bottom: 2px solid #8ebf42">&nbsp;5&nbsp;</td>' +
+          '<td style="border-bottom: 2px solid #8ebf42">(menyesuaikan)</td>' +
+          '<td colspan="5" style="border-bottom: 2px solid #8ebf42"></td>' +
+          '</tr>' +
+          '</table>',
+        type: 'info',
+        width: '420px',
+        footer: '<strong>NB : </strong> &nbsp;' + 
+        'Untuk ID Penyajian dan Harga beri tanda "Titik Koma" (;)<br/>' + 'sebagai pembatas jika lebih dari satu penyajian.'
+      })
+    });
+  </script>
+
   <script type="text/javascript">
     function toggleFullScreen() {
       if ((document.fullScreenElement && document.fullScreenElement !== null) ||
