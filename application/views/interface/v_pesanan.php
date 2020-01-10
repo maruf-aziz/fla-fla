@@ -1038,7 +1038,7 @@
 		var ss_ckt = 'Susu Coklat';
 		var juice = 'Sirup';
 		var lychee = 'Lychee';
-		var qty_lyc = 1;
+		var qty_lyc = 0.2;
 		var qty_basic = 0.1;
 		var qty_pm = 0.2;
 		var qty_juice = 20;

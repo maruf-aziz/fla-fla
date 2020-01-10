@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.9
+-- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 16, 2019 at 04:14 AM
--- Server version: 10.1.31-MariaDB
--- PHP Version: 7.2.3
+-- Generation Time: Jan 02, 2020 at 12:28 AM
+-- Server version: 10.1.38-MariaDB
+-- PHP Version: 7.3.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -41,29 +41,29 @@ CREATE TABLE `detail_ekstra` (
 --
 
 INSERT INTO `detail_ekstra` (`id_ekstra`, `id_jenis`, `basic`, `pm`, `pemakaian`) VALUES
-(62, 1, 2, 1, 0.6),
-(62, 2, 1, 0, 0.1),
+(62, 1, 12, 3, 2),
+(62, 2, 2, 0, 0.2),
 (62, 3, 0, 0, 0),
 (62, 4, 0, 0, 0),
-(62, 5, 0, 0, 0),
+(62, 5, 0, 0, 0.5),
 (62, 6, 0, 0, 0),
 (63, 1, 0, 0, 0),
 (63, 2, 0, 0, 0),
-(63, 3, 0, 0, 0),
-(63, 4, 0, 0, 0),
+(63, 3, 1, 0, 0.1),
+(63, 4, 2, 0, 0.2),
 (63, 5, 0, 0, 0),
 (63, 6, 0, 0, 0),
-(64, 1, 0, 0, 5),
-(64, 2, 0, 0, 1),
-(64, 3, 0, 0, 0),
-(64, 4, 0, 0, 0),
-(64, 5, 0, 0, 0),
-(64, 6, 0, 0, 0),
+(64, 1, 0, 0, 15),
+(64, 2, 0, 0, 2),
+(64, 3, 0, 0, 1),
+(64, 4, 0, 0, 2),
+(64, 5, 0, 0, 5),
+(64, 6, 0, 0, 5),
 (65, 1, 0, 0, 0),
 (65, 2, 0, 0, 0),
 (65, 3, 0, 0, 0),
 (65, 4, 0, 0, 0),
-(65, 5, 0, 0, 0),
+(65, 5, 0, 0, 5),
 (65, 6, 0, 0, 0),
 (66, 1, 0, 0, 0),
 (66, 2, 0, 0, 0),
@@ -76,13 +76,19 @@ INSERT INTO `detail_ekstra` (`id_ekstra`, `id_jenis`, `basic`, `pm`, `pemakaian`
 (67, 3, 0, 0, 0),
 (67, 4, 0, 0, 0),
 (67, 5, 0, 0, 0),
-(67, 6, 0, 0, 0),
+(67, 6, 0, 0, -0.6),
 (68, 1, 0, 0, 0),
 (68, 2, 0, 0, 0),
 (68, 3, 0, 0, 0),
-(68, 4, 0, 0, 0),
+(68, 4, 0, 0, 1),
 (68, 5, 0, 0, 0),
-(68, 6, 0, 0, 0);
+(68, 6, 0, 0, 0),
+(69, 1, 0, 0, 0),
+(69, 2, 0, 0, 0),
+(69, 3, 0, 0, 0),
+(69, 4, 0, 0, 1),
+(69, 5, 0, 0, 0),
+(69, 6, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -141,7 +147,13 @@ INSERT INTO `detail_penyajian` (`id_powder`, `id_penyajian`, `harga`) VALUES
 (71, 1, 12000),
 (71, 2, 14000),
 (73, 1, 12000),
-(74, 1, 12000);
+(74, 1, 12000),
+(75, 5, 10000),
+(76, 1, 12000),
+(76, 2, 14000),
+(77, 1, 12000),
+(77, 2, 14000),
+(77, 3, 10000);
 
 -- --------------------------------------------------------
 
@@ -174,7 +186,20 @@ INSERT INTO `detail_transaksi` (`no_nota`, `id_powder`, `id_penyajian`, `id_topp
 (15, 57, 1, NULL, 12000, 1),
 (15, 66, 2, NULL, 14000, 1),
 (16, 61, 1, NULL, 15000, 1),
-(17, 72, 1, NULL, 14000, 1);
+(17, 72, 1, NULL, 14000, 1),
+(18, 72, 1, NULL, 14000, 1),
+(19, 60, 4, NULL, 15000, 1),
+(20, 56, 1, NULL, 13000, 1),
+(20, 55, 1, NULL, 13000, 1),
+(21, 53, 1, NULL, 14000, 1),
+(21, 75, NULL, NULL, 12000, 1),
+(22, 53, 1, 24, 17000, 1),
+(22, 60, 4, NULL, 17000, 1),
+(23, 53, 2, NULL, 14000, 1),
+(24, 61, 1, NULL, 13000, 1),
+(25, 53, 1, 24, 17000, 1),
+(25, 57, 1, 24, 17000, 1),
+(25, 75, NULL, NULL, 12000, 1);
 
 -- --------------------------------------------------------
 
@@ -217,13 +242,14 @@ CREATE TABLE `ekstra` (
 --
 
 INSERT INTO `ekstra` (`id_ekstra`, `nama_ekstra`, `stock_awal`, `penambahan`, `total`, `sisa`, `satuan`, `id_region`) VALUES
-(62, 'Susu Putih', 10, 0, 10, 9.6, 'Liter', 1),
-(63, 'Susu Coklat', 10, 0, 10, 10, 'Liter', 1),
-(64, 'Cup', 100, 0, 100, 94, 'Cup', 1),
-(65, 'Yakult', 50, 0, 50, 50, 'Botol', 1),
-(66, 'Bubble', 60, 0, 60, 60, 'Bungkus', 1),
-(67, 'Lychee', 20, 0, 20, 20, 'Liter', 1),
-(68, 'Hazel', 7, 5, 12, 12, 'Liter', 1);
+(62, 'Susu Putih', 10, 0, 10, 7.6, 'Liter', 1),
+(63, 'Susu Coklat', 10, 0, 10, 9.7, 'Liter', 1),
+(64, 'Cup', 100, 0, 100, 70, 'Cup', 1),
+(65, 'Yakult', 50, 0, 50, 45, 'Botol', 1),
+(66, 'Bubble', 60, 0, 60, 5, 'Bungkus', 1),
+(67, 'Lychee', 20, 0, 20, 20.6, 'Liter', 1),
+(68, 'Hazel', 7, 5, 12, 11, 'Liter', 1),
+(69, 'Rum', 20, 0, 20, 19, 'Liter', 1);
 
 -- --------------------------------------------------------
 
@@ -280,7 +306,15 @@ INSERT INTO `jual` (`no_nota`, `tanggal`, `waktu`, `nama_pembeli`, `total_awal`,
 (14, '2019-11-25', '19:03:34', 'maruf', 24000, 0, 28000, 'Ya', 'Success', 'S0004'),
 (15, '2019-11-25', '19:05:54', 'shesa', 26000, 0, 26000, 'No', 'Success', 'S0004'),
 (16, '2019-11-25', '19:11:54', 'citra', 13000, 0, 15000, 'Ya', 'Success', 'S0004'),
-(17, '2019-12-13', '08:59:50', 'maruf', 12000, 0, 14000, 'Ya', 'Process', 'S0004');
+(17, '2019-12-13', '08:59:50', 'maruf', 12000, 0, 14000, 'Ya', 'Process', 'S0004'),
+(18, '2019-12-17', '10:26:55', 'maruf', 12000, 0, 14000, 'Ya', 'Process', 'S0004'),
+(19, '2019-12-17', '11:00:02', 'aziz', 15000, 0, 15000, 'No', 'Process', 'S0004'),
+(20, '2019-12-20', '11:28:16', 'trecya', 26000, 0, 26000, 'No', 'Process', 'S0004'),
+(21, '2019-12-21', '13:17:34', 'maruf', 22000, 0, 26000, 'Ya', 'Success', 'S0004'),
+(22, '2019-12-26', '09:12:11', 'maruf', 30000, 0, 34000, 'Ya', 'Success', 'S0004'),
+(23, '2019-12-26', '09:18:11', 'aziz', 14000, 0, 14000, 'No', 'Process', 'S0004'),
+(24, '2019-12-31', '12:12:56', 'ucon', 13000, 0, 13000, 'No', 'Process', 'S0001'),
+(25, '2020-01-01', '19:21:20', 'trecya', 40000, 0, 46000, 'Ya', 'Process', 'S0001');
 
 -- --------------------------------------------------------
 
@@ -343,7 +377,108 @@ INSERT INTO `powder` (`id_powder`, `id_jenis`, `nama_powder`, `id_varian`) VALUE
 (71, 3, 'Choco Millow', 25),
 (72, 1, 'Choco Oreo', 19),
 (73, 1, 'Coco', 13),
-(74, 1, 'new', 13);
+(74, 1, 'new', 13),
+(75, 6, 'Lychee Aloevera', 26),
+(76, 3, 'choco', 19),
+(77, 1, 'coco baru', 13);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `record_pemakaian`
+--
+
+CREATE TABLE `record_pemakaian` (
+  `tanggal` date NOT NULL,
+  `waktu` time NOT NULL,
+  `id_region` int(11) NOT NULL,
+  `id_powder` int(11) DEFAULT NULL,
+  `id_topping` int(11) DEFAULT NULL,
+  `id_ekstra` int(11) DEFAULT NULL,
+  `id_penyajian` int(11) DEFAULT NULL,
+  `basic` float NOT NULL DEFAULT '0',
+  `pm` float NOT NULL DEFAULT '0',
+  `pemakaian` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `record_pemakaian`
+--
+
+INSERT INTO `record_pemakaian` (`tanggal`, `waktu`, `id_region`, `id_powder`, `id_topping`, `id_ekstra`, `id_penyajian`, `basic`, `pm`, `pemakaian`) VALUES
+('2019-12-19', '19:44:17', 1, NULL, NULL, NULL, 1, 0, 0, 1),
+('2019-12-19', '19:47:06', 1, NULL, NULL, 64, 1, 0, 0, 1),
+('2019-12-19', '20:08:09', 1, NULL, NULL, 64, 1, 0, 0, 1),
+('2019-12-19', '20:08:09', 1, 74, NULL, NULL, 1, 0, 0, 1),
+('2019-12-19', '20:08:39', 1, NULL, NULL, 64, 1, 0, 0, 1),
+('2019-12-19', '20:08:39', 1, 59, 24, NULL, 1, 0, 0, 1),
+('2019-12-19', '20:13:17', 1, NULL, NULL, 64, 1, 0, 0, 1),
+('2019-12-19', '20:13:17', 1, 63, 26, NULL, 1, 0, 0, 1),
+('2019-12-19', '20:19:41', 1, NULL, NULL, 64, 1, 0, 0, 1),
+('2019-12-19', '20:19:41', 1, 61, 29, NULL, 1, 0, 0, 1),
+('2019-12-19', '20:20:18', 1, 57, NULL, NULL, 1, 0.1, 0, 1),
+('2019-12-19', '20:20:18', 1, NULL, NULL, 64, 1, 0, 0, 1),
+('2019-12-19', '20:22:13', 1, 53, NULL, 62, 1, 0.1, 0, 1),
+('2019-12-19', '20:22:13', 1, NULL, NULL, 64, 1, 0, 0, 1),
+('2019-12-19', '20:22:54', 1, NULL, NULL, 64, 2, 0, 0, 1),
+('2019-12-19', '20:24:44', 1, NULL, NULL, 64, 2, 0, 0, 1),
+('2019-12-19', '20:24:44', 1, 57, NULL, 62, 2, 0, 0.2, 1),
+('2019-12-19', '20:29:47', 1, 57, NULL, 62, 1, 0.1, 0, 1),
+('2019-12-19', '20:29:47', 1, NULL, NULL, 64, 1, 0, 0, 1),
+('2019-12-19', '20:40:14', 1, NULL, NULL, 64, 4, 0, 0, 1),
+('2019-12-19', '20:40:14', 1, 60, NULL, 63, 4, 0, 0, 1),
+('2019-12-19', '20:40:14', 1, 60, NULL, 65, 4, 0, 0, 1),
+('2019-12-19', '20:41:23', 1, NULL, NULL, 64, 4, 0, 0, 1),
+('2019-12-19', '20:41:23', 1, 64, NULL, 62, 4, 0, 0, 1),
+('2019-12-19', '20:41:23', 1, 64, NULL, 65, 4, 0, 0, 1),
+('2019-12-19', '20:42:27', 1, NULL, NULL, 64, 4, 0, 0, 1),
+('2019-12-19', '20:42:27', 1, 64, NULL, 65, 4, 0.1, 0, 1),
+('2019-12-19', '20:42:27', 1, 64, NULL, 62, 4, 0.1, 0, 1),
+('2019-12-19', '20:42:56', 1, NULL, NULL, 64, 1, 0, 0, 1),
+('2019-12-19', '20:42:56', 1, 69, NULL, 63, 1, 0.1, 0, 1),
+('2019-12-19', '20:47:59', 1, NULL, NULL, 64, 4, 0, 0, 1),
+('2019-12-19', '20:47:59', 1, 60, NULL, 62, 4, 0.1, 0, 1),
+('2019-12-19', '20:47:59', 1, 60, NULL, 65, 4, 0, 0, 1),
+('2019-12-19', '21:00:02', 1, 67, NULL, 62, 1, 0.1, 0, 1),
+('2019-12-19', '21:00:02', 1, NULL, NULL, 64, 1, 0, 0, 1),
+('2019-12-19', '21:02:18', 1, NULL, NULL, 64, 1, 0, 0, 1),
+('2019-12-19', '21:02:18', 1, 66, NULL, 62, 1, 0.1, 0, 1),
+('2019-12-20', '11:24:07', 1, 75, NULL, 67, 5, 0, 0, 1),
+('2019-12-20', '11:27:15', 1, NULL, NULL, 64, 1, 0, 0, 1),
+('2019-12-20', '11:27:15', 1, 69, NULL, 63, 1, 0.1, 0, 1),
+('2019-12-20', '11:27:46', 1, NULL, NULL, 64, 1, 0, 0, 1),
+('2019-12-20', '11:27:46', 1, 56, NULL, 68, 1, 0, 0, 1),
+('2019-12-20', '11:27:46', 1, 56, NULL, 63, 1, 0.1, 0, 1),
+('2019-12-20', '11:27:53', 1, NULL, NULL, 64, 1, 0, 0, 1),
+('2019-12-20', '11:27:53', 1, 55, NULL, 69, 1, 0, 0, 1),
+('2019-12-20', '11:27:53', 1, 55, NULL, 63, 1, 0.1, 0, 1),
+('2019-12-21', '13:15:59', 1, NULL, NULL, 64, 1, 0, 0, 1),
+('2019-12-21', '13:15:59', 1, 53, NULL, 62, 1, 0.1, 0, 1),
+('2019-12-21', '13:16:15', 1, 75, NULL, 67, 5, 0, 0, 1),
+('2019-12-21', '13:16:15', 1, NULL, NULL, 64, 5, 0, 0, 1),
+('2019-12-26', '09:11:11', 1, NULL, NULL, 64, 5, 0, 0, 1),
+('2019-12-26', '09:11:11', 1, 75, NULL, 67, 5, 0, 0, 1),
+('2019-12-26', '09:11:21', 1, NULL, NULL, 64, 4, 0, 0, 1),
+('2019-12-26', '09:11:21', 1, 60, NULL, 62, 4, 0.1, 0, 1),
+('2019-12-26', '09:11:21', 1, 60, NULL, 65, 4, 0, 0, 1),
+('2019-12-26', '09:18:08', 1, NULL, NULL, 64, 2, 0, 0, 1),
+('2019-12-26', '09:18:08', 1, 53, NULL, 62, 2, 0, 0.2, 1),
+('2019-12-31', '12:12:51', 1, 61, NULL, 62, 1, 0.1, 0, 1),
+('2019-12-31', '12:12:51', 1, NULL, NULL, 64, 1, 0, 0, 1),
+('2020-01-01', '19:21:01', 1, 53, 24, 62, 1, 0.1, 0, 1),
+('2020-01-01', '19:21:01', 1, NULL, NULL, 64, 1, 0, 0, 1),
+('2020-01-01', '19:21:08', 1, NULL, NULL, 64, 1, 0, 0, 1),
+('2020-01-01', '19:21:08', 1, 57, 24, 62, 1, 0.1, 0, 1),
+('2020-01-01', '19:21:14', 1, NULL, NULL, 64, 5, 0, 0, 1),
+('2020-01-01', '19:21:14', 1, 75, NULL, 67, 5, 0, 0, 1),
+('2020-01-01', '19:26:15', 1, 75, NULL, 67, 5, 0, 0, 1),
+('2020-01-01', '19:26:15', 1, NULL, NULL, 64, 5, 0, 0, 1),
+('2020-01-01', '19:26:57', 1, 75, NULL, 67, 5, 0, 0, 1),
+('2020-01-01', '19:26:57', 1, NULL, NULL, 64, 5, 0, 0, 1),
+('2020-01-01', '19:31:30', 1, NULL, NULL, 64, 5, 0, 0, 1),
+('2020-01-01', '19:31:30', 1, 75, NULL, 67, 5, 0, 0, 1),
+('2020-01-01', '20:08:26', 1, NULL, NULL, 66, NULL, 0, 0, 0),
+('2020-01-01', '20:11:01', 1, NULL, NULL, 66, NULL, 0, 0, 10);
 
 -- --------------------------------------------------------
 
@@ -417,7 +552,7 @@ CREATE TABLE `topping` (
 --
 
 INSERT INTO `topping` (`id_topping`, `nama_topping`, `harga`, `stock_awal`, `penambahan`, `total`, `sisa`, `id_region`) VALUES
-(24, 'Bubble', 3000, 14, 50, 64, 64, 1),
+(24, 'Bubble', 3000, 107, 10, 117, 117, 1),
 (25, 'Jelly', 3000, 14, 10, 24, 24, 1),
 (26, 'Oreo', 3000, 16, 10, 26, 26, 1),
 (27, 'Aloevera', 3000, 15, 10, 25, 25, 1),
@@ -448,7 +583,9 @@ CREATE TABLE `transaksi_penambahan` (
 INSERT INTO `transaksi_penambahan` (`id_transaksi`, `tanggal`, `waktu`, `id_varian`, `id_topping`, `id_ekstra`, `penambahan_stok`, `id_region`) VALUES
 (1, '2019-12-16', '04:00:29', NULL, 26, NULL, 10, 1),
 (2, '2019-12-16', '05:00:23', 19, NULL, NULL, 12, 1),
-(3, '2019-12-16', '05:04:30', NULL, NULL, 68, 5, 1);
+(3, '2019-12-16', '05:04:30', NULL, NULL, 68, 5, 1),
+(4, '2019-12-21', '01:27:19', 18, NULL, NULL, 20, 1),
+(5, '2019-12-26', '09:20:14', 15, NULL, NULL, 20, 1);
 
 -- --------------------------------------------------------
 
@@ -471,19 +608,20 @@ CREATE TABLE `varian_powder` (
 --
 
 INSERT INTO `varian_powder` (`id_varian`, `nama_varian`, `stok_awal`, `penambahan`, `total`, `sisa`, `id_region`) VALUES
-(13, 'Choco Bar', 23, 7, 30, 30, 1),
-(14, 'Thai Tea', 19, 6, 25, 25, 1),
-(15, 'Taro', 25, 0, 25, 24, 1),
-(16, 'Green Tea', 19, 1, 20, 20, 1),
-(17, 'Forrest Gump', 20, 0, 20, 20, 1),
-(18, 'Choco Mint', 18, 0, 18, 18, 1),
-(19, 'Choco Oreo', 18, 12, 30, 30, 1),
+(13, 'Choco Bar', 23, 7, 30, 23, 1),
+(14, 'Thai Tea', 19, 6, 25, 22, 1),
+(15, 'Taro', 20, 20, 40, 40, 1),
+(16, 'Green Tea', 19, 1, 20, 19, 1),
+(17, 'Forrest Gump', 20, 0, 20, 19, 1),
+(18, 'Choco Mint', 18, 20, 38, 38, 1),
+(19, 'Choco Oreo', 18, 12, 30, 29, 1),
 (20, 'Vanila Latte', 25, 0, 25, 25, 1),
-(21, 'Westham', 45, 5, 50, 50, 1),
+(21, 'Westham', 45, 5, 50, 49, 1),
 (22, 'Red Velvet', 25, 0, 25, 25, 1),
-(23, 'Advocado Choco', 20, 0, 20, 19, 1),
+(23, 'Advocado Choco', 20, 0, 20, 18, 1),
 (24, 'Choco Cheese', 20, 0, 20, 20, 1),
-(25, 'Choco Millow', 20, 0, 20, 20, 1);
+(25, 'Choco Millow', 20, 0, 20, 20, 1),
+(26, 'Lychee Aloevera', 20, 0, 20, 20, 1);
 
 --
 -- Indexes for dumped tables
@@ -555,6 +693,16 @@ ALTER TABLE `powder`
   ADD KEY `id_varian` (`id_varian`);
 
 --
+-- Indexes for table `record_pemakaian`
+--
+ALTER TABLE `record_pemakaian`
+  ADD KEY `id_ekstra` (`id_ekstra`),
+  ADD KEY `id_penyajian` (`id_penyajian`),
+  ADD KEY `id_powder` (`id_powder`),
+  ADD KEY `id_region` (`id_region`),
+  ADD KEY `id_topping` (`id_topping`);
+
+--
 -- Indexes for table `region`
 --
 ALTER TABLE `region`
@@ -604,7 +752,7 @@ ALTER TABLE `diskon`
 -- AUTO_INCREMENT for table `ekstra`
 --
 ALTER TABLE `ekstra`
-  MODIFY `id_ekstra` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `id_ekstra` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
 
 --
 -- AUTO_INCREMENT for table `jenis_menu`
@@ -616,7 +764,7 @@ ALTER TABLE `jenis_menu`
 -- AUTO_INCREMENT for table `jual`
 --
 ALTER TABLE `jual`
-  MODIFY `no_nota` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `no_nota` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `penyajian`
@@ -628,13 +776,13 @@ ALTER TABLE `penyajian`
 -- AUTO_INCREMENT for table `powder`
 --
 ALTER TABLE `powder`
-  MODIFY `id_powder` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
+  MODIFY `id_powder` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
 
 --
 -- AUTO_INCREMENT for table `region`
 --
 ALTER TABLE `region`
-  MODIFY `id_region` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_region` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `topping`
@@ -646,13 +794,13 @@ ALTER TABLE `topping`
 -- AUTO_INCREMENT for table `transaksi_penambahan`
 --
 ALTER TABLE `transaksi_penambahan`
-  MODIFY `id_transaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_transaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `varian_powder`
 --
 ALTER TABLE `varian_powder`
-  MODIFY `id_varian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id_varian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- Constraints for dumped tables
@@ -701,6 +849,16 @@ ALTER TABLE `jual`
 ALTER TABLE `powder`
   ADD CONSTRAINT `powder_ibfk_1` FOREIGN KEY (`id_jenis`) REFERENCES `jenis_menu` (`id_jenis`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `powder_ibfk_2` FOREIGN KEY (`id_varian`) REFERENCES `varian_powder` (`id_varian`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `record_pemakaian`
+--
+ALTER TABLE `record_pemakaian`
+  ADD CONSTRAINT `record_pemakaian_ibfk_1` FOREIGN KEY (`id_ekstra`) REFERENCES `ekstra` (`id_ekstra`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `record_pemakaian_ibfk_2` FOREIGN KEY (`id_penyajian`) REFERENCES `penyajian` (`id_penyajian`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `record_pemakaian_ibfk_3` FOREIGN KEY (`id_powder`) REFERENCES `powder` (`id_powder`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `record_pemakaian_ibfk_4` FOREIGN KEY (`id_region`) REFERENCES `region` (`id_region`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `record_pemakaian_ibfk_5` FOREIGN KEY (`id_topping`) REFERENCES `topping` (`id_topping`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `topping`

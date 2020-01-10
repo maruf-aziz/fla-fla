@@ -44,6 +44,8 @@
   <!-- jQuery -->
   <script src="<?= base_url() ?>assets_admin/vendors/jquery/dist/jquery.min.js"></script>
 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
 
 
 </head>
@@ -314,7 +316,7 @@
     });
   </script>
 
-  <script>
+   <script>
     $('.info').on('click', function() {
       Swal.fire({
         title: '<strong>Information</strong>',
@@ -480,6 +482,10 @@
 
   <script>
     $('#myDatepicker2').datetimepicker({
+      format: 'YYYY-MM-DD'
+    });
+
+    $('#myDatepicker3').datetimepicker({
       format: 'YYYY-MM-DD'
     });
   </script>

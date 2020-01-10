@@ -229,7 +229,31 @@
 								</thead>
 
 								<tbody>
+									<?php
 
+										foreach ($bubble as $key => $value) {
+											$shift;
+											if ($value->waktu >= '07:00:00' && $value->waktu <= '16:00:00') {
+												$shift = 'Shift 1';
+											}
+											else if($value->waktu > '16:00:00' && $value->waktu <= '22:00:00'){
+												$shift = 'Shift 2';
+											}
+
+											?>
+
+												<tr>
+													<td><?=$shift?></td>
+													<td><?=$value->stock_awal?></td>
+													<td><?=$value->pakai?></td>
+													<td><?=$value->stock_awal - $value->pakai?></td>
+												</tr>
+
+											<?php
+
+										}
+
+									?>
 								</tbody>
 							</table>
 						</div>
@@ -281,11 +305,29 @@
 								</thead>
 
 								<tbody>
+									<?php
+										$total_bs = 0;
+										$total_pm = 0;
+										foreach ($susu_putih as $key => $value) {
+											?>
+
+												<tr>
+													<td><?=$value->nama_penyajian?></td>
+													<td><?=$value->basic?></td>
+													<td><?=$value->PM?></td>
+												</tr>
+
+											<?php
+											$total_pm = $total_pm + $value->PM;
+											$total_bs = $total_bs + $value->basic;
+										}
+
+									?>
 									<tr colspan="3"></tr>
-									<tr>
+									<tr style="background-color: #00CED1; color: #ffffff;">
 										<td>Total</td>
-										<td></td>
-										<td></td>
+										<td><?=$total_bs?></td>
+										<td><?=$total_pm?></td>
 									</tr>
 								</tbody>
 							</table>
@@ -298,18 +340,36 @@
 							<table class="table table-striped jambo_table bulk_action" id="myTable1">
 								<thead>
 									<tr class="headings">
-										<th class="column-title">Susu Putih </th>
+										<th class="column-title">Susu Coklat </th>
 										<th class="column-title">Basic </th>
 										<th class="column-title">PM </th>
 									</tr>
 								</thead>
 
 								<tbody>
+									<?php
+										$total_bs = 0;
+										$total_pm = 0;
+										foreach ($susu_coklat as $key => $value) {
+											?>
+
+												<tr>
+													<td><?=$value->nama_penyajian?></td>
+													<td><?=$value->basic?></td>
+													<td><?=$value->PM?></td>
+												</tr>
+
+											<?php
+											$total_pm = $total_pm + $value->PM;
+											$total_bs = $total_bs + $value->basic;
+										}
+
+									?>
 									<tr colspan="3"></tr>
-									<tr>
+									<tr style="background-color: #00CED1; color: #ffffff;">
 										<td>Total</td>
-										<td></td>
-										<td></td>
+										<td><?=$total_bs?></td>
+										<td><?=$total_pm?></td>
 									</tr>
 								</tbody>
 							</table>
@@ -333,7 +393,31 @@
 								</thead>
 
 								<tbody>
+									<?php
 
+										foreach ($ekstra as $key => $value) {
+
+											$pemakaian = 0;
+											if ($value->nama_ekstra == "Susu Putih" || $value->nama_ekstra == "Susu Coklat" ){
+												$pemakaian = $value->pakai_susu;
+											}
+											else{
+												$pemakaian = $value->pakai;
+											}
+											?>
+
+												<tr>
+													<td><?=$value->nama_ekstra?></td>
+													<td><?=$value->stock_awal?></td>
+													<td><?=$value->penambahan?></td>
+													<td><?=($pemakaian != null ? $pemakaian : 0)?></td>
+													<td><?=$value->stock_awal - $pemakaian?></td>
+												</tr>
+
+											<?php
+										}
+
+									?>
 								</tbody>
 							</table>
 						</div>

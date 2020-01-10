@@ -22,7 +22,8 @@ class C_barista extends CI_Controller {
 
 		$data = array(
 			'total' => $sum,
-			'count' => $jumlah
+			'count' => $jumlah,
+			'grafik' => $this->model->grafik_barista()
 		);
 
         $this->template->load('template', 'interface/v_dashboard', $data);

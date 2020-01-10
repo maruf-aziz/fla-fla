@@ -157,36 +157,53 @@
 
 
 						          <div role="tabpanel" class="tab-pane fade" id="tab_content_search" aria-labelledby="Custom-tab">
-						            <form data-parsley-validate class="form-horizontal form-label-left input-mask" style="padding-bottom: 20px;">
-						              <div class="row">
-						                <label class="control-label col-md-1 col-sm-1 col-xs-12" for="last-name">Cari Tanggal <span class="required">*</span></label>
-						                <div class='col-lg-2 col-md-2 col-sm-2 col-xs-12 input-group date' id='myDatepicker2'>
-						                  <input type="text" class="form-control" name="tanggal" id="tanggal" />
-						                  <span class="input-group-addon">
-						                    <span class="glyphicon glyphicon-calendar"></span>
-						                  </span>
-						                </div>
-						              </div>
-						              <div class="row">
-						                <label class="control-label col-md-1 col-sm-1 col-xs-12" for="last-name">Region <span class="required">*</span></label>
-						                <div class='col-lg-2 col-md-2 col-sm-2 col-xs-12 input-group'>
-						                  <select class="form-control" name="region" id="region">
-						                    <option value="">-- Pilih Region --</option>
-						                    <?php
-                                foreach ($region as $key => $value) {
-                                ?>
-						                      <option value="<?= $value->id_region ?>"><?= $value->nama_region ?></option>
-						                    <?php
-                                }
-                                ?>
-						                  </select>
-						                </div>
-						              </div>
-						              <input type="hidden" name="id_shift" id="id_shift" value="shift2">
-						              <div class="row" style="padding-left: 10px;">
-						                <button type="button" class="btn btn-primary btn-sm">Tampilkan</button>
-						              </div>
-						            </form>
+						            <div class="col-lg-12 col-md-12 col-12" style="padding-bottom: 20px;">
+						          		<div class="col-lg-4 col-md-4">
+						          			<div class="row">
+							                <label class="col-md-4 col-sm-4 col-xs-12" for="last-name" style="margin-top: 8px;">Tanggal Mulai <span class="required">*</span></label>
+							                <div class='col-lg-8 col-md-8 col-sm-8 col-xs-12 input-group date' id='myDatepicker2'>
+							                  <input type="text" class="form-control" name="tanggal" id="tanggal" />
+							                  <span class="input-group-addon">
+							                    <span class="glyphicon glyphicon-calendar"></span>
+							                  </span>
+							                </div>
+							              </div>
+
+							              <div class="row">
+							                <label class="col-md-4 col-sm-4 col-xs-12" for="last-name" style="margin-top: 8px;">Region <span class="required">*</span></label>
+							                <div class='col-lg-8 col-md-8 col-sm-8 col-xs-12 input-group'>
+							                  <select class="form-control" name="region" id="region">
+							                    <option value="">-- Pilih Region --</option>
+							                    <?php
+	                                foreach ($region as $key => $value) {
+	                                ?>
+							                      <option value="<?= $value->id_region ?>"><?= $value->nama_region ?></option>
+							                    <?php
+	                                }
+	                                ?>
+							                  </select>
+							                </div>
+							              </div>
+
+							              <input type="hidden" name="id_shift" id="id_shift" value="shift2">
+							              <div class="row" style="padding-left: 10px;">
+							                <button type="button" class="btn btn-primary btn-sm">Tampilkan</button>
+							              </div>
+
+						          		</div>
+
+						          		<div class="col-lg-4 col-md-4">
+						          			<div class="row">
+							                <label class="col-md-4 col-sm-4 col-xs-12" for="last-name" style="margin-top: 8px;">Tanggal Selesai <span class="required"></span></label>
+							                <div class='col-lg-8 col-md-8 col-sm-8 col-xs-12 input-group date' id='myDatepicker3'>
+							                  <input type="text" class="form-control" name="tanggal_selesai" id="tanggal_selesai" />
+							                  <span class="input-group-addon">
+							                    <span class="glyphicon glyphicon-calendar"></span>
+							                  </span>
+							                </div>
+							              </div>
+						          		</div>
+						          	</div>
 
 						            <table class="table table-striped jambo_table bulk_action display">
 						              <thead>
@@ -222,6 +239,7 @@
 						    var tanggal = $("#tanggal").val();
 						    var id = $("#id_shift").val();
 						    var region = $("#region").val();
+						    var tgl_selesai = $("#tanggal_selesai").val();
 
 						    if (tanggal == '') {
 						      Swal.fire({
@@ -244,7 +262,8 @@
 						        data: {
 						          tanggal: tanggal,
 						          region: region,
-						          id: id
+						          id: id,
+						          tgl_selesai : tgl_selesai
 						        },
 						        async: false,
 						        dataType: "json",

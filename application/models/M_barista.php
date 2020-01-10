@@ -516,7 +516,7 @@
 			return 'success';
 		}
 
-		public function add_record($tgl, $waktu,$id_penyajian, $id_ekstra = null, $id_topping = null, $id_powder = null, $pemakaian, $sajian){
+		public function add_record($tgl, $waktu,$id_penyajian = null, $id_ekstra = null, $id_topping = null, $id_powder = null, $pemakaian, $sajian){
 			$id_region = $this->session->userdata('id_region');
 			$currentDate = date('Y-m-d');
 			$time = date('h:i:s');
@@ -525,9 +525,12 @@
 				'tanggal' => $tgl,
 				'waktu' => $waktu,
 				'id_region' => $id_region,
-				'pemakaian' => $pemakaian,
-				'id_penyajian' => $id_penyajian
+				'pemakaian' => $pemakaian
 			);
+
+			if ($id_penyajian != null) {
+				$data['id_penyajian'] = $id_penyajian;
+			}
 
 			if ($id_powder != null) {
 				$data['id_powder'] = $id_powder;
@@ -570,6 +573,19 @@
 			$this->db->where('waktu', $waktu);
 
 			$this->db->delete('record_pemakaian');
+		}
+
+		public function grafik_barista(){
+			$id_staff = $this->session->userdata('id_staff');
+
+			$query = $this->db->query("SELECT tanggal, SUM(detail_transaksi.jumlah) AS uang FROM detail_transaksi JOIN jual ON detail_transaksi.no_nota = jual.no_nota WHERE jual.id_staff = '$id_staff' GROUP BY jual.tanggal ORDER BY jual.tanggal DESC LIMIT 10");
+
+			if($query->num_rows() > 0){
+				foreach ($query->result() as $key => $value) {
+					$hasil[] = $value;
+				}
+				return $hasil;
+			}
 		}
 
     }

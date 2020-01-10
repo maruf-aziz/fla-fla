@@ -45,6 +45,27 @@
     
 </div>
 <script type="text/javascript">
+
+    function add_record(id_penyajian, id_powder = null, id_ekstra = null , id_topping = null, pemakaian , sajian = null){
+        var tanggal = new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate();
+        var waktu = new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds();
+        $.ajax({
+            type: 'post',
+            url: '<?= base_url('index.php/c_barista/add_record') ?>',
+            data : {
+                tanggal : tanggal,
+                waktu : waktu,
+                id_penyajian : id_penyajian,
+                id_powder : id_powder,
+                id_ekstra : id_ekstra,
+                id_topping : id_topping,
+                pemakaian : pemakaian,
+                sajian : sajian
+            },
+            dataType: 'json'
+        });
+    }
+
     $(function() {
         $('#konfirmasi').click(function() {
             var jumlah = $('#bubble').val();
@@ -58,6 +79,7 @@
                 )
             }
             else{
+                add_record.call(this, null, null, 'Bubble', null, jumlah ,null);
                 $.ajax({
                     url: "<?= base_url('index.php/c_barista/cook_bubble') ?>",
                     type : "post",

@@ -25,6 +25,8 @@
 
     <script src="<?=base_url()?>assets/template/jquery/dist/jquery.min.js"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
 
 
 
