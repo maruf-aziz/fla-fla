@@ -186,7 +186,13 @@
         public function delete_varian($id){
         	$this->db->where('id_varian', $id);
         	$this->db->delete('varian_powder');
-        }
+		}
+		
+		public function delete_powder_penyajian($id_powder, $id_penyajian){
+			$this->db->where('id_powder', $id_powder);
+			$this->db->where('id_penyajian', $id_penyajian);
+			$this->db->delete('detail_penyajian');
+		}
 
         public function get_powder($id, $region){
         	$this->db->select('*');
@@ -204,7 +210,24 @@
 
         public function update_powder(){
         	#code...
-        }
+		}
+		
+		public function update_menu_peny($id_powder, $id_peny, $harga){
+			$data = array(
+				'harga' => $harga
+			);
+
+			$this->db->where('id_powder', $id_powder);
+			$this->db->where('id_penyajian', $id_peny);
+			$this->db->update('detail_penyajian', $data);
+
+			if($this->db->affected_rows() > 0){
+				return 'success';
+			}
+			else{
+				return 'failed';
+			}
+		}
 
         public function delete_powder($id){
         	$this->db->where('id_powder', $id);

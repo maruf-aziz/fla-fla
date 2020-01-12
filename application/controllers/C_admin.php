@@ -288,11 +288,38 @@ class C_admin extends CI_Controller {
 	}
 
 	public function update_powder(){
-		#codee...
+		if(isset($_POST['submit'])){
+			#...
+		}
+		else{
+			$this->template_admin->load('template_admin', 'admin/inventory/powder/v_updatePowder');
+		}
+	}
+
+	public function update_menu_peny(){
+		$id_powder = $this->input->post('id_powder', true);
+		$id_peny = $this->input->post('id_peny', true);
+		$harga = $this->input->post('harga', true);
+
+		$status = $this->model->update_menu_peny($id_powder, $id_peny, $harga);
+
+		$this->output->set_content_type('application/json');
+		echo json_encode(array('status' => $status));
 	}
 
 	public function delete_powder(){
 		#code...
+	}
+
+	public function delete_powder_penyajian($id_varian, $id_region, $id_powder, $id_penyajian){
+
+		$this->model->delete_powder_penyajian($id_powder, $id_penyajian);
+
+		if($this->db->affected_rows() > 0){
+			$this->session->set_flashdata('flash','Data Varian Berhasil Dihapus');
+		}
+		
+		echo "<script>window.location='".base_url('index.php/c_admin/update_varian/'.$id_varian.'/'.$id_region)."'</script>";
 	}
 
 	public function update_varian($id, $region){
