@@ -1,18 +1,22 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class C_admin extends CI_Controller {
+class C_admin extends CI_Controller
+{
 
-    function __construct(){
+	function __construct()
+	{
 		parent::__construct();
 		check_admin();
 		check_not_login();
-        $this->load->library('form_validation');
+		$this->load->library('form_validation');
 		$this->load->model('m_admin', 'model');
-		$this->load->helper(array('url','download'));
-    }
+		$this->load->helper(array('url', 'download'));
+		$this->load->library('PHPExcel');
+	}
 
-	public function index(){
+	public function index()
+	{
 		$jumlah = 0;
 		$omset = 0;
 		foreach ($this->model->get_transaksi() as $key => $value) {
@@ -30,22 +34,69 @@ class C_admin extends CI_Controller {
 			'favorit' => $this->model->get_data_grafik_favorit()
 		);
 
-        $this->template_admin->load('template_admin','admin/dashboard/v_dashboard', $data);
+		$this->template_admin->load('template_admin', 'admin/dashboard/v_dashboard', $data);
 	}
 
 	public function powder()
 	{
-		force_download('import/Powder.csv', NULL);
+		$powder = new PHPExcel();
+		$powder->setActiveSheetIndex(0)
+			->setCellValue('A1', "ID Jenis")
+			->setCellValue('B1', "Nama Powder")
+			->setCellValue('C1', "Stock Awal")
+			->setCellValue('D1', "Penambahan")
+			->setCellValue('E1', "Total")
+			->setCellValue('F1', "Sisa")
+			->setCellValue('G1', "ID Region")
+			->setCellValue('H1', "ID Penyajian")
+			->setCellValue('I1', "Harga");
+
+		$filename = "Powder.csv";
+		header('Content-Type: application/vnd.ms-excel');
+		header('Content-Disposition: attachment;filename="' . $filename . '"');
+		header('Cache-Control: max-age=0');
+		$objWriter = PHPExcel_IOFactory::createWriter($powder, 'CSV');
+		$objWriter->save('php://output');
 	}
 
 	public function ekstra()
 	{
-		force_download('import/Ekstra.csv', NULL);
+		$ekstra = new PHPExcel();
+		$ekstra->setActiveSheetIndex(0)
+			->setCellValue('A1', "Nama Ekstra")
+			->setCellValue('B1', "Stock Awal")
+			->setCellValue('C1', "Penambahan")
+			->setCellValue('D1', "Total")
+			->setCellValue('E1', "Sisa")
+			->setCellValue('F1', "Satuan")
+			->setCellValue('G1', "ID Region");
+
+		$filename = "Ekstra.csv";
+		header('Content-Type: application/vnd.ms-excel');
+		header('Content-Disposition: attachment;filename="' . $filename . '"');
+		header('Cache-Control: max-age=0');
+		$objWriter = PHPExcel_IOFactory::createWriter($ekstra, 'CSV');
+		$objWriter->save('php://output');
 	}
 
 	public function topping()
 	{
-		force_download('import/Topping.csv', NULL);
+		$topping = new PHPExcel();
+		$topping->setActiveSheetIndex(0)
+			->setCellValue('A1', "Nama Topping")
+			->setCellValue('B1', "Harga")
+			->setCellValue('C1', "Stock Awal")
+			->setCellValue('D1', "Penambahan")
+			->setCellValue('E1', "Total")
+			->setCellValue('F1', "Sisa")
+			->setCellValue('G1', "ID Region");
+
+		$filename = "Topping.csv";
+		header('Content-Type: application/vnd.ms-excel');
+		header('Content-Disposition: attachment;filename="' . $filename . '"');
+		header('Cache-Control: max-age=0');
+		$objWriter = PHPExcel_IOFactory::createWriter($topping, 'CSV');
+		$objWriter->save('php://output');
 	}
 
 	public function upload_powder()
@@ -77,7 +128,7 @@ class C_admin extends CI_Controller {
 					$region = $line[6];
 
 					// Insert member data in the database
-					$this->db->insert("topping", array("nama_topping"=>$nama, "harga"=>$harga, "stock_awal"=>$stock, "penambahan"=>$tambah, "total"=>$total, "sisa"=>$sisa, "id_region"=>$region));
+					$this->db->insert("topping", array("nama_topping" => $nama, "harga" => $harga, "stock_awal" => $stock, "penambahan" => $tambah, "total" => $total, "sisa" => $sisa, "id_region" => $region));
 				}
 
 				// Close opened CSV file
@@ -104,39 +155,39 @@ class C_admin extends CI_Controller {
 				fgetcsv($csvFile);
 
 				//parse data from csv file line by line
-				while(($line = fgetcsv($csvFile)) !== FALSE){
-                    // Get row data
-                    $nama  = $line[0];
-                    $stock  = $line[1];
-                    $tambah = $line[2];
-                    $total = $line[3];
-                    $sisa = $line[4];
-                    $satuan = $line[5];
-                    $region = $line[6];
+				while (($line = fgetcsv($csvFile)) !== FALSE) {
+					// Get row data
+					$nama  = $line[0];
+					$stock  = $line[1];
+					$tambah = $line[2];
+					$total = $line[3];
+					$sisa = $line[4];
+					$satuan = $line[5];
+					$region = $line[6];
 
 					// Insert member data in the database
-					$this->db->insert("ekstra", array("nama_ekstra"=>$nama, "stock_awal"=>$stock, "penambahan"=>$tambah, "total"=>$total, "sisa"=>$sisa, "satuan"=>$satuan, "id_region"=>$region));
+					$this->db->insert("ekstra", array("nama_ekstra" => $nama, "stock_awal" => $stock, "penambahan" => $tambah, "total" => $total, "sisa" => $sisa, "satuan" => $satuan, "id_region" => $region));
 					// $id = $this->db->get_where("ekstra", array("nama_ekstra"=>$nama, "satuan"=>$satuan, "id_region"=>$region))->result_array();
-					
+
 					if ($this->db->affected_rows() > 0) {
 						$query = $this->model->get_id_ekstra($nama, $satuan, $region);
-		
+
 						if ($query->num_rows() > 0) {
 							$row = $query->row();
-		
+
 							$id_ekstra = $row->id_ekstra;
-		
+
 							$this->model->insert_detail_ekstra($id_ekstra);
-		
+
 							if ($this->db->affected_rows() > 0) {
 								$this->session->set_flashdata('flash', 'Data Ekstra Berhasil Disimpan');
 							}
 						}
 					}
-                }
+				}
 
-                // Close opened CSV file
-                fclose($csvFile);
+				// Close opened CSV file
+				fclose($csvFile);
 
 				$qstring["status"] = 'Success';
 			} else {
@@ -145,7 +196,8 @@ class C_admin extends CI_Controller {
 		}
 	}
 
-	public function profil(){
+	public function profil()
+	{
 		$jumlah = 0;
 		$omset = 0;
 		foreach ($this->model->get_transaksi() as $key => $value) {
@@ -166,37 +218,38 @@ class C_admin extends CI_Controller {
 		$this->template_admin->load('template_admin', 'admin/profil/v_viewProfile', $data);
 	}
 
-	public function update_profil($id){
-		if (isset($_POST['submit']) ){
-			$nama = $this->input->post('nama',TRUE);
-			$username = $this->input->post('username',TRUE);
-			$email = $this->input->post('email',TRUE);
-			$contact = $this->input->post('contact',TRUE);
-			$alamat = $this->input->post('alamat',TRUE);
-			$password = $this->input->post('password',TRUE);
+	public function update_profil($id)
+	{
+		if (isset($_POST['submit'])) {
+			$nama = $this->input->post('nama', TRUE);
+			$username = $this->input->post('username', TRUE);
+			$email = $this->input->post('email', TRUE);
+			$contact = $this->input->post('contact', TRUE);
+			$alamat = $this->input->post('alamat', TRUE);
+			$password = $this->input->post('password', TRUE);
 
-			$this->model->update_profile($id,$nama,$username,$email,$contact,$alamat,$password);
+			$this->model->update_profile($id, $nama, $username, $email, $contact, $alamat, $password);
 
 			if ($this->db->affected_rows() > 0) {
-				$this->session->set_flashdata('flash','Data Admin Berhasil Diubah');
+				$this->session->set_flashdata('flash', 'Data Admin Berhasil Diubah');
 			}
 
-			echo "<script>window.location='".base_url('index.php/c_admin/profil')."'</script>";
+			echo "<script>window.location='" . base_url('index.php/c_admin/profil') . "'</script>";
 		}
 	}
 
-	public function shift1(){
+	public function shift1()
+	{
 		$jumlah = 0;
 		$omset = 0;
-		$status_proses = 0;	
+		$status_proses = 0;
 		$status_succcess = 0;
 		foreach ($this->model->get_transaksi_shift1() as $key => $value) {
 			$jumlah++;
 			$omset = $omset + $value->total;
-			if($value->status != 'Success'){
+			if ($value->status != 'Success') {
 				$status_proses++;
-			}
-			else{
+			} else {
 				$status_succcess++;
 			}
 		}
@@ -207,21 +260,21 @@ class C_admin extends CI_Controller {
 			'success' => $status_succcess,
 			'region' => $this->model->get_region()
 		);
-		$this->template_admin->load('template_admin','admin/transaksi/v_shift1', $data);
+		$this->template_admin->load('template_admin', 'admin/transaksi/v_shift1', $data);
 	}
 
-	public function shift2(){
+	public function shift2()
+	{
 		$jumlah = 0;
 		$omset = 0;
-		$status_proses = 0;	
+		$status_proses = 0;
 		$status_succcess = 0;
 		foreach ($this->model->get_shift2() as $key => $value) {
 			$jumlah++;
 			$omset = $omset + $value->total;
-			if($value->status != 'Success'){
+			if ($value->status != 'Success') {
 				$status_proses++;
-			}
-			else{
+			} else {
 				$status_succcess++;
 			}
 		}
@@ -232,21 +285,21 @@ class C_admin extends CI_Controller {
 			'success' => $status_succcess,
 			'region' => $this->model->get_region()
 		);
-		$this->template_admin->load('template_admin','admin/transaksi/v_shift2', $data);
+		$this->template_admin->load('template_admin', 'admin/transaksi/v_shift2', $data);
 	}
 
-	public function total_transaksi(){
+	public function total_transaksi()
+	{
 		$jumlah = 0;
 		$omset = 0;
-		$status_proses = 0;	
+		$status_proses = 0;
 		$status_succcess = 0;
 		foreach ($this->model->get_transaksi() as $key => $value) {
 			$jumlah++;
 			$omset = $omset + $value->total;
-			if($value->status != 'Success'){
+			if ($value->status != 'Success') {
 				$status_proses++;
-			}
-			else{
+			} else {
 				$status_succcess++;
 			}
 		}
@@ -257,10 +310,11 @@ class C_admin extends CI_Controller {
 			'success' => $status_succcess,
 			'region' => $this->model->get_region()
 		);
-		$this->template_admin->load('template_admin','admin/transaksi/v_totalTransaksi', $data);
+		$this->template_admin->load('template_admin', 'admin/transaksi/v_totalTransaksi', $data);
 	}
 
-	public function inventory(){
+	public function inventory()
+	{
 		$data = array(
 			'region' => $this->model->get_region(),
 			'basic' => $this->model->get_menu_basic(),
@@ -270,33 +324,34 @@ class C_admin extends CI_Controller {
 			'yakult' => $this->model->get_menu_yakult(),
 			'juice' => $this->model->get_menu_juice()
 		);
-		$this->template_admin->load('template_admin','admin/inventory/v_listInventory', $data);
+		$this->template_admin->load('template_admin', 'admin/inventory/v_listInventory', $data);
 	}
 
-	public function insert_powder(){
+	public function insert_powder()
+	{
 		if (isset($_POST['submit'])) {
 			# code...
-		}
-		else{
+		} else {
 			$data = array(
 				'jenis_menu' => $this->model->get_jenis_menu(),
 				'region' => $this->model->get_region(),
 				'sajian' => $this->model->get_sajian()
 			);
-			$this->template_admin->load('template_admin','admin/inventory/powder/v_addPowder', $data);
+			$this->template_admin->load('template_admin', 'admin/inventory/powder/v_addPowder', $data);
 		}
 	}
 
-	public function update_powder(){
-		if(isset($_POST['submit'])){
+	public function update_powder()
+	{
+		if (isset($_POST['submit'])) {
 			#...
-		}
-		else{
+		} else {
 			$this->template_admin->load('template_admin', 'admin/inventory/powder/v_updatePowder');
 		}
 	}
 
-	public function update_menu_peny(){
+	public function update_menu_peny()
+	{
 		$id_powder = $this->input->post('id_powder', true);
 		$id_peny = $this->input->post('id_peny', true);
 		$harga = $this->input->post('harga', true);
@@ -307,63 +362,68 @@ class C_admin extends CI_Controller {
 		echo json_encode(array('status' => $status));
 	}
 
-	public function delete_powder(){
+	public function delete_powder()
+	{
 		#code...
 	}
 
-	public function delete_powder_penyajian($id_varian, $id_region, $id_powder, $id_penyajian){
+	public function delete_powder_penyajian($id_varian, $id_region, $id_powder, $id_penyajian)
+	{
 
 		$this->model->delete_powder_penyajian($id_powder, $id_penyajian);
 
-		if($this->db->affected_rows() > 0){
-			$this->session->set_flashdata('flash','Data Varian Berhasil Dihapus');
+		if ($this->db->affected_rows() > 0) {
+			$this->session->set_flashdata('flash', 'Data Varian Berhasil Dihapus');
 		}
-		
-		echo "<script>window.location='".base_url('index.php/c_admin/update_varian/'.$id_varian.'/'.$id_region)."'</script>";
+
+		echo "<script>window.location='" . base_url('index.php/c_admin/update_varian/' . $id_varian . '/' . $id_region) . "'</script>";
 	}
 
-	public function update_varian($id, $region){
+	public function update_varian($id, $region)
+	{
 		if (isset($_POST['submit'])) {
 			# code...
-		}
-		else{
+		} else {
 			$data = array(
-				'powder' => $this->model->get_powder($id,$region)
+				'powder' => $this->model->get_powder($id, $region)
 			);
 
-			$query = $this->model->get_varian($id,$region);
+			$query = $this->model->get_varian($id, $region);
 			if ($query->num_rows() > 0) {
 				$data['varian'] = $query->row();
 			}
 
-			$this->template_admin->load('template_admin','admin/inventory/powder/v_listpowder', $data);
+			$this->template_admin->load('template_admin', 'admin/inventory/powder/v_listpowder', $data);
 		}
 	}
 
-	public function action_update_varian(){
+	public function action_update_varian()
+	{
 		$id = $this->input->post('id', TRUE);
 		$sisa = $this->input->post('sisa', TRUE);
 		$penambahan = $this->input->post('penambahan', TRUE);
 		$region = $this->input->post('region', TRUE);
 
 		$this->model->insert_transaksi_penambahan(null, $id, null, $region, $penambahan);
-		$status = $this->model->update_varian($id,$sisa,$penambahan);
+		$status = $this->model->update_varian($id, $sisa, $penambahan);
 
 		$this->output->set_content_type('application/json');
 		echo json_encode(array('status' => $status));
 	}
 
-	public function delete_varian($id){
+	public function delete_varian($id)
+	{
 		$this->model->delete_varian($id);
 
-		$this->session->set_flashdata('flash','Data Varian Berhasil Dihapus');
+		$this->session->set_flashdata('flash', 'Data Varian Berhasil Dihapus');
 
-		echo "<script>window.location='".base_url('index.php/c_admin/inventory')."'</script>";
+		echo "<script>window.location='" . base_url('index.php/c_admin/inventory') . "'</script>";
 	}
 
-	public function insert_topping(){
+	public function insert_topping()
+	{
 		if (isset($_POST['submit'])) {
-			$nama_topping = $this->input->post('nama',TRUE);
+			$nama_topping = $this->input->post('nama', TRUE);
 			$harga = $this->input->post('harga', TRUE);
 			$stok = $this->input->post('stok', TRUE);
 			$region = $this->input->post('region', TRUE);
@@ -371,21 +431,20 @@ class C_admin extends CI_Controller {
 			$this->model->insert_topping($nama_topping, $harga, $stok, $region);
 
 			if ($this->db->affected_rows() > 0) {
-				$this->session->set_flashdata('flash','Data Topping Berhasil Ditambahkan');
+				$this->session->set_flashdata('flash', 'Data Topping Berhasil Ditambahkan');
 			}
 
-			echo "<script>window.location='".base_url('index.php/c_admin/inventory')."'</script>";
-
-		}
-		else{
+			echo "<script>window.location='" . base_url('index.php/c_admin/inventory') . "'</script>";
+		} else {
 			$data = array(
 				'region' => $this->model->get_region()
 			);
-			$this->template_admin->load('template_admin','admin/inventory/topping/v_addTopping', $data);
+			$this->template_admin->load('template_admin', 'admin/inventory/topping/v_addTopping', $data);
 		}
-	}	
+	}
 
-	public function update_topping($id){
+	public function update_topping($id)
+	{
 		if (isset($_POST['submit'])) {
 			$nama = $this->input->post('nama', TRUE);
 			$harga = $this->input->post('harga', TRUE);
@@ -396,36 +455,35 @@ class C_admin extends CI_Controller {
 			$this->model->insert_transaksi_penambahan(null, null, $id, $id_region, $penambahan);
 			$this->model->update_topping($id, $nama, $harga, $penambahan, $sisa);
 
-			if($this->db->affected_rows() > 0){
-				$this->session->set_flashdata('flash','Data Topping Berhasil Diubah');
+			if ($this->db->affected_rows() > 0) {
+				$this->session->set_flashdata('flash', 'Data Topping Berhasil Diubah');
 			}
-			echo "<script>window.location='".base_url('index.php/c_admin/inventory')."'</script>";
-		}
-		else{
+			echo "<script>window.location='" . base_url('index.php/c_admin/inventory') . "'</script>";
+		} else {
 			$query = $this->model->get_topping($id);
-			if($query->num_rows() > 0){
+			if ($query->num_rows() > 0) {
 				$data['topping'] = $query->row();
-				$this->template_admin->load('template_admin','admin/inventory/topping/v_updateTopping', $data);
-			}
-			else{
+				$this->template_admin->load('template_admin', 'admin/inventory/topping/v_updateTopping', $data);
+			} else {
 				echo "<script>alert('Data Tidak Ditemukan');";
-				echo "window.location='".site_url('index.php/c_admin/inventory')."'</script>";
+				echo "window.location='" . site_url('index.php/c_admin/inventory') . "'</script>";
 			}
-			
 		}
 	}
 
-	public function delete_topping($id){
+	public function delete_topping($id)
+	{
 		$this->model->delete_topping($id);
 
 		if ($this->db->affected_rows() > 0) {
-			$this->session->set_flashdata('flash','Data Topping Berhasil Dihapus');
+			$this->session->set_flashdata('flash', 'Data Topping Berhasil Dihapus');
 		}
 
-		echo "<script>window.location='".base_url('index.php/c_admin/inventory')."'</script>";
+		echo "<script>window.location='" . base_url('index.php/c_admin/inventory') . "'</script>";
 	}
 
-	public function insert_ekstra(){
+	public function insert_ekstra()
+	{
 		if (isset($_POST['submit'])) {
 			$nama = $this->input->post('nama', TRUE);
 			$stok = $this->input->post('stok', TRUE);
@@ -433,10 +491,10 @@ class C_admin extends CI_Controller {
 			$region = $this->input->post('id_region', TRUE);
 
 			$this->model->insert_ekstra($nama, $stok, $satuan, $region);
-			if($this->db->affected_rows() > 0){
+			if ($this->db->affected_rows() > 0) {
 				$query = $this->model->get_id_ekstra($nama, $satuan, $region);
 
-				if($query->num_rows() > 0){
+				if ($query->num_rows() > 0) {
 					$row = $query->row();
 
 					$id_ekstra = $row->id_ekstra;
@@ -444,22 +502,21 @@ class C_admin extends CI_Controller {
 					$this->model->insert_detail_ekstra($id_ekstra);
 
 					if ($this->db->affected_rows() > 0) {
-						$this->session->set_flashdata('flash','Data Ekstra Berhasil Disimpan');
+						$this->session->set_flashdata('flash', 'Data Ekstra Berhasil Disimpan');
 					}
 				}
-				
 			}
-			echo "<script>window.location='".base_url('index.php/c_admin/inventory')."'</script>";
-		}
-		else{
+			echo "<script>window.location='" . base_url('index.php/c_admin/inventory') . "'</script>";
+		} else {
 			$data = array(
 				'region' => $this->model->get_region()
 			);
-			$this->template_admin->load('template_admin','admin/inventory/ekstra/v_addEkstra', $data);
-		}		
+			$this->template_admin->load('template_admin', 'admin/inventory/ekstra/v_addEkstra', $data);
+		}
 	}
 
-	public function update_ekstra($id){
+	public function update_ekstra($id)
+	{
 		if (isset($_POST['submit'])) {
 			$nama = $this->input->post('nama', TRUE);
 			$sisa = $this->input->post('sisa', TRUE);
@@ -472,11 +529,10 @@ class C_admin extends CI_Controller {
 			$this->model->update_ekstra($id, $nama, $sisa, $penambahan, $satuan);
 
 			if ($this->db->affected_rows() > 0) {
-				$this->session->set_flashdata('flash','Data Ekstra Berhasil Diubah');
+				$this->session->set_flashdata('flash', 'Data Ekstra Berhasil Diubah');
 			}
-			echo "<script>window.location='".base_url('index.php/c_admin/inventory')."'</script>";
-		}
-		else{
+			echo "<script>window.location='" . base_url('index.php/c_admin/inventory') . "'</script>";
+		} else {
 			$data = array(
 				'region' => $this->model->get_region()
 			);
@@ -485,245 +541,255 @@ class C_admin extends CI_Controller {
 
 			if ($query->num_rows() > 0) {
 				$data['ekstra'] = $query->row();
-				$this->template_admin->load('template_admin','admin/inventory/ekstra/v_updateEkstra', $data);
-			}
-			else{
+				$this->template_admin->load('template_admin', 'admin/inventory/ekstra/v_updateEkstra', $data);
+			} else {
 				echo "<script>alert('Data Tidak Ditemukan');";
-				echo "window.location='".site_url('index.php/c_admin/inventory')."'</script>";
+				echo "window.location='" . site_url('index.php/c_admin/inventory') . "'</script>";
 			}
-			
 		}
 	}
 
-	public function delete_ekstra($id){
+	public function delete_ekstra($id)
+	{
 		$this->model->delete_ekstra($id);
 
 		if ($this->db->affected_rows > 0) {
-			$this->session->set_flashdata('flash','Data Ekstra Berhasil Dihapus');
+			$this->session->set_flashdata('flash', 'Data Ekstra Berhasil Dihapus');
 		}
 
-		echo "<script>window.location='".base_url('index.php/c_admin/inventory')."'</script>";
+		echo "<script>window.location='" . base_url('index.php/c_admin/inventory') . "'</script>";
 	}
 
-	public function upload_file(){
-		$this->template_admin->load('template_admin','admin/inventory/upload/v_uploadData');
+	public function upload_file()
+	{
+		$this->template_admin->load('template_admin', 'admin/inventory/upload/v_uploadData');
 	}
 
-	public function discount(){
+	public function discount()
+	{
 		$data = array(
 			'data_diskon' => $this->model->get_diskon()
 		);
-		$this->template_admin->load('template_admin','admin/diskon/v_diskon', $data);
+		$this->template_admin->load('template_admin', 'admin/diskon/v_diskon', $data);
 	}
 
-	public function add_diskon(){
-		$this->template_admin->load('template_admin','admin/diskon/v_addDiskon');
+	public function add_diskon()
+	{
+		$this->template_admin->load('template_admin', 'admin/diskon/v_addDiskon');
 	}
 
-	public function insert_diskon(){
-		if (isset($_POST['submit'])) {		
-		
+	public function insert_diskon()
+	{
+		if (isset($_POST['submit'])) {
+
 			$nominal = $this->input->post('nominal', TRUE);
 			$min_pembelian = $this->input->post('min_pembelian', TRUE);
 
-			$this->model->insert_diskon($nominal,$min_pembelian);
+			$this->model->insert_diskon($nominal, $min_pembelian);
 
-			if($this->db->affected_rows()>0){
-				$this->session->set_flashdata('flash','Data Diskon Berhasil Ditambahkan');
+			if ($this->db->affected_rows() > 0) {
+				$this->session->set_flashdata('flash', 'Data Diskon Berhasil Ditambahkan');
 			}
 
-			echo "<script>window.location='".base_url('index.php/c_admin/discount')."'</script>";
-
+			echo "<script>window.location='" . base_url('index.php/c_admin/discount') . "'</script>";
 		}
 	}
 
-	public function update_diskon($id){
+	public function update_diskon($id)
+	{
 		if (isset($_POST['submit'])) {
 			// $id = $this->input->post('id', TRUE);
 			$total = $this->input->post('nominal', TRUE);
 			$min_pembelian = $this->input->post('min_pembelian', TRUE);
 
 			$query = $this->model->update_diskon($id, $total, $min_pembelian);
-			if($this->db->affected_rows() > 0){
-				$this->session->set_flashdata('flash','Data Diskon Berhasil Diubah');
+			if ($this->db->affected_rows() > 0) {
+				$this->session->set_flashdata('flash', 'Data Diskon Berhasil Diubah');
 			}
 
-			echo "<script>window.location='".base_url('index.php/c_admin/discount')."'</script>";
-		}
-		else{
+			echo "<script>window.location='" . base_url('index.php/c_admin/discount') . "'</script>";
+		} else {
 			$query = $this->model->get_diskon($id);
-			if($query->num_rows() > 0){
+			if ($query->num_rows() > 0) {
 				$data['diskon'] = $query->row();
-				$this->template_admin->load('template_admin','admin/diskon/v_updateDiskon', $data);
-			}
-			else{
+				$this->template_admin->load('template_admin', 'admin/diskon/v_updateDiskon', $data);
+			} else {
 				echo "<script>alert('Data Tidak Ditemukan');";
-				echo "window.location='".site_url('index.php/c_admin/diskon')."'</script>";
+				echo "window.location='" . site_url('index.php/c_admin/diskon') . "'</script>";
 			}
 		}
 	}
 
-	public function delete_diskon($id){
+	public function delete_diskon($id)
+	{
 		$this->model->delete_diskon($id);
 
-		if($this->db->affected_rows() > 0){
-			$this->session->set_flashdata('flash','Data Diskon Berhasil Dihapus');
+		if ($this->db->affected_rows() > 0) {
+			$this->session->set_flashdata('flash', 'Data Diskon Berhasil Dihapus');
 		}
 
-		echo "<script>window.location='".base_url('index.php/c_admin/discount')."'</script>";
+		echo "<script>window.location='" . base_url('index.php/c_admin/discount') . "'</script>";
 	}
 
-	public function region(){
+	public function region()
+	{
 		$data = array(
 			'data_region' => $this->model->get_region()
 		);
-		$this->template_admin->load('template_admin','admin/region/v_cabang', $data);
+		$this->template_admin->load('template_admin', 'admin/region/v_cabang', $data);
 	}
 
-	public function add_region(){
-		$this->template_admin->load('template_admin','admin/region/v_addRegion');
+	public function add_region()
+	{
+		$this->template_admin->load('template_admin', 'admin/region/v_addRegion');
 	}
 
-	public function insert_region(){
+	public function insert_region()
+	{
 		if (isset($_POST['submit'])) {
 			$nama = $this->input->post('nama', TRUE);
 			$alamat = $this->input->post('alamat', TRUE);
 
-			$this->model->insert_region($nama,$alamat);
-			if($this->db->affected_rows()>0){
-				$this->session->set_flashdata('flash','Data Region Berhasil Ditambahkan');
+			$this->model->insert_region($nama, $alamat);
+			if ($this->db->affected_rows() > 0) {
+				$this->session->set_flashdata('flash', 'Data Region Berhasil Ditambahkan');
 			}
 
-			echo "<script>window.location='".base_url('index.php/c_admin/region')."'</script>";
+			echo "<script>window.location='" . base_url('index.php/c_admin/region') . "'</script>";
 		}
 	}
 
-	public function update_region($id){
+	public function update_region($id)
+	{
 		if (isset($_POST['submit'])) {
 			$nama = $this->input->post('nama', TRUE);
 			$alamat = $this->input->post('alamat', TRUE);
 
 			$this->model->update_region($id, $nama, $alamat);
 
-			if($this->db->affected_rows() > 0){
-				$this->session->set_flashdata('flash','Data Region Berhasil Diubah');
+			if ($this->db->affected_rows() > 0) {
+				$this->session->set_flashdata('flash', 'Data Region Berhasil Diubah');
 			}
 
-			echo "<script>window.location='".base_url('index.php/c_admin/region')."'</script>";
-		}
-		else{
+			echo "<script>window.location='" . base_url('index.php/c_admin/region') . "'</script>";
+		} else {
 			$query = $this->model->get_region($id);
 			if ($query->num_rows() > 0) {
 				$data['region'] = $query->row();
-				$this->template_admin->load('template_admin','admin/region/v_updateRegion', $data);
-			}
-			else{
+				$this->template_admin->load('template_admin', 'admin/region/v_updateRegion', $data);
+			} else {
 				echo "<script>alert('Data Tidak Ditemukan');";
-				echo "window.location='".site_url('index.php/c_admin/region')."'</script>";
+				echo "window.location='" . site_url('index.php/c_admin/region') . "'</script>";
 			}
 		}
 	}
 
-	public function delete_region($id){
+	public function delete_region($id)
+	{
 		$this->model->delete_region($id);
-		if($this->db->affected_rows() > 0){
-			$this->session->set_flashdata('flash','Data Region Berhasil Dihapus');
+		if ($this->db->affected_rows() > 0) {
+			$this->session->set_flashdata('flash', 'Data Region Berhasil Dihapus');
 		}
-		echo "<script>window.location='".base_url('index.php/c_admin/region')."'</script>";
+		echo "<script>window.location='" . base_url('index.php/c_admin/region') . "'</script>";
 	}
 
-	public function karyawan(){
+	public function karyawan()
+	{
 		$data  = array(
 			'data_karyawan' => $this->model->get_data_karyawan()
 		);
-		$this->template_admin->load('template_admin','admin/karyawan/v_karyawan', $data);
+		$this->template_admin->load('template_admin', 'admin/karyawan/v_karyawan', $data);
 	}
 
-	public function add_karyawan(){
-		$this->template_admin->load('template_admin','admin/karyawan/v_addKaryawan');
+	public function add_karyawan()
+	{
+		$this->template_admin->load('template_admin', 'admin/karyawan/v_addKaryawan');
 	}
 
-	public function insert_karyawan(){
-		if(isset($_POST['submit'])){
+	public function insert_karyawan()
+	{
+		if (isset($_POST['submit'])) {
 			$id = $this->input->post('id', TRUE);
-			$nama = $this->input->post('nama',TRUE);
+			$nama = $this->input->post('nama', TRUE);
 			$username = $this->input->post('username', TRUE);
 			$password = $this->input->post('password', TRUE);
 			$kontak = $this->input->post('kontak', TRUE);
 			$email = $this->input->post('email', TRUE);
-			$alamat = $this->input->post('alamat',TRUE);
+			$alamat = $this->input->post('alamat', TRUE);
 
 			$this->model->insert_karyawan($id, $nama, $username, $password, $kontak, $email, $alamat);
 
-			if($this->db->affected_rows()>0){
-				$this->session->set_flashdata('flash','Data Karyawan Berhasil Ditambahkan');
+			if ($this->db->affected_rows() > 0) {
+				$this->session->set_flashdata('flash', 'Data Karyawan Berhasil Ditambahkan');
 			}
 
-			echo "<script>window.location='".base_url('index.php/c_admin/karyawan')."'</script>";
+			echo "<script>window.location='" . base_url('index.php/c_admin/karyawan') . "'</script>";
 		}
 	}
 
-	public function update_karyawan($id){
+	public function update_karyawan($id)
+	{
 		if (isset($_POST['submit'])) {
-			$nama = $this->input->post('nama',TRUE);
+			$nama = $this->input->post('nama', TRUE);
 			$username = $this->input->post('username', TRUE);
 			$password = $this->input->post('password', TRUE);
 			$kontak = $this->input->post('kontak', TRUE);
 			$email = $this->input->post('email', TRUE);
-			$alamat = $this->input->post('alamat',TRUE);
+			$alamat = $this->input->post('alamat', TRUE);
 
 			$this->model->update_karyawan($id, $nama, $username, $password, $kontak, $email, $alamat);
 			if ($this->db->affected_rows() > 0) {
-				$this->session->set_flashdata('flash','Data Karyawan Berhasil DiUbah');
+				$this->session->set_flashdata('flash', 'Data Karyawan Berhasil DiUbah');
 			}
 
-			echo "<script>window.location='".base_url('index.php/c_admin/karyawan')."'</script>";
-		}
-		else{
+			echo "<script>window.location='" . base_url('index.php/c_admin/karyawan') . "'</script>";
+		} else {
 			$query = $this->model->get_data_karyawan($id);
 
-			if($query->num_rows() > 0){
+			if ($query->num_rows() > 0) {
 				$data['staff'] = $query->row();
-				$this->template_admin->load('template_admin','admin/karyawan/v_updateKaryawan', $data);
-			}
-			else{
+				$this->template_admin->load('template_admin', 'admin/karyawan/v_updateKaryawan', $data);
+			} else {
 				echo "<script>alert('Data Tidak Ditemukan');";
-				echo "window.location='".site_url('index.php/c_admin/karyawan')."'</script>";
+				echo "window.location='" . site_url('index.php/c_admin/karyawan') . "'</script>";
 			}
 		}
 	}
 
-	public function delete_karyawan($id){
+	public function delete_karyawan($id)
+	{
 		$this->model->delete_karyawan($id);
 
-		if($this->db->affected_rows () > 0){
-			$this->session->set_flashdata('flash','Data Karyawan Berhasil Dihapus');
+		if ($this->db->affected_rows() > 0) {
+			$this->session->set_flashdata('flash', 'Data Karyawan Berhasil Dihapus');
 		}
 
-		echo "<script>window.location='".base_url('index.php/c_admin/karyawan')."'</script>";
+		echo "<script>window.location='" . base_url('index.php/c_admin/karyawan') . "'</script>";
 	}
 
-	public function list_penambahan(){
+	public function list_penambahan()
+	{
 		$data = array(
 			'data' => $this->model->get_transaksi_penambahan()
 		);
-		$this->template_admin->load('template_admin','admin/laporan_penambahan/v_listPenambahan', $data);
+		$this->template_admin->load('template_admin', 'admin/laporan_penambahan/v_listPenambahan', $data);
 	}
 
-	public function get_transaksi_penambahan(){
+	public function get_transaksi_penambahan()
+	{
 		$tanggal = $this->input->post('tanggal', TRUE);
 		$tgl_selesai = $this->input->post('tanggal_selesai', TRUE);
 
 		$data = $this->model->get_transaksi_penambahan($tanggal, $tgl_selesai);
 
 		echo json_encode($data);
-
 	}
 
-	public function get_search_transaksi(){
+	public function get_search_transaksi()
+	{
 		$tanggal = $this->input->post('tanggal', TRUE);
 		$region = $this->input->post('region', TRUE);
-		$shift = $this->input->post('id',TRUE);
+		$shift = $this->input->post('id', TRUE);
 		$tgl_selesai = $this->input->post('tgl_selesai', TRUE);
 
 		$data = $this->model->get_search_transaksi($tanggal, $region, $shift, $tgl_selesai);
@@ -731,7 +797,8 @@ class C_admin extends CI_Controller {
 		echo json_encode($data);
 	}
 
-	public function get_laporan_pemakaian(){
+	public function get_laporan_pemakaian()
+	{
 		$data = array(
 			'powder' => $this->model->get_pakai_powder(),
 			'topping' => $this->model->get_pakai_topping(),
@@ -741,10 +808,11 @@ class C_admin extends CI_Controller {
 			'susu_coklat' => $this->model->get_pakai_susu_coklat(),
 			'ekstra' => $this->model->get_pakai_ekstra()
 		);
-		$this->template_admin->load('template_admin','admin/laporan_pemakaian/v_listPemakaian', $data);
+		$this->template_admin->load('template_admin', 'admin/laporan_pemakaian/v_listPemakaian', $data);
 	}
 
-	public function data_grafik(){
+	public function data_grafik()
+	{
 		$data = [];
 		$i = 0;
 		foreach ($this->model->get_data_grafik_harian as $key => $value) {
