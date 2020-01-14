@@ -90,7 +90,8 @@
            			<div class="x_content">
 
            				<div class="pull-right">
-           					<a class="btn btn-warning btn-sm" onclick="active();" id="active"><i class="fa fa-pencil"></i> Update</a>
+           					<a href="#" onclick="enable()" class="btn btn-warning btn-xs" id="active"><i class="fa fa-pencil"></i> Update</a>
+           					<a href="#" onclick="disable()" class="btn btn-danger btn-xs" id="deactive"><i class="fa fa-reply"></i> Cancel</a>
            				</div>
 
            				<form id="demo-form2" name="form_profile" data-parsley-validate class="form-horizontal form-label-left input-mask" method="post" action="<?= base_url('index.php/c_admin/update_profil/' . $admin->id_staff) ?>">
@@ -141,21 +142,19 @@
            					<div class="ln_solid"></div>
            					<div class="form-group">
            						<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-           							<a href="<?= base_url('index.php/c_admin') ?>"><button class="btn btn-primary" type="button">Cancel</button></a>
+           							<a href="<?= base_url('index.php/c_admin') ?>"><button class="btn btn-primary" type="button">Back</button></a>
            							<button class="btn btn-primary" type="reset" id="reset">Reset</button>
            							<button type="submit" name="submit" class="btn btn-success" id="submit">Submit</button>
            						</div>
            					</div>
-
            				</form>
-
            			</div>
            		</div>
            	</div>
            </div>
 
            <script type="text/javascript">
-           	function active() {
+           	function enable() {
            		document.form_profile.nama.disabled = false;
            		document.form_profile.username.disabled = false;
            		document.form_profile.email.disabled = false;
@@ -163,13 +162,33 @@
            		document.form_profile.alamat.disabled = false;
            		document.form_profile.password.disabled = false;
            	}
+
+           	function disable() {
+           		document.form_profile.nama.disabled = true;
+           		document.form_profile.username.disabled = true;
+           		document.form_profile.email.disabled = true;
+           		document.form_profile.contact.disabled = true;
+           		document.form_profile.alamat.disabled = true;
+           		document.form_profile.password.disabled = true;
+           	}
+
            	$(document).ready(function() {
            		$("#reset").hide();
            		$("#submit").hide();
+           		$("#deactive").hide();
+           	})
 
-           		$("#active").click(function() {
-           			$("#reset").show();
-           			$("#submit").show();
-           		})
+           	$("#active").click(function() {
+           		$("#reset").show();
+           		$("#submit").show();
+           		$("#deactive").show();
+           		$("#active").hide();
+           	})
+
+           	$("#deactive").click(function() {
+           		$("#reset").hide();
+           		$("#submit").hide();
+           		$("#deactive").hide();
+           		$("#active").show();
            	})
            </script>

@@ -29,10 +29,6 @@
 						<div class="clearfix"></div>
 					</div>
 					<div class="x_content">
-						<div class="pull-right">
-							<a href="<?= base_url('index.php/c_admin/discount') ?>" class="btn btn-warning btn-xs"><i class="fa fa-mail-reply"></i> Back</a>
-						</div>
-						<br />
 						<form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left input-mask" method="post" action="<?= base_url('index.php/c_admin/update_diskon/' . $diskon->id_diskon) ?>">
 							<div class="row">
 								<!-- <input type="hidden" name="id" value="<?= $diskon->id_diskon ?>"> -->

@@ -29,10 +29,6 @@
 		        <div class="clearfix"></div>
 		      </div>
 		      <div class="x_content">
-		        <div class="pull-right">
-		          <a href="<?= base_url('index.php/c_admin/region') ?>" class="btn btn-warning btn-xs"><i class="fa fa-mail-reply"></i> Back</a>
-		        </div>
-		        <br />
 		        <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post" action="<?= base_url('index.php/c_admin/update_region/' . $region->id_region) ?>">
 
 		          <div class="form-group">

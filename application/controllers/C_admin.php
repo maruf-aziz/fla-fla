@@ -101,6 +101,68 @@ class C_admin extends CI_Controller
 
 	public function upload_powder()
 	{
+		$csvMimes = array('application/vnd.ms-excel', 'text/plain', 'text/csv', 'text/tsv');
+		if (!empty($_FILES['file']['name']) && in_array($_FILES['file']['type'], $csvMimes)) {
+			if (is_uploaded_file($_FILES['file']['tmp_name'])) {
+
+				//open uploaded csv file with read only mode
+				$csvFile = fopen($_FILES['file']['tmp_name'], 'r');
+
+				// skip first line
+				// if your csv file have no heading, just comment the next line
+				fgetcsv($csvFile);
+
+				//parse data from csv file line by line
+				while (($line = fgetcsv($csvFile)) !== FALSE) {
+					// Get row data
+					$jenis  = $line[0];
+					$nama = $line[1];
+					$stock  = $line[2];
+					$tambah = $line[3];
+					$total = $line[4];
+					$sisa = $line[5];
+					$region = $line[6];
+					$saji = explode(";", $line[7]);
+					$harga = explode(";", $line[8]);
+
+					// Insert varian_powder data in the database
+					$this->db->insert("varian_powder", array("nama_varian" => $nama, "stok_awal" => $stock, "penambahan" => $tambah, "total" => $total, "sisa" => $sisa, "id_region" => $region));
+
+					if ($this->db->affected_rows() > 0) {
+						$query = $this->model->get_id_varian($nama, $stock, $region);
+
+						if ($query->num_rows() > 0) {
+							$row = $query->row();
+							$id_varian = $row->id_varian;
+
+							// Insert powder data in the database
+							$this->db->insert("powder", array("id_jenis" => $jenis, "nama_powder" => $nama, "id_varian" => $id_varian));
+
+							if ($this->db->affected_rows() > 0) {
+								$query = $this->model->get_id_powder($jenis, $nama, $id_varian);
+
+								if ($query->num_rows() > 0) {
+									$row = $query->row();
+									$id_powder = $row->id_powder;
+
+									// Insert looping into detail_penyajian
+									for ($z = 0; $z < count($saji, COUNT_NORMAL); $z++) {
+										$this->db->insert("detail_penyajian", array("id_powder" => $id_powder, "id_penyajian" => $saji[$z], "harga" => $harga[$z]));
+									}
+								}
+							}
+						}
+					}
+				}
+
+				// Close opened CSV file
+				fclose($csvFile);
+
+				$qstring["status"] = 'Success';
+			} else {
+				$qstring["status"] = 'Error';
+			}
+		}
 	}
 
 	public function upload_topping()

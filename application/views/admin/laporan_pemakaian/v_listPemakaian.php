@@ -40,97 +40,10 @@
 				<div class="clearfix"></div>
 			</div>
 			<div class="x_content">
-
-
-				<!-- <div class="" role="tabpanel" data-example-id="togglable-tabs">
-                      <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
-                        <li role="presentation" class="active"><a href="#tab_content1" id="day-tab" role="tab" data-toggle="tab" aria-expanded="true">Penambahan Hari Ini</a>
-                        </li>
-                        <li role="presentation" class=""><a href="#tab_content2" role="tab" id="Custom-tab" data-toggle="tab" aria-expanded="false">Custom </a>
-                        </li>
-                      </ul>
-                      <div id="myTabContent" class="tab-content">
-                        <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="day-tab">
-                         	<table  class="table table-responsive jambo_table bulk_action display">
-							              <thead>
-							                <tr class="headings">
-							                  <th class="column-title">No </th>
-							                  <th class="column-title">Tanggal </th>
-							                  <th class="column-title">Waktu </th>
-							                  <th class="column-title">Nama Powder </th>
-							                  <th class="column-title">Nama ekstra </th>
-							                  <th class="column-title">Nama topping </th>
-							                  <th class="column-title">Penambahan </th>
-							                  <th class="column-title">Cabang </th>
-							                </tr>
-							              </thead>
-
-							              <tbody>
-							              	<?php
-												$no = 1;
-												foreach ($data as $key => $value) {
-												?>
-
-							              				<tr>
-							              					<td style="width: 5%;" align="center"><?= $no++ ?></td>
-							              					<td><?= $value->tanggal ?></td>
-							              					<td><?= $value->waktu ?></td>
-							              					<td><?= ($value->nama_varian != null ? $value->nama_varian : '---') ?></td>
-							              					<td><?= ($value->nama_ekstra != null ? $value->nama_ekstra : '---') ?></td>
-							              					<td><?= ($value->nama_topping != null ? $value->nama_topping : '---') ?></td>
-							              					<td><?= ($value->id_ekstra != null ? $value->penambahan_stok . ' ' . $value->satuan : $value->penambahan_stok . '  Cup') ?></td>
-							              					<td><?= $value->nama_region ?></td>
-							              				</tr>
-
-							              			<?php
-													}
-														?>
-							              </tbody>
-							            </table>
-                        </div>
-
-                        <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="Custom-tab">
-                          <form data-parsley-validate class="form-horizontal form-label-left input-mask" style="padding-bottom: 20px;">
-                          	<div class="row">
-							            		<label class="control-label col-md-1 col-sm-1 col-xs-12" for="last-name">Cari Tanggal <span class="required">*</span></label>
-							            		<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12 input-group date' id='myDatepicker2'>
-		                            <input type="text" class="form-control" name="tanggal" id="tanggal" />
-		                            <span class="input-group-addon">
-		                               <span class="glyphicon glyphicon-calendar"></span>
-		                            </span>
-			                        </div>
-							            	</div>
-							            	<div class="row" style="padding-left: 10px;">
-							            		<button type="button" class="btn btn-primary btn-sm">Tampilkan</button>
-							            	</div>
-                          </form>
-
-                          <table  class="table table-striped jambo_table bulk_action display">
-							              <thead>
-							                <tr class="headings">
-							                  <th class="column-title">No </th>
-							                  <th class="column-title">Tanggal </th>
-							                  <th class="column-title">Waktu </th>
-							                  <th class="column-title">Nama Powder </th>
-							                  <th class="column-title">Nama ekstra </th>
-							                  <th class="column-title">Nama topping </th>
-							                  <th class="column-title">Penambahan </th>
-							                  <th class="column-title">Cabang </th>
-							                </tr>
-							              </thead>
-
-							              <tbody id="show_data">
-
-							              </tbody>
-							            </table>
-                        </div>
-                      </div>
-                    </div> -->
-
 				<div class="row">
 					<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
 						<div class="table-responsive">
-							<span style="margin-left: 50%;">Powder</span>
+							<center><span>Powder</span></center>
 							<table class="table table-striped jambo_table bulk_action" id="myTable1">
 								<thead>
 									<tr class="headings">
@@ -143,35 +56,27 @@
 										<th class="column-title">Yakult </th>
 										<th class="column-title">Juice </th>
 										<th class="column-title">Sisa </th>
-										<!-- <th class="column-title">Images</th> -->
-										<!-- <th class="column-title">Actions</!-->
 									</tr>
 								</thead>
 
 								<tbody>
-
 									<?php
-
 									foreach ($powder as $key => $value) {
 									?>
-
 										<tr>
 											<td><?= $value->nama_powder ?></td>
 											<td style="text-align: center"><?= $value->stok_awal ?></td>
 											<td style="text-align: center"><?= $value->penambahan ?></td>
-											<td style="text-align: center"><?= ($value->id_penyajian == 1 ? $value->pakai : '-') ?></td>
-											<td style="text-align: center"><?= ($value->id_penyajian == 2 ? $value->pakai : '-') ?></td>
-											<td style="text-align: center"><?= ($value->id_penyajian == 3 ? $value->pakai : '-') ?></td>
-											<td style="text-align: center"><?= ($value->id_penyajian == 4 ? $value->pakai : '-') ?></td>
-											<td style="text-align: center"><?= ($value->id_penyajian == 5 ? $value->pakai : '-') ?></td>
+											<td style="text-align: center"><?= ($value->basic_use != NULL ? $value->basic_use : '-') ?></td>
+											<td style="text-align: center"><?= ($value->pm_use != NULL ? $value->pm_use : '-') ?></td>
+											<td style="text-align: center"><?= ($value->hot_use != NULL ? $value->hot_use : '-') ?></td>
+											<td style="text-align: center"><?= ($value->yakult_use != NULL ? $value->yakult_use : '-') ?></td>
+											<td style="text-align: center"><?= ($value->juice_use != NULL ? $value->juice_use : '-') ?></td>
 											<td style="text-align: center"><?= $value->sisa ?></td>
 										</tr>
-
 									<?php
 									}
-
 									?>
-
 								</tbody>
 							</table>
 						</div>
@@ -179,7 +84,7 @@
 
 					<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
 						<div class="table-responsive">
-							<span style="margin-left: 50%;">Topping</span>
+							<center><span>Topping</span></center>
 							<table class="table table-striped jambo_table bulk_action" id="myTable1">
 								<thead>
 									<tr class="headings">
@@ -191,7 +96,6 @@
 								</thead>
 
 								<tbody>
-
 									<?php
 									foreach ($topping as $key => $value) {
 									?>
@@ -204,20 +108,16 @@
 									<?php
 									}
 									?>
-
 								</tbody>
 							</table>
 						</div>
 					</div>
-
 				</div>
-
-				<!--  -->
 
 				<div class="row">
 					<div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
 						<div class="table-responsive">
-							<span style="margin-left: 50%;">Masak Bubble</span>
+							<center><span>Masak Bubble</span></center>
 							<table class="table table-striped jambo_table bulk_action" id="myTable1">
 								<thead>
 									<tr class="headings">
@@ -230,29 +130,23 @@
 
 								<tbody>
 									<?php
-
-										foreach ($bubble as $key => $value) {
-											$shift;
-											if ($value->waktu >= '07:00:00' && $value->waktu <= '16:00:00') {
-												$shift = 'Shift 1';
-											}
-											else if($value->waktu > '16:00:00' && $value->waktu <= '22:00:00'){
-												$shift = 'Shift 2';
-											}
-
-											?>
-
-												<tr>
-													<td><?=$shift?></td>
-													<td><?=$value->stock_awal?></td>
-													<td><?=$value->pakai?></td>
-													<td><?=$value->stock_awal - $value->pakai?></td>
-												</tr>
-
-											<?php
-
+									foreach ($bubble as $key => $value) {
+										$shift;
+										if ($value->waktu >= '07:00:00' && $value->waktu <= '16:00:00') {
+											$shift = 'Shift 1';
+										} else if ($value->waktu > '16:00:00' && $value->waktu <= '22:00:00') {
+											$shift = 'Shift 2';
 										}
+									?>
+										<tr>
+											<td><?= $shift ?></td>
+											<td><?= $value->stock_awal ?></td>
+											<td><?= $value->pakai ?></td>
+											<td><?= $value->stock_awal - $value->pakai ?></td>
+										</tr>
 
+									<?php
+									}
 									?>
 								</tbody>
 							</table>
@@ -261,7 +155,7 @@
 
 					<div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
 						<div class="table-responsive">
-							<span style="margin-left: 50%;">Penjualan</span>
+							<center><span>Penjualan</span></center>
 							<table class="table table-striped jambo_table bulk_action" id="myTable1">
 								<thead>
 									<tr class="headings">
@@ -294,7 +188,7 @@
 				<div class="row">
 					<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 						<div class="table-responsive">
-							<span style="margin-left: 50%;">Pemakaian Susu Putih</span>
+							<center><span>Pemakaian Susu Putih</span></center>
 							<table class="table table-striped jambo_table bulk_action" id="myTable1">
 								<thead>
 									<tr class="headings">
@@ -306,28 +200,28 @@
 
 								<tbody>
 									<?php
-										$total_bs = 0;
-										$total_pm = 0;
-										foreach ($susu_putih as $key => $value) {
-											?>
+									$total_bs = 0;
+									$total_pm = 0;
+									foreach ($susu_putih as $key => $value) {
+									?>
 
-												<tr>
-													<td><?=$value->nama_penyajian?></td>
-													<td><?=$value->basic?></td>
-													<td><?=$value->PM?></td>
-												</tr>
+										<tr>
+											<td><?= $value->nama_jenis ?></td>
+											<td><?= $value->basic ?></td>
+											<td><?= $value->pm ?></td>
+										</tr>
 
-											<?php
-											$total_pm = $total_pm + $value->PM;
-											$total_bs = $total_bs + $value->basic;
-										}
+									<?php
+										$total_pm = $total_pm + $value->pm;
+										$total_bs = $total_bs + $value->basic;
+									}
 
 									?>
 									<tr colspan="3"></tr>
 									<tr style="background-color: #00CED1; color: #ffffff;">
 										<td>Total</td>
-										<td><?=$total_bs?></td>
-										<td><?=$total_pm?></td>
+										<td><?= $total_bs ?></td>
+										<td><?= $total_pm ?></td>
 									</tr>
 								</tbody>
 							</table>
@@ -336,7 +230,7 @@
 
 					<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 						<div class="table-responsive">
-							<span style="margin-left: 50%;">Pemakaian Susu Coklat</span>
+							<center><span>Pemakaian Susu Coklat</span></center>
 							<table class="table table-striped jambo_table bulk_action" id="myTable1">
 								<thead>
 									<tr class="headings">
@@ -348,28 +242,28 @@
 
 								<tbody>
 									<?php
-										$total_bs = 0;
-										$total_pm = 0;
-										foreach ($susu_coklat as $key => $value) {
-											?>
+									$total_bs = 0;
+									$total_pm = 0;
+									foreach ($susu_coklat as $key => $value) {
+									?>
 
-												<tr>
-													<td><?=$value->nama_penyajian?></td>
-													<td><?=$value->basic?></td>
-													<td><?=$value->PM?></td>
-												</tr>
+										<tr>
+											<td><?= $value->nama_jenis ?></td>
+											<td><?= $value->basic ?></td>
+											<td><?= $value->pm ?></td>
+										</tr>
 
-											<?php
-											$total_pm = $total_pm + $value->PM;
-											$total_bs = $total_bs + $value->basic;
-										}
+									<?php
+										$total_pm = $total_pm + $value->pm;
+										$total_bs = $total_bs + $value->basic;
+									}
 
 									?>
 									<tr colspan="3"></tr>
 									<tr style="background-color: #00CED1; color: #ffffff;">
 										<td>Total</td>
-										<td><?=$total_bs?></td>
-										<td><?=$total_pm?></td>
+										<td><?= $total_bs ?></td>
+										<td><?= $total_pm ?></td>
 									</tr>
 								</tbody>
 							</table>
@@ -380,7 +274,7 @@
 				<div class="row">
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<div class="table-responsive">
-							<span style="margin-left: 50%;">Stok Ekstra</span>
+							<center><span>Stok Ekstra</span></center>
 							<table class="table table-striped jambo_table bulk_action" id="myTable1">
 								<thead>
 									<tr class="headings">
@@ -395,27 +289,26 @@
 								<tbody>
 									<?php
 
-										foreach ($ekstra as $key => $value) {
+									foreach ($ekstra as $key => $value) {
 
-											$pemakaian = 0;
-											if ($value->nama_ekstra == "Susu Putih" || $value->nama_ekstra == "Susu Coklat" ){
-												$pemakaian = $value->pakai_susu;
-											}
-											else{
-												$pemakaian = $value->pakai;
-											}
-											?>
-
-												<tr>
-													<td><?=$value->nama_ekstra?></td>
-													<td><?=$value->stock_awal?></td>
-													<td><?=$value->penambahan?></td>
-													<td><?=($pemakaian != null ? $pemakaian : 0)?></td>
-													<td><?=$value->stock_awal - $pemakaian?></td>
-												</tr>
-
-											<?php
+										$pemakaian = 0;
+										if ($value->nama_ekstra == "Susu Putih" || $value->nama_ekstra == "Susu Coklat") {
+											$pemakaian = $value->pakai_susu;
+										} else {
+											$pemakaian = $value->pakai;
 										}
+									?>
+
+										<tr>
+											<td><?= $value->nama_ekstra ?></td>
+											<td><?= $value->stock_awal ?></td>
+											<td><?= $value->penambahan ?></td>
+											<td><?= ($pemakaian != null ? $pemakaian : 0) ?></td>
+											<td><?= $value->stock_awal - $pemakaian ?></td>
+										</tr>
+
+									<?php
+									}
 
 									?>
 								</tbody>
@@ -423,8 +316,6 @@
 						</div>
 					</div>
 				</div>
-
-
 			</div>
 		</div>
 	</div>
