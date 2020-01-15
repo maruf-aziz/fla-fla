@@ -741,8 +741,11 @@ class M_admin extends CI_Model
 	//mengambil data grafik harian
 	public function get_data_grafik_harian()
 	{
+		$m = date('m');
+
 		$this->db->select('tanggal, SUM(total) AS uang')
 			->from('jual')
+			->where('MONTH(tanggal)', $m)
 			->group_by('tanggal')
 			->order_by('no_nota', 'DESC')
 			->limit(30);

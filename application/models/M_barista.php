@@ -217,9 +217,8 @@ class M_barista extends CI_Model
 			'pesanan_gojek' => $order_gojek,
 			'id_staff' => $id_staff
 		);
-		$this->db->insert('jual', $data);
-		$query = $this->db->get();
-
+		$query = $this->db->insert('jual', $data);
+		
 		return $query;
 	}
 
