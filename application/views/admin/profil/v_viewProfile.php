@@ -126,7 +126,7 @@
            					<div class="row">
            						<label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Alamat <span class="required">*</span></label>
            						<div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
-           							<input type="text" class="form-control" id="inputSuccess3" placeholder="ex : jl super raya no.166" name="alamat" disabled="" value="<?= $admin->alamat ?>">
+									<textarea name="alamat" id="inputSuccess3" class="form_control" placeholder="ex : Jl Super Raya No.166" cols="150" rows="5" disabled value="<?= $admin->alamat ?>" style="width: 485px;"><?= $admin->alamat?></textarea>
            						</div>
            					</div>
 
