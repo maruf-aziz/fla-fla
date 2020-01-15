@@ -32,8 +32,8 @@ class M_admin extends CI_Model
 			$data['password'] = $password;
 		}
 
-		$this->db->where('id_staff', $id);
-		$this->db->update('staff', $data);
+		$this->db->where('id_staff', $id)
+			->update('staff', $data);
 	}
 
 	public function get_omset_bulanan()
@@ -50,7 +50,6 @@ class M_admin extends CI_Model
 
 	public function get_count_powder()
 	{
-
 		$sql = $this->db->count_all_results('powder');
 
 		return $sql;
@@ -271,12 +270,15 @@ class M_admin extends CI_Model
 	{
 		$this->db->select('*')
 			->from('topping');
+
 		if ($id != null) {
 			$this->db->where('id_topping', $id);
 			$query = $this->db->get();
+
 			return $query;
 		} else {
 			$query = $this->db->get();
+
 			return $query->result();
 		}
 	}
@@ -329,9 +331,11 @@ class M_admin extends CI_Model
 	{
 		$this->db->select('*')
 			->from('ekstra');
+
 		if ($id != null) {
 			$this->db->where('id_ekstra', $id);
 			$query = $this->db->get();
+
 			return $query;
 		}
 	}
@@ -409,12 +413,15 @@ class M_admin extends CI_Model
 	{
 		$this->db->select('*')
 			->from('diskon');
+
 		if ($id != null) {
 			$this->db->where('id_diskon', $id);
 			$query = $this->db->get();
+
 			return $query;
 		} else {
 			$query = $this->db->get();
+
 			return $query->result();
 		}
 	}
@@ -450,12 +457,15 @@ class M_admin extends CI_Model
 	{
 		$this->db->select('*')
 			->from('region');
+
 		if ($id != null) {
 			$this->db->where('id_region', $id);
 			$query = $this->db->get();
+
 			return $query;
 		} else {
 			$query = $this->db->get();
+
 			return $query->result();
 		}
 	}
@@ -492,12 +502,15 @@ class M_admin extends CI_Model
 		$this->db->select('*')
 			->from('staff')
 			->where('level', 2);
+
 		if ($id != null) {
 			$this->db->where('id_staff', $id);
 			$query = $this->db->get();
+
 			return $query;
 		} else {
 			$query = $this->db->get();
+
 			return $query->result();
 		}
 	}
@@ -578,6 +591,7 @@ class M_admin extends CI_Model
 			->join('ekstra', 'transaksi_penambahan.id_ekstra = ekstra.id_ekstra', 'left')
 			->join('topping', 'transaksi_penambahan.id_topping = topping.id_topping', 'left')
 			->join('region', 'transaksi_penambahan.id_region = region.id_region', 'left');
+
 		if ($tanggal != null && $tgl_selesai != null) {
 			$this->db->where('transaksi_penambahan.tanggal >=', $tanggal)
 				->where('transaksi_penambahan.tanggal <=', $tgl_selesai);
@@ -600,6 +614,7 @@ class M_admin extends CI_Model
 			->join('powder', 'detail_transaksi.id_powder = powder.id_powder')
 			->join('penyajian', 'detail_transaksi.id_penyajian = penyajian.id_penyajian', 'left')
 			->join('topping', 'detail_transaksi.id_topping = topping.id_topping', 'left');
+			
 		if ($shift == "shift1") {
 			$this->db->where('jual.waktu >=', '08:00:00')
 				->where('jual.waktu <=', '16:00:00');
@@ -730,7 +745,7 @@ class M_admin extends CI_Model
 			->from('jual')
 			->group_by('tanggal')
 			->order_by('no_nota', 'DESC')
-			->limit(10);
+			->limit(30);
 		$query = $this->db->get();
 
 		if ($query->num_rows() > 0) {

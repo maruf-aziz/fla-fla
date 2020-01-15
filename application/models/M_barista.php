@@ -136,25 +136,72 @@ class M_barista extends CI_Model
 	//query lama menggunakan set tabel powder , yang baru menggunakan set varian_powder (semua stok berada di varian)
 	public function set_powder_min($id)
 	{
-		$sql = $this->db->query("UPDATE varian_powder SET sisa = sisa - 1 WHERE id_varian = '$id'");
+		$this->db->select('sisa')
+			->where('id_varian', $id);
+		$query = $this->db->get('varian_powder');
+		$row = $query->row();
+		$sisa = $row->sisa;
+
+		$sql = array(
+			'sisa' => $sisa - 1
+		);
+		$this->db->where('id_varian', $id)
+			->update('varian_powder', $sql);
+
 		return $sql;
 	}
 
 	public function set_powder_plus($id)
 	{
-		$sql = $this->db->query("UPDATE varian_powder SET sisa = sisa + 1 WHERE id_varian = '$id'");
+		$this->db->select('sisa')
+			->where('id_varian', $id);
+		$query = $this->db->get('varian_powder');
+		$row = $query->row();
+		$sisa = $row->sisa;
+
+		$sql = array(
+			'sisa' => $sisa + 1
+		);
+
+		$this->db->where('id_varian', $id)
+			->update('varian_powder', $sql);
+
 		return $sql;
 	}
 
 	public function set_topping_min($id)
 	{
-		$sql = $this->db->query("UPDATE topping SET sisa = sisa - 1 WHERE id_topping = '$id'");
+		$this->db->select('sisa')
+			->where('id_topping', $id);
+		$query = $this->db->get('topping');
+		$row = $query->row();
+		$sisa = $row->sisa;
+
+		$sql = array(
+			'sisa' => $sisa - 1
+		);
+
+		$this->db->where('id_topping')
+			->update('topping', $sql);
+
 		return $sql;
 	}
 
 	public function set_topping_plus($id)
 	{
-		$sql = $this->db->query("UPDATE topping SET sisa = sisa + 1 WHERE id_topping = '$id'");
+		$this->db->select('sisa')
+			->where('id_topping', $id);
+		$query = $this->db->get('topping');
+		$row = $query->row();
+		$sisa = $row->sisa;
+
+		$sql = array(
+			'sisa' => $sisa + 1
+		);
+
+		$this->db->where('id_topping')
+			->update('topping', $sql);
+
 		return $sql;
 	}
 
@@ -348,7 +395,20 @@ class M_barista extends CI_Model
 	{
 		$id_region = $this->session->userdata('id_region');
 
-		$sql = $this->db->query("UPDATE ekstra SET sisa = sisa - $qty WHERE nama_ekstra = '$id' AND id_region = $id_region ");
+		$this->db->select('sisa')
+			->where('nama_ekstra', $id)
+			->where('id_region', $id_region);
+		$query = $this->db->get('ekstra');
+		$row = $query->row();
+		$sisa = $row->sisa;
+
+		$sql = array(
+			'sisa' => $sisa - $qty
+		);
+
+		$this->db->where('nama_ekstra', $id)
+			->where('id_region', $id_region)
+			->update('ekstra', $sql);
 		
 		return $sql;
 	}
@@ -357,7 +417,20 @@ class M_barista extends CI_Model
 	{
 		$id_region = $this->session->userdata('id_region');
 		
-		$sql = $this->db->query("UPDATE ekstra SET sisa = sisa + $qty WHERE nama_ekstra = '$id' AND id_region = $id_region");
+		$this->db->select('sisa')
+			->where('nama_ekstra', $id)
+			->where('id_region', $id_region);
+		$query = $this->db->get('ekstra');
+		$row = $query->row();
+		$sisa = $row->sisa;
+
+		$sql = array(
+			'sisa' => $sisa + $qty
+		);
+
+		$this->db->where('nama_ekstra', $id)
+			->where('id_region', $id_region)
+			->update('ekstra', $sql);
 		
 		return $sql;
 	}
@@ -366,7 +439,20 @@ class M_barista extends CI_Model
 	{
 		$id_region = $this->session->userdata('id_region');
 		
-		$sql = $this->db->query("UPDATE ekstra SET sisa = sisa -1 WHERE nama_ekstra = 'Cup' AND id_region = $id_region");
+		$this->db->select('sisa')
+			->where('nama_ekstra', 'Cup')
+			->where('id_region', $id_region);
+		$query = $this->db->get('ekstra');
+		$row = $query->row();
+		$sisa = $row->sisa;
+
+		$sql = array(
+			'sisa' => $sisa - 1
+		);
+
+		$this->db->where('nama_ekstra', 'Cup')
+			->where('id_region', $id_region)
+			->update('ekstra', $sql);
 		
 		return $sql;
 	}
@@ -375,7 +461,20 @@ class M_barista extends CI_Model
 	{
 		$id_region = $this->session->userdata('id_region');
 		
-		$sql = $this->db->query("UPDATE ekstra SET sisa = sisa +1 WHERE nama_ekstra = 'Cup' AND id_region = $id_region");
+		$this->db->select('sisa')
+			->where('nama_ekstra', 'Cup')
+			->where('id_region', $id_region);
+		$query = $this->db->get('ekstra');
+		$row = $query->row();
+		$sisa = $row->sisa;
+
+		$sql = array(
+			'sisa' => $sisa + 1
+		);
+
+		$this->db->where('nama_ekstra', 'Cup')
+			->where('id_region', $id_region)
+			->update('ekstra', $sql);
 		
 		return $sql;
 	}
@@ -485,7 +584,24 @@ class M_barista extends CI_Model
 	{
 		$id_region = $this->session->userdata('id_region');
 
-		$sql = $this->db->query("UPDATE topping SET stock_awal = sisa , penambahan = $jumlah , total = stock_awal + penambahan , sisa = total WHERE nama_topping = '$id' AND id_region = $id_region");
+		$this->db->select('sisa')
+			->from('topping')
+			->where('nama_topping', $id)
+			->where('id_region', $id_region);
+		$query = $this->db->get();
+		$row = $query->row();
+		$sisa = $row->sisa;
+
+		$data = array(
+			'stock_awal' => $sisa,
+			'penambahan' => $jumlah,
+			'total' => $sisa + $jumlah,
+			'sisa' => $sisa + $jumlah
+		);
+
+		$this->db->where('nama_topping', $id)
+			->where('id_region', $id_region)
+			->update('topping', $data);
 
 		return 'success';
 	}

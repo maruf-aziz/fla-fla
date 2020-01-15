@@ -39,7 +39,7 @@
 
           			<div class="row x_title">
           				<div class="col-md-6">
-          					<h3>Network Activities <small>Graph title sub-title</small></h3>
+          					<h3>Grafik Penjualan</h3>
           				</div>
           				<div class="col-md-6">
           					<div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
@@ -51,7 +51,7 @@
 
           			<div class="col-md-9 col-sm-9 col-xs-12">
           				<!-- <div id="chart_plot_01" class="demo-placeholder"></div> -->
-                              <canvas id="myChart11" style="max-height: 350px;"></canvas>
+          				<canvas id="myChart11" style="max-height: 350px;"></canvas>
           			</div>
           			<div class="col-md-3 col-sm-3 col-xs-12 bg-white">
           				<div class="x_title">
@@ -59,7 +59,7 @@
           					<div class="clearfix"></div>
           				</div>
 
-									<canvas id="myChart2" style="max-height: 350px;"></canvas>
+          				<canvas id="myChart2" style="max-height: 350px;"></canvas>
 
           			</div>
 
@@ -326,68 +326,65 @@
           </div>
 
           <?php
+			foreach ($grafik as $key => $value) {
+				$money[] = $value->uang;
+				$tanggal[] = $value->tanggal;
+			}
 
-            foreach ($grafik as $key => $value) {
-              $money[] = $value->uang;
-              $tanggal[] = $value->tanggal;
-            }
+			$preview_tgl = array_reverse($tanggal);
+			$preview_total = array_reverse($money);
 
-            $preview_tgl = array_reverse($tanggal);
-						$preview_total = array_reverse($money);
-						
-						foreach ($favorit as $key => $value) {
-							$powder_nama[] = $value->nama_powder;
-							$pakai_powder[] = $value->pakai;
-						}
+			foreach ($favorit as $key => $value) {
+				$powder_nama[] = $value->nama_powder;
+				$pakai_powder[] = $value->pakai;
+			}
 
-						$preview_powder = array_reverse($powder_nama, true);
-						$preview_pakai = array_reverse($pakai_powder, true);
-
-          ?>
+			$preview_powder = array_reverse($powder_nama, true);
+			$preview_pakai = array_reverse($pakai_powder, true);
+		  ?>
 
 
           <script>
-            
-            var ctx = document.getElementById('myChart11').getContext('2d');
-            var chart = new Chart(ctx, {
-                // The type of chart we want to create
-                type: 'line',
+          	var ctx = document.getElementById('myChart11').getContext('2d');
+          	var chart = new Chart(ctx, {
+          		// The type of chart we want to create
+          		type: 'line',
 
-                // The data for our dataset
-                data: {
-                    labels: <?=json_encode($preview_tgl);?>,
-                    datasets: [{
-                        label: 'Grafik Penjualan',
-                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                        borderColor: 'rgba(153, 102, 255, 1)',
-                        fill : false, //menghilangkan backgroud
-                        // data: [0,30000, 15000, 20000, 20000, 20500, 30000, 35000]
-                        data: <?=json_encode($preview_total);?>
-                    }]
-                },
+          		// The data for our dataset
+          		data: {
+          			labels: <?= json_encode($preview_tgl); ?>,
+          			datasets: [{
+          				label: 'Grafik Penjualan',
+          				backgroundColor: 'rgba(54, 162, 235, 0.2)',
+          				borderColor: 'rgba(153, 102, 255, 1)',
+          				fill: false, //menghilangkan backgroud
+          				// data: [0,30000, 15000, 20000, 20000, 20500, 30000, 35000]
+          				data: <?= json_encode($preview_total); ?>
+          			}]
+          		},
 
-                // Configuration options go here
-                options: {}
-						});
-						
+          		// Configuration options go here
+          		options: {}
+          	});
 
-						//chart untuk powder terlaris
-						var ctx2 = document.getElementById('myChart2').getContext('2d');
-						var chart2 = new Chart(ctx2,{
-							type: 'horizontalBar',
 
-                // The data for our dataset
-                data: {
-                    labels:  <?=json_encode($powder_nama)?>,
-                    datasets: [{
-                        label: 'Grafik Penjualan',
-                        backgroundColor: 'rgba(153, 102, 255, 1)',
-                        borderColor: 'rgba(153, 102, 255, 1)',
-                        fill : false, //menghilangkan backgroud
-                        // data: [0,30000, 15000, 20000, 20000, 20500, 30000, 35000]
-                        data: <?=json_encode($pakai_powder)?>
-                    }]
-                },
-							options : {}
-						});
+          	//chart untuk powder terlaris
+          	var ctx2 = document.getElementById('myChart2').getContext('2d');
+          	var chart2 = new Chart(ctx2, {
+          		type: 'horizontalBar',
+
+          		// The data for our dataset
+          		data: {
+          			labels: <?= json_encode($powder_nama) ?>,
+          			datasets: [{
+          				label: 'Grafik Penjualan',
+          				backgroundColor: 'rgba(153, 102, 255, 1)',
+          				borderColor: 'rgba(153, 102, 255, 1)',
+          				fill: false, //menghilangkan backgroud
+          				// data: [0,30000, 15000, 20000, 20000, 20500, 30000, 35000]
+          				data: <?= json_encode($pakai_powder) ?>
+          			}]
+          		},
+          		options: {}
+          	});
           </script>
