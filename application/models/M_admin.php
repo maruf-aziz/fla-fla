@@ -639,11 +639,11 @@ class M_admin extends CI_Model
 	public function get_pakai_powder($tanggal = null, $shift = null, $region = null)
 	{
 		$this->db->select('nama_powder, stok_awal, penambahan, id_penyajian, 
-			GROUP_CONCAT(DISTINCT IF(id_penyajian = 1, pemakaian, NULL)) as basic_use, 
-			GROUP_CONCAT(DISTINCT IF(id_penyajian = 2, pemakaian, NULL)) as pm_use,
-			GROUP_CONCAT(DISTINCT IF(id_penyajian = 3, pemakaian, NULL)) as hot_use,	
-			GROUP_CONCAT(DISTINCT IF(id_penyajian = 4, pemakaian, NULL)) as yakult_use,	
-			GROUP_CONCAT(DISTINCT IF(id_penyajian = 5, pemakaian, NULL)) as juice_use,	
+			SUM(IF(id_penyajian = 1, pemakaian, NULL)) as basic_use, 
+			SUM(IF(id_penyajian = 2, pemakaian, NULL)) as pm_use,
+			SUM(IF(id_penyajian = 3, pemakaian, NULL)) as hot_use,	
+			SUM(IF(id_penyajian = 4, pemakaian, NULL)) as yakult_use,	
+			SUM(IF(id_penyajian = 5, pemakaian, NULL)) as juice_use,	
 			sisa')
 			->from('record_pemakaian')
 			->join('powder', 'record_pemakaian.id_powder = powder.id_powder', 'RIGHT')
@@ -656,7 +656,7 @@ class M_admin extends CI_Model
 
 	public function get_pakai_topping($tanggal = null, $shift = null, $region = null)
 	{
-		$this->db->select('nama_topping, SUM(pemakaian) as pakai, harga')
+		$this->db->select('nama_topping, SUM(pemakaian) as pakai, harga, harga_jual')
 			->from('record_pemakaian')
 			->join('topping', 'record_pemakaian.id_topping = topping.id_topping', 'RIGHT')
 			->group_by('topping.nama_topping');
@@ -667,11 +667,11 @@ class M_admin extends CI_Model
 
 	public function get_penjualan($tanggal = null, $shift = null, $region = null)
 	{
-		$this->db->select('nama_jenis, nama_penyajian, SUM(pemakaian) AS pakai, harga')
+		$this->db->select('nama_jenis, nama_penyajian, SUM(pemakaian) AS pakai, harga_jual')
 			->from('record_pemakaian')
 			->join('powder', 'record_pemakaian.id_powder = powder.id_powder', 'RIGHT')
 			->join('penyajian', 'record_pemakaian.id_penyajian = penyajian.id_penyajian')
-			->join('detail_penyajian', 'detail_penyajian.id_powder = powder.id_powder')
+			// ->join('detail_penyajian', 'detail_penyajian.id_powder = powder.id_powder')
 			->join('jenis_menu', 'powder.id_jenis = jenis_menu.id_jenis')
 			->group_by('jenis_menu.nama_jenis, penyajian.id_penyajian');
 		$query = $this->db->get();
@@ -681,14 +681,14 @@ class M_admin extends CI_Model
 
 	public function get_pakai_susu_putih($tanggal = null, $shift = null, $region = null)
 	{
-		$this->db->select('e.nama_ekstra, j.nama_jenis, de.basic, de.pm, de.pemakaian, r.id_region')
+		$this->db->select('e.nama_ekstra, j.nama_jenis, de.basic, de.pm, de.pemakaian, de.yakult, r.id_region')
 			->from('detail_ekstra de')
 			->join('jenis_menu j', 'j.id_jenis = de.id_jenis')
 			->join('ekstra e', 'e.id_ekstra = de.id_ekstra')
 			->join('region r', 'r.id_region = e.id_region', 'LEFT')
 			->where('e.nama_ekstra', 'Susu Putih')
 			->where("(j.nama_jenis = 'Basic' OR j.nama_jenis = 'Premium' OR j.nama_jenis = 'Yakult')")
-			->where("(de.basic != '1' OR de.pm != '1')")
+			// ->where("(de.basic != '1' OR de.pm != '1')")
 			->where('e.id_region', 1)
 			->order_by('j.nama_jenis')
 			->group_by('j.nama_jenis');
@@ -717,7 +717,7 @@ class M_admin extends CI_Model
 
 	public function get_pakai_ekstra($tanggal = null, $shift = null, $region = null)
 	{
-		$this->db->select('nama_ekstra , stock_awal, penambahan,Round(SUM(record_pemakaian.pm + record_pemakaian.basic),2) AS pakai_susu, SUM(record_pemakaian.pemakaian) AS pakai')
+		$this->db->select('nama_ekstra , stock_awal, sisa, penambahan,Round(SUM(record_pemakaian.pm + record_pemakaian.basic),2) AS pakai_susu, Round(SUM(record_pemakaian.sirup),2) AS sirup, SUM(record_pemakaian.pemakaian) AS pakai')
 			->from('record_pemakaian')
 			->join('ekstra', 'record_pemakaian.id_ekstra = ekstra.id_ekstra', 'RIGHT')
 			->group_by('ekstra.nama_ekstra');

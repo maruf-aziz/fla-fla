@@ -181,7 +181,7 @@ class M_barista extends CI_Model
 			'sisa' => $sisa - 1
 		);
 
-		$this->db->where('id_topping')
+		$this->db->where('id_topping', $id)
 			->update('topping', $sql);
 
 		return $sql;
@@ -199,7 +199,7 @@ class M_barista extends CI_Model
 			'sisa' => $sisa + 1
 		);
 
-		$this->db->where('id_topping')
+		$this->db->where('id_topping', $id)
 			->update('topping', $sql);
 
 		return $sql;
@@ -505,6 +505,9 @@ class M_barista extends CI_Model
 		} else if ($sajian == "PM") {
 			$sql = $this->db->query("UPDATE detail_ekstra JOIN ekstra ON detail_ekstra.id_ekstra = ekstra.id_ekstra SET detail_ekstra.pm = detail_ekstra.pm + 1 WHERE ekstra.nama_ekstra = '$id' AND detail_ekstra.id_jenis = $id_jenis AND ekstra.id_region = $id_region ");
 		}
+		else if ($sajian == "Yakult") {
+			$sql = $this->db->query("UPDATE detail_ekstra JOIN ekstra ON detail_ekstra.id_ekstra = ekstra.id_ekstra SET detail_ekstra.yakult = detail_ekstra.yakult + 1 WHERE ekstra.nama_ekstra = '$id' AND detail_ekstra.id_jenis = $id_jenis AND ekstra.id_region = $id_region ");
+		}
 
 		return $sql;
 	}
@@ -517,6 +520,9 @@ class M_barista extends CI_Model
 			$sql = $this->db->query("UPDATE detail_ekstra JOIN ekstra ON detail_ekstra.id_ekstra = ekstra.id_ekstra SET detail_ekstra.basic = detail_ekstra.basic - 1 WHERE ekstra.nama_ekstra = '$id' AND detail_ekstra.id_jenis = $id_jenis AND ekstra.id_region = $id_region ");
 		} else if ($sajian == "PM") {
 			$sql = $this->db->query("UPDATE detail_ekstra JOIN ekstra ON detail_ekstra.id_ekstra = ekstra.id_ekstra SET detail_ekstra.pm = detail_ekstra.pm - 1 WHERE ekstra.nama_ekstra = '$id' AND detail_ekstra.id_jenis = $id_jenis AND ekstra.id_region = $id_region ");
+		}
+		else if ($sajian == "Yakult") {
+			$sql = $this->db->query("UPDATE detail_ekstra JOIN ekstra ON detail_ekstra.id_ekstra = ekstra.id_ekstra SET detail_ekstra.yakult = detail_ekstra.yakult - 1 WHERE ekstra.nama_ekstra = '$id' AND detail_ekstra.id_jenis = $id_jenis AND ekstra.id_region = $id_region ");
 		}
 
 		return $sql;
@@ -605,7 +611,7 @@ class M_barista extends CI_Model
 		return 'success';
 	}
 
-	public function add_record($tgl, $waktu, $id_penyajian = null, $id_ekstra = null, $id_topping = null, $id_powder = null, $pemakaian, $sajian)
+	public function add_record($tgl, $waktu, $id_penyajian = null, $id_ekstra = null, $id_topping = null, $id_powder = null, $pemakaian, $sajian, $harga = null)
 	{
 		$id_region = $this->session->userdata('id_region');
 		$currentDate = date('Y-m-d');
@@ -614,8 +620,7 @@ class M_barista extends CI_Model
 		$data = array(
 			'tanggal' => $tgl,
 			'waktu' => $waktu,
-			'id_region' => $id_region,
-			'pemakaian' => $pemakaian
+			'id_region' => $id_region
 		);
 
 		if ($id_penyajian != null) {
@@ -624,6 +629,14 @@ class M_barista extends CI_Model
 
 		if ($id_powder != null) {
 			$data['id_powder'] = $id_powder;
+		}
+
+		if ($id_ekstra == 'Hazel' || $id_ekstra == 'Rum' || $id_ekstra == 'Lychee') {
+			$data['sirup'] = $pemakaian;
+			$data['pemakaian'] = 1;
+		}
+		else{
+			$data['pemakaian'] = $pemakaian;
 		}
 
 		if ($id_ekstra != null) {
@@ -652,6 +665,10 @@ class M_barista extends CI_Model
 			$data['basic'] = 0.1;
 		} else if ($sajian == "PM") {
 			$data['pm'] = 0.2;
+		}
+
+		if ($harga != null) {
+			$data['harga_jual'] = $harga;
 		}
 
 		$this->db->insert('record_pemakaian', $data);

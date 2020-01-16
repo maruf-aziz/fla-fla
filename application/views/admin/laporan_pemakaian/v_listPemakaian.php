@@ -97,13 +97,20 @@
 
 								<tbody>
 									<?php
+									$harga = 0;
 									foreach ($topping as $key => $value) {
+										if ($value->harga_jual != 0) {
+											$harga = $value->harga_jual;
+										}
+										else{
+											$harga = $value->harga;
+										}
 									?>
 										<tr>
 											<td><?= $value->nama_topping ?></td>
 											<td><?= ($value->pakai != null ? $value->pakai : 0) ?></td>
-											<td><?= 'Rp ' . number_format($value->harga, '0', ',', '.') ?></td>
-											<td><?= 'Rp ' . number_format(($value->pakai != null ? $value->pakai * $value->harga : 0), '0', ',', '.') ?></td>
+											<td><?= 'Rp ' . number_format($harga, '0', ',', '.') ?></td>
+											<td><?= 'Rp ' . number_format(($value->pakai != null ? $value->pakai * $harga : 0), '0', ',', '.') ?></td>
 										</tr>
 									<?php
 									}
@@ -173,8 +180,8 @@
 										<tr>
 											<td><?= $value->nama_jenis . ' ' . $value->nama_penyajian ?></td>
 											<td><?= ($value->pakai != null ? $value->pakai : 0) ?></td>
-											<td><?= 'Rp ' . number_format($value->harga, '0', ',', '.') ?></td>
-											<td><?= 'Rp ' . number_format(($value->pakai != null ? $value->pakai * $value->harga : 0), '0', ',', '.') ?></td>
+											<td><?= 'Rp ' . number_format($value->harga_jual, '0', ',', '.') ?></td>
+											<td><?= 'Rp ' . number_format(($value->pakai != null ? $value->pakai * $value->harga_jual : 0), '0', ',', '.') ?></td>
 										</tr>
 									<?php
 									}
@@ -207,13 +214,13 @@
 
 										<tr>
 											<td><?= $value->nama_jenis ?></td>
-											<td><?= $value->basic ?></td>
+											<td><?= $value->basic + $value->yakult?></td>
 											<td><?= $value->pm ?></td>
 										</tr>
 
 									<?php
 										$total_pm = $total_pm + $value->pm;
-										$total_bs = $total_bs + $value->basic;
+										$total_bs = $total_bs + $value->basic + $value->yakult;
 									}
 
 									?>
@@ -294,7 +301,11 @@
 										$pemakaian = 0;
 										if ($value->nama_ekstra == "Susu Putih" || $value->nama_ekstra == "Susu Coklat") {
 											$pemakaian = $value->pakai_susu;
-										} else {
+										} 
+										else if($value->nama_ekstra == "Hazel" || $value->nama_ekstra == "Rum" || $value->nama_ekstra == "Lychee"){
+											$pemakaian = $value->sirup;
+										}
+										else {
 											$pemakaian = $value->pakai;
 										}
 									?>
@@ -304,7 +315,7 @@
 											<td><?= $value->stock_awal ?></td>
 											<td><?= $value->penambahan ?></td>
 											<td><?= ($pemakaian != null ? $pemakaian : 0) ?></td>
-											<td><?= $value->stock_awal - $pemakaian ?></td>
+											<td><?= $value->sisa ?></td>
 										</tr>
 
 									<?php

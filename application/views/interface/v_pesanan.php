@@ -519,8 +519,8 @@
 	// ---------------------------------------- END FUNGSI ---------------------------------------------------------------------------------
 
 	// ---------------------------------------- FUNGSI MENURANGI SISA TOPPING --------------------------------------------------------------
-	function topping_min() {
-		var id = $('#topping').val();
+	function topping_min(id) {
+		// var id = $('#topping').val();
 		$.ajax({
 			type: 'post',
 			url: '<?= base_url('index.php/c_barista/topping_min') ?>',
@@ -616,7 +616,7 @@
 	// ---------------------------------------- END FUNGSI ---------------------------------------------------------------------------------
 
 	// ---------------------------------------- FUNGSI ADD RECORD --------------------------------------------------------------------------
-	function add_record(tanggal, waktu ,id_penyajian, id_powder = null, id_ekstra = null , id_topping = null, pemakaian , sajian = null){
+	function add_record(tanggal, waktu ,id_penyajian, id_powder = null, id_ekstra = null , id_topping = null, pemakaian , sajian = null, harga_menu = null){
 		// var tanggal = new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate();
 		// var waktu = new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds();
 		$.ajax({
@@ -630,7 +630,8 @@
 				id_ekstra : id_ekstra,
 				id_topping : id_topping,
 				pemakaian : pemakaian,
-				sajian : sajian
+				sajian : sajian,
+				harga_menu : harga_menu
 			},
 			dataType: 'json'
 		});
@@ -714,11 +715,11 @@
 
 			else {
 				powder_min.call(this, id_varian); //fungsi set sisa powder
-				topping_min.call();
+				
 				cup_min.call(this, id_jenis);				
 
 				//fungsi record cup
-				add_record.call(this,tgl, waktu , id_sajian, null, 'Cup', null, 1, null)
+				add_record.call(this,tgl, waktu , id_sajian, null, 'Cup', null, 1, null,null)
 
 				var ss_pth = 'Susu Putih';
 				var ss_ckt = 'Susu Coklat';
@@ -729,11 +730,16 @@
 				
 				if(nama_menu == 'Choco Hazel' || nama_menu == 'choco hazel' || nama_menu == 'Choco hazel'){
 				    basic_min.call(this, 'Hazel', 0.2, id_jenis);
-					add_record.call(this, tgl, waktu, id_sajian, id_menu, 'Hazel', null, 1,null);
+					add_record.call(this, tgl, waktu, id_sajian, null, 'Hazel', null, 0.2,null,null);
 				}
 				else if(nama_menu == 'Choco Rum' || nama_menu == 'choco rum' || nama_menu == 'Choco rum'){
 				    basic_min.call(this, 'Rum', 0.2, id_jenis);
-					add_record.call(this, tgl, waktu, id_sajian, id_menu, 'Rum', null, 1,null);
+					add_record.call(this, tgl, waktu, id_sajian, null, 'Rum', null, 0.2,null,null);
+				}
+
+				if (id_topping != '') {
+					topping_min.call(this, id_topping);
+					add_record.call(this, tgl, waktu,  id_sajian, null, null, id_topping, 1,nama_sajian,harga_topping);
 				}
 
 				if (id_jenis == 1 || id_jenis == 2) {
@@ -741,25 +747,31 @@
 						basic_min.call(this, ss_pth, qty_basic,id_jenis,nama_sajian);
 
 						//fungsi record powder
-						add_record.call(this, tgl, waktu,  id_sajian, id_menu, ss_pth, id_topping, 1,nama_sajian);
+						add_record.call(this, tgl, waktu,  id_sajian, id_menu, ss_pth, null, 1,nama_sajian, harga_menu);
 						
 					} else if (id_sajian == 2) {
 						basic_min.call(this, ss_pth, qty_pm,id_jenis, nama_sajian);
 						
 						//fungsi record powder
-						add_record.call(this, tgl, waktu, id_sajian, id_menu, ss_pth, id_topping, 1,nama_sajian);
+						add_record.call(this, tgl, waktu, id_sajian, id_menu, ss_pth, null, 1,nama_sajian, harga_menu);
+					}
+					else if(id_sajian == 3){
+						add_record.call(this,tgl, waktu, id_sajian, id_menu, ss_pth,null,1,nama_sajian,harga_menu);
 					}
 				} else if (id_jenis == 3 || id_jenis == 4) {
 					if (id_sajian == 1) {
 						basic_min.call(this, ss_ckt, qty_basic,id_jenis, nama_sajian);
 						
 						//fungsi record powder
-						add_record.call(this, tgl, waktu, id_sajian, id_menu, ss_ckt, id_topping, 1,nama_sajian);
+						add_record.call(this, tgl, waktu, id_sajian, id_menu, ss_ckt, null, 1,nama_sajian, harga_menu);
 					} else if (id_sajian == 2) {
 						basic_min.call(this, ss_ckt, qty_pm, id_jenis, nama_sajian);
 						
 						//fungsi record powder
-						add_record.call(this, tgl, waktu, id_sajian, id_menu, ss_ckt, id_topping, 1,nama_sajian);
+						add_record.call(this, tgl, waktu, id_sajian, id_menu, ss_ckt, null, 1,nama_sajian, harga_menu);
+					}
+					else if(id_sajian == 3){
+						add_record.call(this,tgl, waktu, id_sajian, id_menu, ss_ckt,null,1,nama_sajian,harga_menu);
 					}
 				}
 				else if (id_jenis == 5) {
@@ -767,10 +779,10 @@
 					basic_min.call(this, yakult,qty_yakult,id_jenis);
 
 					//fungsi record powder dan susu putih
-					add_record.call(this, tgl, waktu, id_sajian, id_menu, ss_pth, id_topping, 1,nama_sajian);
+					add_record.call(this, tgl, waktu, id_sajian, id_menu, ss_pth, null, 1,nama_sajian, harga_menu);
 
 					//fungsi record powder dan yakult
-					add_record.call(this, tgl, waktu, id_sajian, id_menu, yakult, id_topping, 1,null);					
+					add_record.call(this, tgl, waktu, id_sajian, null, yakult, null, 1,null,null);					
 				}
 
 				$('#data_pesanan tbody:last-child').append(
@@ -782,7 +794,7 @@
 					'<input type="hidden" name="id_varian" id="id_varian" value="' + id_varian + '">' + //new : menangkap id varian untuk mengupdate stok
 					'<input type="hidden" name="id_topping" id="id_tp" value="' + id_topping + '">' +
 					'<input type="hidden" name="id_jenis" id="id_jenis" value="' + id_jenis + '">' +
-					'<input type="hidden" name="id_sajian" id="id_sajian" value="' + id_sajian + '">' +
+					'<input type="hidden" name="id_saj" id="id_saj" value="' + id_sajian + '">' +
 					'<input type="hidden" name="nama_sajian" id="nama_sajian" value="' + nama_sajian + '">' +
 					'<input type="hidden" name="nama_menu" id="nama_menu" value="' + nama_menu + '">' +
 					'<button type="button" class="btn btn-warning btn-sm btn-icon" onclick="del_data(this)"><i class="mdi mdi-delete-forever"></i></button>' +
@@ -818,7 +830,7 @@
 			var id_menu = $('#menu2').val();
 			var nama_menu = $('#menu2 option:selected').attr('nama');			
 			var id_jenis = $('#menu2 option:selected').attr('id_jenis');
-			var id_varian = $('#menu option:selected').attr('id_varian'); //untuk mengurangi stok powder
+			var id_varian = $('#menu2 option:selected').attr('id_varian'); //untuk mengurangi stok powder
 			var id_sajian = $('#id_sajian').val();
 
 			var harga_menu = $('#harga_hrg').val();
@@ -834,12 +846,6 @@
 
 				return false;
 			} else {
-				// var ss_pth = 'Susu Putih';
-				// var juice = 'Lychee';
-				// var qty_basic = 0.1;
-				// var qty_juice = 1;
-				// var yakult = 'Yakult';
-				// var qty_yakult = 1;
 				var lychee = 'Lychee';
 				var qty_lyc = 0.2;
 
@@ -848,24 +854,26 @@
 
 				
 				//fungsi record cup
-				add_record.call(this,tgl, waktu , id_sajian, null, 'Cup', null, 1, null)
+				add_record.call(this,tgl, waktu , id_sajian, null, 'Cup', null, 1, null,null)
 
 				
 				if(id_jenis == 6){
 					basic_min.call(this, lychee, qty_lyc,id_jenis);
 					
 					//fungsi record lychee
-					add_record.call(this, tgl, waktu, id_sajian, id_menu, lychee, null, 1,null);
+					add_record.call(this, tgl, waktu, id_sajian, id_menu, lychee, null, 0.2,null,harga_menu);
 				}
 
 				$('#data_pesanan tbody:last-child').append(
 					'<tr>' +
 					'<td>' +
+					'<input type="hidden" name="tgl" id="tgl" value="' + tgl + '">' +
+					'<input type="hidden" name="waktu" id="waktu" value="' + waktu + '">' +
 					'<input type="hidden" name="id_menu" id="id_menu" value="' + id_menu + '">' +
 					'<input type="hidden" name="id_varian" id="id_varian" value="' + id_varian + '">' + //new : menangkap id varian untuk mengupdate stok
 					'<input type="hidden" name="id_jenis" id="id_jenis" value="' + id_jenis + '">' +
 					'<input type="hidden" name="id_topping" id="id_tp" value="">' +
-					'<input type="hidden" name="id_sajian" id="id_sajian" value="">' +
+					'<input type="hidden" name="id_saj" id="id_saj" value="' + id_sajian + '">' +
 					'<input type="hidden" name="nama_menu" id="nama_menu" value="' + nama_menu + '">' +
 					'<button type="button" class="btn btn-warning btn-sm btn-icon" onclick="del_data(this)"><i class="mdi mdi-delete-forever"></i></button>' +
 					'</td>' +
@@ -1028,7 +1036,7 @@
 		var id_var = $('#id_varian').val();
 		var id_t = $('#id_tp').val();
 		var id_jenis = $('#id_jenis').val();
-		var id_sajian = parseInt($('#id_sajian').val());
+		var id_sajian = parseInt($('#id_saj').val());
 		var nama_sajian = $('#nama_sajian').val();
 		var nama_menu = $('#nama_menu').val();
 		var tgl = $('#tgl').val();
@@ -1048,10 +1056,10 @@
 		del_record.call(this, tgl, waktu);
 		
 		if(nama_menu == 'Choco Hazel' || nama_menu == 'choco hazel' || nama_menu == 'Choco hazel'){
-		    basic_plus.call(this, 'Hazel', 1, id_jenis);
+		    basic_plus.call(this, 'Hazel', 0.2, id_jenis);
 		}
 		else if(nama_menu == 'Choco Rum' || nama_menu == 'choco rum' || nama_menu == 'Choco rum'){
-		    basic_plus.call(this, 'Rum', 1, id_jenis);
+		    basic_plus.call(this, 'Rum', 0.2, id_jenis);
 		}
 
 		if (id_jenis == 1 || id_jenis == 2) {

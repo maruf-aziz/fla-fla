@@ -294,8 +294,9 @@ class C_barista extends CI_Controller {
 		$id_topping = $this->input->post('id_topping', TRUE);
 		$pemakaian = $this->input->post('pemakaian', TRUE);
 		$sajian = $this->input->post('sajian', TRUE);
+		$harga = $this->input->post('harga_menu', TRUE);
 
-		$this->model->add_record($tanggal, $waktu,$id_penyajian, $id_ekstra, $id_topping, $id_powder, $pemakaian, $sajian);
+		$this->model->add_record($tanggal, $waktu,$id_penyajian, $id_ekstra, $id_topping, $id_powder, $pemakaian, $sajian, $harga);
 	}
 
 	public function del_record(){
