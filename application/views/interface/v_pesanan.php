@@ -785,19 +785,10 @@
 					add_record.call(this, tgl, waktu, id_sajian, null, yakult, null, 1,null,null);					
 				}
 
-				$('#data_pesanan tbody:last-child').append(
+				$('#data_pesanan tbody:last-child').prepend(
 					'<tr>' +
 					'<td>' +
-					'<input type="hidden" name="tgl" id="tgl" value="' + tgl + '">' +
-					'<input type="hidden" name="waktu" id="waktu" value="' + waktu + '">' +
-					'<input type="hidden" name="id_menu" id="id_menu" value="' + id_menu + '">' +
-					'<input type="hidden" name="id_varian" id="id_varian" value="' + id_varian + '">' + //new : menangkap id varian untuk mengupdate stok
-					'<input type="hidden" name="id_topping" id="id_tp" value="' + id_topping + '">' +
-					'<input type="hidden" name="id_jenis" id="id_jenis" value="' + id_jenis + '">' +
-					'<input type="hidden" name="id_saj" id="id_saj" value="' + id_sajian + '">' +
-					'<input type="hidden" name="nama_sajian" id="nama_sajian" value="' + nama_sajian + '">' +
-					'<input type="hidden" name="nama_menu" id="nama_menu" value="' + nama_menu + '">' +
-					'<button type="button" class="btn btn-warning btn-sm btn-icon" onclick="del_data(this)"><i class="mdi mdi-delete-forever"></i></button>' +
+					'<button type="button" class="btn btn-warning btn-sm btn-icon" onclick="del_data(this, '+ id_menu +','+ id_varian +',\''+ id_topping +'\' , '+ id_jenis +', '+id_sajian+', \'' + nama_sajian +'\',\'' +nama_menu+ '\',\'' +tgl+ '\', \''+waktu+'\')"><i class="mdi mdi-delete-forever"></i></button>' +
 					'</td>' +
 					'<td>' + nama_menu + '</td>' +
 					'<td>' + nama_sajian + '<input type="hidden" id="id_sajian" value="' + id_sajian + '"></td>' +
@@ -864,18 +855,10 @@
 					add_record.call(this, tgl, waktu, id_sajian, id_menu, lychee, null, 0.2,null,harga_menu);
 				}
 
-				$('#data_pesanan tbody:last-child').append(
+				$('#data_pesanan tbody:last-child').prepend(
 					'<tr>' +
 					'<td>' +
-					'<input type="hidden" name="tgl" id="tgl" value="' + tgl + '">' +
-					'<input type="hidden" name="waktu" id="waktu" value="' + waktu + '">' +
-					'<input type="hidden" name="id_menu" id="id_menu" value="' + id_menu + '">' +
-					'<input type="hidden" name="id_varian" id="id_varian" value="' + id_varian + '">' + //new : menangkap id varian untuk mengupdate stok
-					'<input type="hidden" name="id_jenis" id="id_jenis" value="' + id_jenis + '">' +
-					'<input type="hidden" name="id_topping" id="id_tp" value="">' +
-					'<input type="hidden" name="id_saj" id="id_saj" value="' + id_sajian + '">' +
-					'<input type="hidden" name="nama_menu" id="nama_menu" value="' + nama_menu + '">' +
-					'<button type="button" class="btn btn-warning btn-sm btn-icon" onclick="del_data(this)"><i class="mdi mdi-delete-forever"></i></button>' +
+					'<button type="button" class="btn btn-warning btn-sm btn-icon" onclick="del_data(this,'+ id_menu +','+ id_varian +',null , '+ id_jenis +', '+id_sajian+', null,\'' +nama_menu+ '\',\'' +tgl+ '\', \''+waktu+'\')"><i class="mdi mdi-delete-forever"></i></button>' +
 					'</td>' +
 					'<td>' + nama_menu + '</td>' +
 					'<td>--</td>' +
@@ -1030,17 +1013,7 @@
 	// ---------------------------------------- END FUNGSI ---------------------------------------------------------------------------------
 
 	// ---------------------------------------- FUNGSI MENGHAPUS PILIHAN DARI DALAM TABEL --------------------------------------------------
-	function del_data(id) {
-
-		var id_m = $('#id_menu').val();
-		var id_var = $('#id_varian').val();
-		var id_t = $('#id_tp').val();
-		var id_jenis = $('#id_jenis').val();
-		var id_sajian = parseInt($('#id_saj').val());
-		var nama_sajian = $('#nama_sajian').val();
-		var nama_menu = $('#nama_menu').val();
-		var tgl = $('#tgl').val();
-		var waktu = $('#waktu').val();
+	function del_data(id,id_m, id_var , id_t, id_jenis, id_sajian, nama_sajian, nama_menu, tgl, waktu) {
 
 		var ss_pth = 'Susu Putih';
 		var ss_ckt = 'Susu Coklat';
@@ -1052,6 +1025,10 @@
 		var qty_juice = 20;
 		var yakult = 'Yakult';
 		var qty_yakult = 1;
+
+		console.log(id_var);
+		console.log(id_sajian);
+		console.log(nama_menu);
 
 		del_record.call(this, tgl, waktu);
 		
