@@ -788,6 +788,15 @@
 				$('#data_pesanan tbody:last-child').prepend(
 					'<tr>' +
 					'<td>' +
+					'<input type="hidden" name="tgl" id="tgl" value="' + tgl + '">' +
+					'<input type="hidden" name="waktu" id="waktu" value="' + waktu + '">' +
+					'<input type="hidden" name="id_menu" id="id_menu" value="' + id_menu + '">' +
+					'<input type="hidden" name="id_varian" id="id_varian" value="' + id_varian + '">' + //new : menangkap id varian untuk mengupdate stok
+					'<input type="hidden" name="id_topping" id="id_tp" value="' + id_topping + '">' +
+					'<input type="hidden" name="id_jenis" id="id_jenis" value="' + id_jenis + '">' +
+					'<input type="hidden" name="id_sajian" id="id_sajian" value="' + id_sajian + '">' +
+					'<input type="hidden" name="nama_sajian" id="nama_sajian" value="' + nama_sajian + '">' +
+					'<input type="hidden" name="nama_menu" id="nama_menu" value="' + nama_menu + '">' +
 					'<button type="button" class="btn btn-warning btn-sm btn-icon" onclick="del_data(this, '+ id_menu +','+ id_varian +',\''+ id_topping +'\' , '+ id_jenis +', '+id_sajian+', \'' + nama_sajian +'\',\'' +nama_menu+ '\',\'' +tgl+ '\', \''+waktu+'\')"><i class="mdi mdi-delete-forever"></i></button>' +
 					'</td>' +
 					'<td>' + nama_menu + '</td>' +
@@ -858,6 +867,12 @@
 				$('#data_pesanan tbody:last-child').prepend(
 					'<tr>' +
 					'<td>' +
+					'<input type="hidden" name="id_menu" id="id_menu" value="' + id_menu + '">' +
+					'<input type="hidden" name="id_varian" id="id_varian" value="' + id_varian + '">' + //new : menangkap id varian untuk mengupdate stok
+					'<input type="hidden" name="id_jenis" id="id_jenis" value="' + id_jenis + '">' +
+					'<input type="hidden" name="id_topping" id="id_tp" value="">' +
+					'<input type="hidden" name="id_sajian" id="id_sajian" value="">' +
+					'<input type="hidden" name="nama_menu" id="nama_menu" value="' + nama_menu + '">' +
 					'<button type="button" class="btn btn-warning btn-sm btn-icon" onclick="del_data(this,'+ id_menu +','+ id_varian +',null , '+ id_jenis +', '+id_sajian+', null,\'' +nama_menu+ '\',\'' +tgl+ '\', \''+waktu+'\')"><i class="mdi mdi-delete-forever"></i></button>' +
 					'</td>' +
 					'<td>' + nama_menu + '</td>' +

@@ -861,16 +861,28 @@ class C_admin extends CI_Controller
 
 	public function get_laporan_pemakaian()
 	{
-		$data = array(
-			'powder' => $this->model->get_pakai_powder(),
-			'topping' => $this->model->get_pakai_topping(),
-			'penjualan' => $this->model->get_penjualan(),
-			'bubble' => $this->model->get_masak_bubble(),
-			'susu_putih' => $this->model->get_pakai_susu_putih(),
-			'susu_coklat' => $this->model->get_pakai_susu_coklat(),
-			'ekstra' => $this->model->get_pakai_ekstra()
-		);
-		$this->template_admin->load('template_admin', 'admin/laporan_pemakaian/v_listPemakaian', $data);
+		if (isset($_POST['submit'])) {
+			$data = array(
+				'region' => $this->model->get_region()
+			);
+			$this->template_admin->load('template_admin', 'admin/laporan_pemakaian/v_formPemakaian', $data);
+		}
+		else{
+			$tanggal = $this->input->post('tanggal', true);
+			$shift = $this->input->post('shift', true);
+			$reg = $this->input->post('reg', true);
+
+			$data = array(
+				'powder' => $this->model->get_pakai_powder($tanggal, $shift, $reg),
+				'topping' => $this->model->get_pakai_topping($tanggal, $shift, $reg),
+				'penjualan' => $this->model->get_penjualan(),
+				'bubble' => $this->model->get_masak_bubble(),
+				'susu_putih' => $this->model->get_pakai_susu_putih(),
+				'susu_coklat' => $this->model->get_pakai_susu_coklat(),
+				'ekstra' => $this->model->get_pakai_ekstra()
+			);
+			$this->template_admin->load('template_admin', 'admin/laporan_pemakaian/v_listPemakaian', $data);
+		}
 	}
 
 	public function data_grafik()

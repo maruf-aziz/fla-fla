@@ -702,4 +702,22 @@ class M_barista extends CI_Model
 			return $hasil;
 		}
 	}
+
+	public function get_data_grafik_favorit()
+	{
+		$this->db->select('powder.nama_powder, COUNT(detail_transaksi.id_powder) AS pakai')
+			->from('detail_transaksi')
+			->join('powder', 'detail_transaksi.id_powder = powder.id_powder')
+			->group_by('powder.nama_powder')
+			->order_by('pakai', 'DESC')
+			->limit(6);
+		$query = $this->db->get();
+
+		if ($query->num_rows() > 0) {
+			foreach ($query->result() as $key => $value) {
+				$hasil[] = $value;
+			}
+			return $hasil;
+		}
+	}
 }
