@@ -638,16 +638,34 @@ class M_admin extends CI_Model
 
 	public function get_pakai_powder($tanggal = null, $shift = null, $region = null)
 	{
+		$mulai = 0;
+		$akhir = 0;
+		if ($shift == "shift1") {
+			$mulai = "08:00:00";
+			$akhir = "16:00:00"; 
+		}
+		else if($shift == "shift2"){
+			$mulai = "16:00:00";
+			$akhir = "22:00:00";
+		}
+		else{
+			$mulai = "08:00:00";
+			$akhir = "22:00:00";
+		}
+
 		$this->db->select('nama_powder, stok_awal, penambahan, id_penyajian, 
-			SUM(IF(id_penyajian = 1, pemakaian, NULL)) as basic_use, 
-			SUM(IF(id_penyajian = 2, pemakaian, NULL)) as pm_use,
-			SUM(IF(id_penyajian = 3, pemakaian, NULL)) as hot_use,	
-			SUM(IF(id_penyajian = 4, pemakaian, NULL)) as yakult_use,	
-			SUM(IF(id_penyajian = 5, pemakaian, NULL)) as juice_use,	
+			SUM(IF(id_penyajian = 1 && tanggal = "'.$tanggal.'" && waktu >= "'.$mulai.'" && waktu <= "'.$akhir.'" && record_pemakaian.id_region = '.$region.', pemakaian, NULL)) as basic_use, 
+			SUM(IF(id_penyajian = 2 && tanggal = "'.$tanggal.'" && waktu >= "'.$mulai.'" && waktu <= "'.$akhir.'" && record_pemakaian.id_region = '.$region.', pemakaian, NULL)) as pm_use,
+			SUM(IF(id_penyajian = 3 && tanggal = "'.$tanggal.'" && waktu >= "'.$mulai.'" && waktu <= "'.$akhir.'" && record_pemakaian.id_region = '.$region.', pemakaian, NULL)) as hot_use,	
+			SUM(IF(id_penyajian = 4 && tanggal = "'.$tanggal.'" && waktu >= "'.$mulai.'" && waktu <= "'.$akhir.'" && record_pemakaian.id_region = '.$region.', pemakaian, NULL)) as yakult_use,	
+			SUM(IF(id_penyajian = 5 && tanggal = "'.$tanggal.'" && waktu >= "'.$mulai.'" && waktu <= "'.$akhir.'" && record_pemakaian.id_region = '.$region.', pemakaian, NULL)) as juice_use,	
 			sisa')
 			->from('record_pemakaian')
 			->join('powder', 'record_pemakaian.id_powder = powder.id_powder', 'RIGHT')
 			->join('varian_powder', 'powder.id_varian = varian_powder.id_varian')
+			// ->where('tanggal', $tanggal)
+			// ->where('waktu >=', $mulai)
+			// ->where('waktu <=', $akhir)
 			->group_by('powder.nama_powder');
 		$query = $this->db->get();
 
@@ -656,7 +674,22 @@ class M_admin extends CI_Model
 
 	public function get_pakai_topping($tanggal = null, $shift = null, $region = null)
 	{
-		$this->db->select('nama_topping, SUM(pemakaian) as pakai, harga, harga_jual')
+		$mulai = 0;
+		$akhir = 0;
+		if ($shift == "shift1") {
+			$mulai = "08:00:00";
+			$akhir = "16:00:00"; 
+		}
+		else if($shift == "shift2"){
+			$mulai = "16:00:00";
+			$akhir = "22:00:00";
+		}
+		else{
+			$mulai = "08:00:00";
+			$akhir = "22:00:00";
+		}
+
+		$this->db->select('nama_topping, SUM(IF(tanggal = "'.$tanggal.'" && waktu >= "'.$mulai.'" && waktu <= "'.$akhir.'" && record_pemakaian.id_region = '.$region.', pemakaian, NULL)) as pakai, harga, harga_jual')
 			->from('record_pemakaian')
 			->join('topping', 'record_pemakaian.id_topping = topping.id_topping', 'RIGHT')
 			->group_by('topping.nama_topping');
@@ -667,7 +700,23 @@ class M_admin extends CI_Model
 
 	public function get_penjualan($tanggal = null, $shift = null, $region = null)
 	{
-		$this->db->select('nama_jenis, nama_penyajian, SUM(pemakaian) AS pakai, harga_jual')
+
+		$mulai = 0;
+		$akhir = 0;
+		if ($shift == "shift1") {
+			$mulai = "08:00:00";
+			$akhir = "16:00:00"; 
+		}
+		else if($shift == "shift2"){
+			$mulai = "16:00:00";
+			$akhir = "22:00:00";
+		}
+		else{
+			$mulai = "08:00:00";
+			$akhir = "22:00:00";
+		}
+
+		$this->db->select('nama_jenis, nama_penyajian, SUM(IF(tanggal = "'.$tanggal.'" && waktu >= "'.$mulai.'" && waktu <= "'.$akhir.'" && record_pemakaian.id_region = '.$region.', pemakaian, NULL)) AS pakai, harga_jual')
 			->from('record_pemakaian')
 			->join('powder', 'record_pemakaian.id_powder = powder.id_powder', 'RIGHT')
 			->join('penyajian', 'record_pemakaian.id_penyajian = penyajian.id_penyajian')
@@ -717,7 +766,24 @@ class M_admin extends CI_Model
 
 	public function get_pakai_ekstra($tanggal = null, $shift = null, $region = null)
 	{
-		$this->db->select('nama_ekstra , stock_awal, sisa, penambahan,Round(SUM(record_pemakaian.pm + record_pemakaian.basic),2) AS pakai_susu, Round(SUM(record_pemakaian.sirup),2) AS sirup, SUM(record_pemakaian.pemakaian) AS pakai')
+		$mulai = 0;
+		$akhir = 0;
+		if ($shift == "shift1") {
+			$mulai = "08:00:00";
+			$akhir = "16:00:00"; 
+		}
+		else if($shift == "shift2"){
+			$mulai = "16:00:00";
+			$akhir = "22:00:00";
+		}
+		else{
+			$mulai = "08:00:00";
+			$akhir = "22:00:00";
+		}
+		$this->db->select('nama_ekstra , stock_awal, sisa, penambahan,
+			Round(SUM(IF(tanggal = "'.$tanggal.'" && waktu >= "'.$mulai.'" && waktu <= "'.$akhir.'" && record_pemakaian.id_region = '.$region.', (pm + basic), null)),2) AS pakai_susu,
+			Round(SUM(IF(tanggal = "'.$tanggal.'" && waktu >= "'.$mulai.'" && waktu <= "'.$akhir.'" && record_pemakaian.id_region = '.$region.', sirup, null)),2) AS sirup, 
+			SUM(IF(tanggal = "'.$tanggal.'" && waktu >= "'.$mulai.'" && waktu <= "'.$akhir.'" && record_pemakaian.id_region = '.$region.',pemakaian, null)) AS pakai')
 			->from('record_pemakaian')
 			->join('ekstra', 'record_pemakaian.id_ekstra = ekstra.id_ekstra', 'RIGHT')
 			->group_by('ekstra.nama_ekstra');

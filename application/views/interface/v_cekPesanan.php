@@ -91,21 +91,5 @@
 
 		});
 
-		// $('#show_data').on('click','.detail', function(){
-		// 	var id = $(this).attr('data');
-
-		// 	// console.log(id);
-
-		// 	$.ajax({
-		// 		type : 'post',
-		// 		url : '<?= base_url('index.php/c_barista/detail') ?>',
-		// 		data : {id:id},
-		// 		dataType : 'json',
-		// 		success : function(data){
-		// 			location.replace("<?= base_url('index.php/c_barista/detail') ?>");
-		// 		}
-		// 	});
-		// });
-
 	});
 </script>

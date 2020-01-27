@@ -43,7 +43,6 @@
                 </div>
                 
                 <div class="flash-auth" data-flashauth="<?=$this->session->flashdata('auth')?>"></div>
-                <!-- <div class="flash-data" data-flashdata="<?=$this->session->flashdata('flash')?>"></div> -->
 
 				<form class="login100-form validate-form" action="<?=base_url('index.php/auth/process')?>" method="post">
 					<div class="wrap-input100 validate-input m-b-26" data-validate="Username is required">
@@ -59,24 +58,12 @@
 					</div>
 
 					<div class="flex-sb-m w-full p-b-30">
-						<!-- <div class="contact100-form-checkbox">
-							<input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
-							<label class="label-checkbox100" for="ckb1">
-								Remember me
-							</label>
-						</div> -->
 
 						<div >
 							<a href="<?=base_url('index.php/auth/forget_pass')?>" class="txt1">
 								Forgot Password?
 							</a>
 						</div>
-
-						<!-- <div>
-							<a href="<?=base_url('index.php/c_admin')?>" class="txt1">
-								admin (sementara)
-							</a>
-						</div> -->
 					</div>
 
 					<div class="container-login100-form-btn">

@@ -308,12 +308,9 @@
 				success: function(data) {
 					var html = '';
 					var id;
-					// html += '<option value="0">-- Pilih --</option>';
-					// html += '<optgroup label = "Sajian">';
 					for (i = 0; i < data.length; i++) {
 						html += '<option value=' + data[i].id_penyajian + ' nama="' + data[i].nama_penyajian + '" harga="' + data[i].harga + '" >' + data[i].nama_penyajian + '</option>';
 					}
-					// html += '</optgroup>';
 					$('#sajian').html(html);
 				}
 			});

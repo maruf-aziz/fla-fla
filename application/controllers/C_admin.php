@@ -861,7 +861,7 @@ class C_admin extends CI_Controller
 
 	public function get_laporan_pemakaian()
 	{
-		if (isset($_POST['submit'])) {
+		if (!isset($_POST['submit'])) {
 			$data = array(
 				'region' => $this->model->get_region()
 			);
@@ -875,11 +875,11 @@ class C_admin extends CI_Controller
 			$data = array(
 				'powder' => $this->model->get_pakai_powder($tanggal, $shift, $reg),
 				'topping' => $this->model->get_pakai_topping($tanggal, $shift, $reg),
-				'penjualan' => $this->model->get_penjualan(),
-				'bubble' => $this->model->get_masak_bubble(),
-				'susu_putih' => $this->model->get_pakai_susu_putih(),
-				'susu_coklat' => $this->model->get_pakai_susu_coklat(),
-				'ekstra' => $this->model->get_pakai_ekstra()
+				'penjualan' => $this->model->get_penjualan($tanggal, $shift, $reg),
+				'bubble' => $this->model->get_masak_bubble($tanggal, $shift, $reg),
+				'susu_putih' => $this->model->get_pakai_susu_putih($tanggal, $shift, $reg),
+				'susu_coklat' => $this->model->get_pakai_susu_coklat($tanggal, $shift, $reg),
+				'ekstra' => $this->model->get_pakai_ekstra($tanggal, $shift, $reg)
 			);
 			$this->template_admin->load('template_admin', 'admin/laporan_pemakaian/v_listPemakaian', $data);
 		}
