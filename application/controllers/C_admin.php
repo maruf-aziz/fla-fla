@@ -12,7 +12,7 @@ class C_admin extends CI_Controller
 		$this->load->library('form_validation');
 		$this->load->model('m_admin', 'model');
 		$this->load->helper(array('url', 'download'));
-		$this->load->library('PHPExcel');
+		// $this->load->library('Excel');
 	}
 
 	public function index()
@@ -40,16 +40,16 @@ class C_admin extends CI_Controller
 	public function powder()
 	{
 		$powder = new PHPExcel();
-		$powder->setActiveSheetIndex(0)
-			->setCellValue('A1', "ID Jenis")
-			->setCellValue('B1', "Nama Powder")
-			->setCellValue('C1', "Stock Awal")
-			->setCellValue('D1', "Penambahan")
-			->setCellValue('E1', "Total")
-			->setCellValue('F1', "Sisa")
-			->setCellValue('G1', "ID Region")
-			->setCellValue('H1', "ID Penyajian")
-			->setCellValue('I1', "Harga");
+		$powder->setActiveSheetIndex(0);
+		$powder->getActiveSheet()->SetCellValue('A1', 'ID Jenis');
+		$powder->getActiveSheet()->SetCellValue('B1', 'Nama Powder');
+		$powder->getActiveSheet()->SetCellValue('C1', 'Stock Awal');
+		$powder->getActiveSheet()->SetCellValue('D1', 'Penambahan');
+		$powder->getActiveSheet()->SetCellValue('E1', 'Total');
+		$powder->getActiveSheet()->SetCellValue('F1', 'Sisa');
+		$powder->getActiveSheet()->SetCellValue('G1', 'ID Region');
+		$powder->getActiveSheet()->SetCellValue('H1', 'ID Penyajian');
+		$powder->getActiveSheet()->SetCellValue('I1', 'Harga');
 
 		$filename = "Powder.csv";
 		header('Content-Type: application/vnd.ms-excel');

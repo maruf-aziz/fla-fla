@@ -792,9 +792,23 @@ class M_admin extends CI_Model
 		return $query->result();
 	}
 
-	public function get_masak_bubble($tanggl = null, $shift = null, $region = null)
+	public function get_masak_bubble($tanggal = null, $shift = null, $region = null)
 	{
-		$this->db->select('waktu , nama_ekstra, stock_awal , SUM(record_pemakaian.pemakaian) AS pakai')
+		$mulai = 0;
+		$akhir = 0;
+		if ($shift == "shift1") {
+			$mulai = "08:00:00";
+			$akhir = "16:00:00"; 
+		}
+		else if($shift == "shift2"){
+			$mulai = "16:00:00";
+			$akhir = "22:00:00";
+		}
+		else{
+			$mulai = "08:00:00";
+			$akhir = "22:00:00";
+		}
+		$this->db->select('waktu , nama_ekstra, stock_awal , SUM(IF(tanggal = "'.$tanggal.'" && waktu >= "'.$mulai.'" && waktu <= "'.$akhir.'" && record_pemakaian.id_region = '.$region.',record_pemakaian.pemakaian, null)) AS pakai')
 			->from('record_pemakaian')
 			->join('ekstra', 'record_pemakaian.id_ekstra = ekstra.id_ekstra')
 			->like('ekstra.nama_ekstra', 'Bubble')
