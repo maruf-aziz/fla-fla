@@ -1,6 +1,14 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+require('./application/third_party/vendor/autoload.php');
+
+use PhpOffice\PhpSpreadsheet\Helper\Sample;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Csv;
+use PhpOffice\PhpSpreadsheet\Cell\DataValidation;
+
 class C_admin extends CI_Controller
 {
 
@@ -12,7 +20,6 @@ class C_admin extends CI_Controller
 		$this->load->library('form_validation');
 		$this->load->model('m_admin', 'model');
 		$this->load->helper(array('url', 'download'));
-		// $this->load->library('Excel');
 	}
 
 	public function index()
@@ -38,65 +45,81 @@ class C_admin extends CI_Controller
 	}
 
 	public function powder()
-	{
-		$powder = new PHPExcel();
-		$powder->setActiveSheetIndex(0);
-		$powder->getActiveSheet()->SetCellValue('A1', 'ID Jenis');
-		$powder->getActiveSheet()->SetCellValue('B1', 'Nama Powder');
-		$powder->getActiveSheet()->SetCellValue('C1', 'Stock Awal');
-		$powder->getActiveSheet()->SetCellValue('D1', 'Penambahan');
-		$powder->getActiveSheet()->SetCellValue('E1', 'Total');
-		$powder->getActiveSheet()->SetCellValue('F1', 'Sisa');
-		$powder->getActiveSheet()->SetCellValue('G1', 'ID Region');
-		$powder->getActiveSheet()->SetCellValue('H1', 'ID Penyajian');
-		$powder->getActiveSheet()->SetCellValue('I1', 'Harga');
+	{	
+		$spreadsheet = new Spreadsheet();
 
+		$spreadsheet->getActiveSheet()->freezePane('J2');
+
+		$from = "A1";
+		$last = "I1";
+		$data = array("ID Jenis", "Nama Powder", "Stock Awal", "Penambahan", "Total", "Sisa", "ID Region", "ID Penyajian", "Harga");
+
+		$spreadsheet->getActiveSheet()
+			->fromArray($data, NULL)
+			->getStyle("$from:$last")
+			->getFont()
+			->setBold(true);
+		
+		$Csv = new Csv($spreadsheet);
 		$filename = "Powder.csv";
+
 		header('Content-Type: application/vnd.ms-excel');
 		header('Content-Disposition: attachment;filename="' . $filename . '"');
 		header('Cache-Control: max-age=0');
-		$objWriter = PHPExcel_IOFactory::createWriter($powder, 'CSV');
-		$objWriter->save('php://output');
+		$Csv = IOFactory::createWriter($spreadsheet, 'Csv');
+		$Csv->save('php://output');
 	}
 
 	public function ekstra()
 	{
-		$ekstra = new PHPExcel();
-		$ekstra->setActiveSheetIndex(0)
-			->setCellValue('A1', "Nama Ekstra")
-			->setCellValue('B1', "Stock Awal")
-			->setCellValue('C1', "Penambahan")
-			->setCellValue('D1', "Total")
-			->setCellValue('E1', "Sisa")
-			->setCellValue('F1', "Satuan")
-			->setCellValue('G1', "ID Region");
+		$spreadsheet = new Spreadsheet();
 
-		$filename = "Ekstra.csv";
+		$spreadsheet->getActiveSheet()->freezePane('H2');
+
+		$from = "A1";
+		$last = "G1";
+		$data = array("Nama Ekstra", "Stock Awal", "Penambahan", "Total", "Sisa", "Satuan", "ID Region");
+
+		$spreadsheet->getActiveSheet()
+			->fromArray($data, NULL)
+			->getStyle("$from:$last")
+			->getFont()
+			->setBold(true);			
+		
+		$Csv = new Csv($spreadsheet);
+		$filename = "Topping.csv";
+
 		header('Content-Type: application/vnd.ms-excel');
 		header('Content-Disposition: attachment;filename="' . $filename . '"');
 		header('Cache-Control: max-age=0');
-		$objWriter = PHPExcel_IOFactory::createWriter($ekstra, 'CSV');
-		$objWriter->save('php://output');
+		$Csv = IOFactory::createWriter($spreadsheet, 'Csv');
+		$Csv->save('php://output');
 	}
 
 	public function topping()
 	{
-		$topping = new PHPExcel();
-		$topping->setActiveSheetIndex(0)
-			->setCellValue('A1', "Nama Topping")
-			->setCellValue('B1', "Harga")
-			->setCellValue('C1', "Stock Awal")
-			->setCellValue('D1', "Penambahan")
-			->setCellValue('E1', "Total")
-			->setCellValue('F1', "Sisa")
-			->setCellValue('G1', "ID Region");
+		$spreadsheet = new Spreadsheet();
 
+		$spreadsheet->getActiveSheet()->freezePane('H2');
+
+		$from = "A1";
+		$last = "G1";
+		$data = array("Nama Topping", "Harga", "Stock Awal", "Penambahan", "Total", "Sisa", "ID Region");
+
+		$spreadsheet->getActiveSheet()
+			->fromArray($data, NULL)
+			->getStyle("$from:$last")
+			->getFont()
+			->setBold(true);
+		
+		$Csv = new Csv($spreadsheet);
 		$filename = "Topping.csv";
+
 		header('Content-Type: application/vnd.ms-excel');
 		header('Content-Disposition: attachment;filename="' . $filename . '"');
 		header('Cache-Control: max-age=0');
-		$objWriter = PHPExcel_IOFactory::createWriter($topping, 'CSV');
-		$objWriter->save('php://output');
+		$Csv = IOFactory::createWriter($spreadsheet, 'Csv');
+		$Csv->save('php://output');
 	}
 
 	public function upload_powder()

@@ -1,3 +1,17 @@
+<script>
+	function printDiv(divName)
+	{
+		var printContent = document.getElementById(divName).innerHTML;
+		var originalContent = document.body.innerHTML;
+
+		document.body.innerHTML = printContent;
+
+		window.print();
+
+		document.body.innerHTML = originalContent;
+	}
+</script>
+
 <div class="page-title">
 	<div class="title_left">
 		<h3>Laporan Pemakaian</h3>
@@ -19,6 +33,9 @@
 
 <div class="row">
 	<div class="col-md-12 col-sm-12 col-xs-12">
+	<button onclick="printDiv('content')" class="btn btn-primary"><i class="fa fa-print"> &nbsp; &nbsp; Print</i></button>
+	<button onclick="window.history.back()" class="btn btn-danger"><i class="fa fa-reply"> &nbsp; &nbsp; Back</i></button>
+
 		<div class="x_panel">
 			<div class="x_title">
 				<h2><i class="fa fa-bars"></i> Laporan Pemakaian</h2>
@@ -39,7 +56,7 @@
 				</ul>
 				<div class="clearfix"></div>
 			</div>
-			<div class="x_content">
+			<div class="x_content" id="content">
 				<div class="row">
 					<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
 						<div class="table-responsive">

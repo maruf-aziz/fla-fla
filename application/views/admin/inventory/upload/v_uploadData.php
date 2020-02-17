@@ -80,7 +80,7 @@
 					<div class="tab-content" id="myTabContent">
 						<div id="Powder" class="tab-pane active">
 							<p>Drag multiple files to the box below for multi upload or click to select files to import Powder data.</p>
-							<form action="form_upload.html" class="dropzone"></form>
+							<form action="<?= base_url() . 'index.php/C_admin/upload_powder' ?>" class="dropzone"></form>
 							<br />
 						</div>
 						<div id="Topping" class="tab-pane">
