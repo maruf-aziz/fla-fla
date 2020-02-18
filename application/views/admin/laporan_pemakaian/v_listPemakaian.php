@@ -14,10 +14,7 @@
 
 <div class="page-title">
 	<div class="title_left">
-		<h3>Laporan Pemakaian</h3>
-		<h4>
-			Region : <a class="btn btn-round btn-primary btn-sm"><?=$region?></a> | Tanggal : <a class="btn btn-round btn-primary btn-sm"><?=$tanggal?></a> | Shift : <a class="btn btn-round btn-primary btn-sm"><?=$shift?></a>
-		</h4>
+		<h3>Laporan Pemakaian</h3>		 
 	</div>
 
 	<div class="title_right">
@@ -60,6 +57,9 @@
 				<div class="clearfix"></div>
 			</div>
 			<div class="x_content" id="content">
+			<h4 align="center">
+				Region : <a class="btn btn-primary btn-sm"><?=$region?></a> | Tanggal : <a class="btn btn-primary btn-sm"><?=$tanggal?></a> | Shift : <a class="btn btn-primary btn-sm"><?=$shift?></a>
+			</h4>
 				<div class="row">
 					<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
 						<div class="table-responsive">
