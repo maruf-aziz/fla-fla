@@ -903,6 +903,7 @@ class C_admin extends CI_Controller
 				'susu_putih' => $this->model->get_pakai_susu_putih($tanggal, $shift, $reg),
 				'susu_coklat' => $this->model->get_pakai_susu_coklat($tanggal, $shift, $reg),
 				'ekstra' => $this->model->get_pakai_ekstra($tanggal, $shift, $reg)
+				// 'region' => $this->model->get_region($reg)
 			);
 			$this->template_admin->load('template_admin', 'admin/laporan_pemakaian/v_listPemakaian', $data);
 		}
