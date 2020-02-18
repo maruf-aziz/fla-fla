@@ -111,7 +111,7 @@
 																			LEFT JOIN detail_penyajian ON detail_penyajian.id_powder = pd.id_powder 
 																			LEFT JOIN penyajian s ON detail_penyajian.id_penyajian = s.id_penyajian 
 																			LEFT JOIN region r ON r.id_region = p.id_region 
-																			WHERE p.id_region = '" . $value->id_region . "' ORDER BY j.id_jenis ");
+																			WHERE p.id_region = '" . $value->id_region . "' ORDER BY j.id_jenis, pd.nama_powder");
 															for ($x = 1; $x <= $menu = mysqli_fetch_assoc($kueriMenu); $x++) {
 															?>
 																<tr class="gradeX">

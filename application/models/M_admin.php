@@ -188,6 +188,30 @@ class M_admin extends CI_Model
 		return $query;
 	}
 
+	public function get_id_varian($nama, $stock, $region)
+	{
+		$this->db->select('*')
+			->from('varian_powder')
+			->where('nama_varian', $nama)
+			->where('stok_awal', $stock)
+			->where('id_region', $region);
+		$query = $this->db->get();
+
+		return $query;
+	}
+
+	public function get_id_powder($jenis, $nama, $id_varian)
+	{
+		$this->db->select('*')
+			->from('powder')
+			->where('id_jenis', $jenis)
+			->where('nama_powder', $nama)
+			->where('id_varian', $id_varian);
+		$query = $this->db->get();
+
+		return $query;
+	}
+
 	public function update_varian($id, $sisa, $penambahan)
 	{
 		$tambah = NULL;

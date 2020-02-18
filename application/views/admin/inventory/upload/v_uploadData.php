@@ -29,7 +29,7 @@
 	<div class="col-md-12 col-sm-12 col-xs-12">
 		<div class="x_panel">
 			<label style="margin-top:5px;float: left;font-weight: normal;font-size: 20px;">Download Format Import</label>
-			<div class="col-sm-offset-7">
+			<div class="col-md-offset-7 col-sm-offset-7 col-xs-offset-7">
 				<a href="#" class="mb-xs mt-xs mr-xs modal-basic btn btn-info info">Info &nbsp; <i class="fa fa-info-circle"></i></a>
 				<a href="<?= base_url() . 'index.php/C_admin/powder' ?>" download="Powder.csv"><button class="btn btn-primary" id="powder">Powder &nbsp; <i class="fa fa-cloud-download"></i></button></a>&nbsp;
 				<a href="<?= base_url() . 'index.php/C_admin/topping' ?>" download="Topping.csv"><button class="btn btn-warning" id="topping">Topping &nbsp; <i class="fa fa-cloud-download"></i></button></a>&nbsp;

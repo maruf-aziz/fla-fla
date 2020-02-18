@@ -1,5 +1,7 @@
           <?php
 
+		  	error_reporting(0);
+
 			$query = new mysqli('localhost', 'root', '', 'db_pos');
 
 			function formatRupiah($profit)
