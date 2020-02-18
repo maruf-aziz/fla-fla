@@ -478,7 +478,7 @@ class C_admin extends CI_Controller
 				$data['varian'] = $query->row();
 			}
 
-			$this->template_admin->load('template_admin', 'admin/inventory/powder/v_listpowder', $data);
+			$this->template_admin->load('template_admin', 'admin/inventory/powder/v_listPowder', $data);
 		}
 	}
 
@@ -902,15 +902,9 @@ class C_admin extends CI_Controller
 				'bubble' => $this->model->get_masak_bubble($tanggal, $shift, $reg),
 				'susu_putih' => $this->model->get_pakai_susu_putih($tanggal, $shift, $reg),
 				'susu_coklat' => $this->model->get_pakai_susu_coklat($tanggal, $shift, $reg),
-<<<<<<< HEAD
-				'ekstra' => $this->model->get_pakai_ekstra($tanggal, $shift, $reg)
-				// 'region' => $this->model->get_region($reg)
-=======
-				'ekstra' => $this->model->get_pakai_ekstra($tanggal, $shift, $reg),
-				// 'region' => $reg,
+				'ekstra' => $this->model->get_pakai_ekstra($tanggal, $shift, $reg), 
 				'tanggal'=> $tanggal,
 				'shift' => $shift
->>>>>>> master
 			);
 
 			$get_region = $this->model->get_region($reg);
