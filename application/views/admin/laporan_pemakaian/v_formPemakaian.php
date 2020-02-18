@@ -51,9 +51,9 @@
             <div class="col-md-6 col-sm-6 col-xs-12">
             	<select name="shift" id="shift" class="form-control" required>
             		<option value="">-- Pilih Shift --</option>
-            		<option value="shift1">Shift 1</option>
-            		<option value="shift2">Shift 2</option>
-            		<option value="all">All</option>
+            		<option value="Shift 1">Shift 1</option>
+            		<option value="Shift 2">Shift 2</option>
+            		<option value="All">All</option>
             	</select>
             </div>
           </div>
