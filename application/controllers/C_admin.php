@@ -902,8 +902,18 @@ class C_admin extends CI_Controller
 				'bubble' => $this->model->get_masak_bubble($tanggal, $shift, $reg),
 				'susu_putih' => $this->model->get_pakai_susu_putih($tanggal, $shift, $reg),
 				'susu_coklat' => $this->model->get_pakai_susu_coklat($tanggal, $shift, $reg),
-				'ekstra' => $this->model->get_pakai_ekstra($tanggal, $shift, $reg)
+				'ekstra' => $this->model->get_pakai_ekstra($tanggal, $shift, $reg),
+				// 'region' => $reg,
+				'tanggal'=> $tanggal,
+				'shift' => $shift
 			);
+
+			$get_region = $this->model->get_region($reg);
+			if($get_region->num_rows() > 0){
+				$row = $get_region->row();
+
+				$data['region'] = $row->nama_region;
+			}
 			$this->template_admin->load('template_admin', 'admin/laporan_pemakaian/v_listPemakaian', $data);
 		}
 	}

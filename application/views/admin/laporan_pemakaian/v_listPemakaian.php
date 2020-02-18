@@ -15,6 +15,9 @@
 <div class="page-title">
 	<div class="title_left">
 		<h3>Laporan Pemakaian</h3>
+		<h4>
+			Region : <a class="btn btn-round btn-primary btn-sm"><?=$region?></a> | Tanggal : <a class="btn btn-round btn-primary btn-sm"><?=$tanggal?></a> | Shift : <a class="btn btn-round btn-primary btn-sm"><?=$shift?></a>
+		</h4>
 	</div>
 
 	<div class="title_right">

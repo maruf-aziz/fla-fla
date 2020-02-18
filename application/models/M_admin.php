@@ -849,7 +849,7 @@ class M_admin extends CI_Model
 
 		$this->db->select('tanggal, SUM(total) AS uang')
 			->from('jual')
-			->where('MONTH(tanggal)', $m)
+			// ->where('MONTH(tanggal)', $m)
 			->group_by('tanggal')
 			->order_by('no_nota', 'DESC')
 			->limit(30);
