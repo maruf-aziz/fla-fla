@@ -687,9 +687,7 @@ class M_admin extends CI_Model
 			->from('record_pemakaian')
 			->join('powder', 'record_pemakaian.id_powder = powder.id_powder', 'RIGHT')
 			->join('varian_powder', 'powder.id_varian = varian_powder.id_varian')
-			// ->where('tanggal', $tanggal)
-			// ->where('waktu >=', $mulai)
-			// ->where('waktu <=', $akhir)
+			->where('varian_powder.id_region', $region)
 			->group_by('powder.nama_powder');
 		$query = $this->db->get();
 
@@ -716,6 +714,7 @@ class M_admin extends CI_Model
 		$this->db->select('nama_topping, SUM(IF(tanggal = "'.$tanggal.'" && waktu >= "'.$mulai.'" && waktu <= "'.$akhir.'" && record_pemakaian.id_region = '.$region.', pemakaian, NULL)) as pakai, harga, harga_jual')
 			->from('record_pemakaian')
 			->join('topping', 'record_pemakaian.id_topping = topping.id_topping', 'RIGHT')
+			->where('topping.id_region', $region)
 			->group_by('topping.nama_topping');
 		$query = $this->db->get();
 
@@ -746,6 +745,7 @@ class M_admin extends CI_Model
 			->join('penyajian', 'record_pemakaian.id_penyajian = penyajian.id_penyajian')
 			// ->join('detail_penyajian', 'detail_penyajian.id_powder = powder.id_powder')
 			->join('jenis_menu', 'powder.id_jenis = jenis_menu.id_jenis')
+			->where('record_pemakaian.id_region', $region)
 			->group_by('jenis_menu.nama_jenis, penyajian.id_penyajian');
 		$query = $this->db->get();
 
@@ -810,6 +810,7 @@ class M_admin extends CI_Model
 			SUM(IF(tanggal = "'.$tanggal.'" && waktu >= "'.$mulai.'" && waktu <= "'.$akhir.'" && record_pemakaian.id_region = '.$region.',pemakaian, null)) AS pakai')
 			->from('record_pemakaian')
 			->join('ekstra', 'record_pemakaian.id_ekstra = ekstra.id_ekstra', 'RIGHT')
+			->where('ekstra.id_region', $region)
 			->group_by('ekstra.nama_ekstra');
 		$query = $this->db->get();
 
@@ -836,6 +837,7 @@ class M_admin extends CI_Model
 			->from('record_pemakaian')
 			->join('ekstra', 'record_pemakaian.id_ekstra = ekstra.id_ekstra')
 			->like('ekstra.nama_ekstra', 'Bubble')
+			->where('ekstra.id_region', $region)
 			->group_by('ekstra.nama_ekstra');
 		$query = $this->db->get();
 
