@@ -218,20 +218,28 @@
 
 								<tbody>
 									<?php
+                  $bs = 0;
+                  $pm = 0;
 									$total_bs = 0;
 									$total_pm = 0;
 									foreach ($susu_putih as $key => $value) {
+
+                    $bs = $value->basic_b + $value->basic_p + $value->basic_y;
+                    $pm = $value->pm_b + $value->pm_p;
+
+                    $total_bs = $total_bs + $bs;
+                    $total_pm = $total_pm + $pm;
+
 									?>
 
 										<tr>
-											<td><?= $value->nama_jenis ?></td>
-											<td><?= $value->basic + $value->yakult?></td>
-											<td><?= $value->pm ?></td>
+											<td><?=($value->id_jenis != 3 && $value->id_jenis != 4 && $value->id_jenis != 6 ? $value->nama_jenis : '') ?></td>
+											<td><?=($value->id_jenis != 3 && $value->id_jenis != 4 && $value->id_jenis != 6 ? $bs : '') ?></td>
+											<td><?=($value->id_jenis != 3 && $value->id_jenis != 4 && $value->id_jenis != 6 ? $pm : '') ?></td>
 										</tr>
 
-									<?php
-										$total_pm = $total_pm + $value->pm;
-										$total_bs = $total_bs + $value->basic + $value->yakult;
+                    <?php
+
 									}
 
 									?>
@@ -259,21 +267,29 @@
 								</thead>
 
 								<tbody>
-									<?php
+                <?php
+                  $bs = 0;
+                  $pm = 0;
 									$total_bs = 0;
 									$total_pm = 0;
 									foreach ($susu_coklat as $key => $value) {
+
+                    $bs = $value->basic_b + $value->basic_p;
+                    $pm = $value->pm_b + $value->pm_p;
+
+                    $total_bs = $total_bs + $bs;
+                    $total_pm = $total_pm + $pm;
+
 									?>
 
 										<tr>
-											<td><?= $value->nama_jenis ?></td>
-											<td><?= $value->basic ?></td>
-											<td><?= $value->pm ?></td>
+											<td><?=($value->id_jenis != 1 && $value->id_jenis != 2 && $value->id_jenis != 5 ? $value->nama_jenis : '') ?></td>
+											<td><?=($value->id_jenis != 1 && $value->id_jenis != 2 && $value->id_jenis != 5 ? $bs : '') ?></td>
+											<td><?=($value->id_jenis != 1 && $value->id_jenis != 2 && $value->id_jenis != 5 ? $pm : '') ?></td>
 										</tr>
 
-									<?php
-										$total_pm = $total_pm + $value->pm;
-										$total_bs = $total_bs + $value->basic;
+                    <?php
+
 									}
 
 									?>

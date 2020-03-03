@@ -754,17 +754,44 @@ class M_admin extends CI_Model
 
 	public function get_pakai_susu_putih($tanggal = null, $shift = null, $region = null)
 	{
-		$this->db->select('e.nama_ekstra, j.nama_jenis, de.basic, de.pm, de.pemakaian, de.yakult, r.id_region')
-			->from('detail_ekstra de')
-			->join('jenis_menu j', 'j.id_jenis = de.id_jenis')
-			->join('ekstra e', 'e.id_ekstra = de.id_ekstra')
-			->join('region r', 'r.id_region = e.id_region', 'LEFT')
-			->where('e.nama_ekstra', 'Susu Putih')
-			->where("(j.nama_jenis = 'Basic' OR j.nama_jenis = 'Premium' OR j.nama_jenis = 'Yakult')")
-			// ->where("(de.basic != '1' OR de.pm != '1')")
-			->where('e.id_region', 1)
-			->order_by('j.nama_jenis')
-			->group_by('j.nama_jenis');
+		// $this->db->select('e.nama_ekstra, j.nama_jenis, de.basic, de.pm, de.pemakaian, de.yakult, r.id_region')
+		// 	->from('detail_ekstra de')
+		// 	->join('jenis_menu j', 'j.id_jenis = de.id_jenis')
+		// 	->join('ekstra e', 'e.id_ekstra = de.id_ekstra')
+		// 	->join('region r', 'r.id_region = e.id_region', 'LEFT')
+		// 	->where('e.nama_ekstra', 'Susu Putih')
+		// 	->where("(j.nama_jenis = 'Basic' OR j.nama_jenis = 'Premium' OR j.nama_jenis = 'Yakult')")
+		// 	// ->where("(de.basic != '1' OR de.pm != '1')")
+		// 	->where('e.id_region', 1)
+		// 	->order_by('j.nama_jenis')
+		// 	->group_by('j.nama_jenis');
+
+		$mulai = 0;
+		$akhir = 0;
+		if ($shift == "shift1") {
+			$mulai = "08:00:00";
+			$akhir = "16:00:00"; 
+		}
+		else if($shift == "shift2"){
+			$mulai = "16:00:00";
+			$akhir = "22:00:00";
+		}
+		else{
+			$mulai = "00:00:00";
+			$akhir = "22:00:00";
+		}
+
+		$this->db->select('powder.id_jenis, nama_jenis, 
+		ROUND(SUM(IF(powder.id_jenis = 1 && tanggal = "'.$tanggal.'" && waktu >= "'.$mulai.'" && waktu <= "'.$akhir.'" && id_region = '.$region.', basic , NULL)),2) AS basic_b , 
+		ROUND(SUM(IF(powder.id_jenis = 2 && tanggal = "'.$tanggal.'" && waktu >= "'.$mulai.'" && waktu <= "'.$akhir.'" && id_region = '.$region.', basic , NULL)),2) AS basic_p ,
+		ROUND(SUM(IF(powder.id_jenis = 5 && tanggal = "'.$tanggal.'" && waktu >= "'.$mulai.'" && waktu <= "'.$akhir.'" && id_region = '.$region.', basic , NULL)),2) AS basic_y ,
+		ROUND(SUM(IF(powder.id_jenis = 1 && tanggal = "'.$tanggal.'" && waktu >= "'.$mulai.'" && waktu <= "'.$akhir.'" && id_region = '.$region.', pm , NULL)),2) AS pm_b ,
+		ROUND(SUM(IF(powder.id_jenis = 2 && tanggal = "'.$tanggal.'" && waktu >= "'.$mulai.'" && waktu <= "'.$akhir.'" && id_region = '.$region.', pm , NULL)),2) AS pm_p')
+			->from('record_pemakaian')
+			->join('powder', 'record_pemakaian.id_powder = powder.id_powder')
+			->join('jenis_menu', 'powder.id_jenis = jenis_menu.id_jenis')
+			->group_by('jenis_menu.id_jenis') ;
+
 		$query = $this->db->get();
 
 		return $query->result();
@@ -772,17 +799,43 @@ class M_admin extends CI_Model
 
 	public function get_pakai_susu_coklat($tanggal = null, $shift = null, $region = null)
 	{
-		$this->db->select('e.nama_ekstra, j.nama_jenis, de.basic, de.pm, de.pemakaian, r.id_region')
-			->from('detail_ekstra de')
-			->join('jenis_menu j', 'j.id_jenis = de.id_jenis')
-			->join('ekstra e', 'e.id_ekstra = de.id_ekstra')
-			->join('region r', 'r.id_region = e.id_region', 'LEFT')
-			->where('e.nama_ekstra', 'Susu Coklat')
-			->where("(j.nama_jenis = 'Soklat' OR j.nama_jenis = 'Choco Premium')")
-			->where("(de.basic != '1' OR de.pm != '1')")
-			->where('e.id_region', 1)
-			->order_by('j.nama_jenis')
-			->group_by('j.nama_jenis');
+		// $this->db->select('e.nama_ekstra, j.nama_jenis, de.basic, de.pm, de.pemakaian, r.id_region')
+		// 	->from('detail_ekstra de')
+		// 	->join('jenis_menu j', 'j.id_jenis = de.id_jenis')
+		// 	->join('ekstra e', 'e.id_ekstra = de.id_ekstra')
+		// 	->join('region r', 'r.id_region = e.id_region', 'LEFT')
+		// 	->where('e.nama_ekstra', 'Susu Coklat')
+		// 	->where("(j.nama_jenis = 'Soklat' OR j.nama_jenis = 'Choco Premium')")
+		// 	->where("(de.basic != '1' OR de.pm != '1')")
+		// 	->where('e.id_region', 1)
+		// 	->order_by('j.nama_jenis')
+		// 	->group_by('j.nama_jenis');
+
+		$mulai = 0;
+		$akhir = 0;
+		if ($shift == "shift1") {
+			$mulai = "08:00:00";
+			$akhir = "16:00:00"; 
+		}
+		else if($shift == "shift2"){
+			$mulai = "16:00:00";
+			$akhir = "22:00:00";
+		}
+		else{
+			$mulai = "08:00:00";
+			$akhir = "22:00:00";
+		}
+
+		$this->db->select('powder.id_jenis, nama_jenis, 
+		ROUND(SUM(IF(powder.id_jenis = 3 && tanggal = "'.$tanggal.'" && waktu >= "'.$mulai.'" && waktu <= "'.$akhir.'" && id_region = '.$region.', basic , NULL)),2) AS basic_b , 
+		ROUND(SUM(IF(powder.id_jenis = 4 && tanggal = "'.$tanggal.'" && waktu >= "'.$mulai.'" && waktu <= "'.$akhir.'" && id_region = '.$region.', basic , NULL)),2) AS basic_p ,
+		ROUND(SUM(IF(powder.id_jenis = 3 && tanggal = "'.$tanggal.'" && waktu >= "'.$mulai.'" && waktu <= "'.$akhir.'" && id_region = '.$region.', pm , NULL)),2) AS pm_b ,
+		ROUND(SUM(IF(powder.id_jenis = 4 && tanggal = "'.$tanggal.'" && waktu >= "'.$mulai.'" && waktu <= "'.$akhir.'" && id_region = '.$region.', pm , NULL)),2) AS pm_p')
+			->from('record_pemakaian')
+			->join('powder', 'record_pemakaian.id_powder = powder.id_powder')
+			->join('jenis_menu', 'powder.id_jenis = jenis_menu.id_jenis')
+			->group_by('jenis_menu.id_jenis') ;
+
 		$query = $this->db->get();
 
 		return $query->result();
