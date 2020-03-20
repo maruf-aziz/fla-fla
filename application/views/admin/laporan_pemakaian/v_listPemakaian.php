@@ -175,7 +175,7 @@
 							<table class="table table-striped jambo_table bulk_action" id="myTable1">
 								<thead>
 									<tr class="headings">
-										<th class="column-title">Masak Sajian </th>
+										<th class="column-title">Nama Menu </th>
 										<th class="column-title">Penjualan </th>
 										<th class="column-title">Harga </th>
 										<th class="column-title">Total</th>
@@ -205,7 +205,7 @@
 					<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 						<div class="table-responsive">
 							<center><span>Pemakaian Susu Putih</span></center>
-							<table class="table table-striped jambo_table bulk_action" id="myTable1">
+							<table class="table table-striped jambo_table bulk_action putih" id="myTable1">
 								<thead>
 									<tr class="headings">
 										<th class="column-title">Susu Putih </th>
@@ -221,27 +221,20 @@
 									$total_bs = 0;
 									$total_pm = 0;
 									foreach ($susu_putih as $key => $value) {
-
 										$bs = $value->basic_b + $value->basic_p + $value->basic_y;
 										$pm = $value->pm_b + $value->pm_p;
 
 										$total_bs = $total_bs + $bs;
 										$total_pm = $total_pm + $pm;
-
 									?>
-
 										<tr>
 											<td><?= ($value->id_jenis != 3 && $value->id_jenis != 4 && $value->id_jenis != 6 ? $value->nama_jenis : '') ?></td>
 											<td><?= ($value->id_jenis != 3 && $value->id_jenis != 4 && $value->id_jenis != 6 ? $bs : '') ?></td>
 											<td><?= ($value->id_jenis != 3 && $value->id_jenis != 4 && $value->id_jenis != 6 ? $pm : '') ?></td>
 										</tr>
-
 									<?php
-
 									}
-
 									?>
-									<tr colspan="3"></tr>
 									<tr style="background-color: #00CED1; color: #ffffff;">
 										<td>Total</td>
 										<td><?= $total_bs ?></td>
@@ -255,7 +248,7 @@
 					<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 						<div class="table-responsive">
 							<center><span>Pemakaian Susu Coklat</span></center>
-							<table class="table table-striped jambo_table bulk_action" id="myTable1">
+							<table class="table table-striped jambo_table bulk_action coklat" id="myTable1">
 								<thead>
 									<tr class="headings">
 										<th class="column-title">Susu Coklat </th>
@@ -271,27 +264,21 @@
 									$total_bs = 0;
 									$total_pm = 0;
 									foreach ($susu_coklat as $key => $value) {
-
 										$bs = $value->basic_b + $value->basic_p;
 										$pm = $value->pm_b + $value->pm_p;
 
 										$total_bs = $total_bs + $bs;
 										$total_pm = $total_pm + $pm;
-
 									?>
-
 										<tr>
-											<td><?= ($value->id_jenis != 1 && $value->id_jenis != 2 && $value->id_jenis != 5 ? $value->nama_jenis : '') ?></td>
-											<td><?= ($value->id_jenis != 1 && $value->id_jenis != 2 && $value->id_jenis != 5 ? $bs : '') ?></td>
-											<td><?= ($value->id_jenis != 1 && $value->id_jenis != 2 && $value->id_jenis != 5 ? $pm : '') ?></td>
+											<td><?= ($value->id_jenis != 1 && $value->id_jenis != 2 && $value->id_jenis != 5 ? $value->nama_jenis : null) ?></td>
+											<td><?= ($value->id_jenis != 1 && $value->id_jenis != 2 && $value->id_jenis != 5 ? $bs : null) ?></td>
+											<td><?= ($value->id_jenis != 1 && $value->id_jenis != 2 && $value->id_jenis != 5 ? $pm : null) ?></td>
 										</tr>
-
 									<?php
-
 									}
-
 									?>
-									<tr colspan="3"></tr>
+
 									<tr style="background-color: #00CED1; color: #ffffff;">
 										<td>Total</td>
 										<td><?= $total_bs ?></td>
@@ -324,9 +311,7 @@
 
 								<tbody>
 									<?php
-
 									foreach ($ekstra as $key => $value) {
-
 										$pemakaian = 0;
 										if ($value->nama_ekstra == "Susu Putih" || $value->nama_ekstra == "Susu Coklat") {
 											$pemakaian = $value->pakai_susu;
@@ -336,19 +321,16 @@
 											$pemakaian = $value->pakai;
 										}
 									?>
-
 										<tr>
 											<td><?= $value->nama_ekstra ?></td>
 											<td style="text-align: center"><?= $value->stock_awal ?></td>
 											<td style="text-align: center"><?= $value->penambahan ?></td>
 											<td style="text-align: center"><?= ($pemakaian != null ? $pemakaian : 0) ?></td>
-											<td style="text-align: center"></td>
+											<td style="text-align: center"><?= ($value->pakai_bulan != null ? $value->pakai_bulan : 0) ?></td>
 											<td style="text-align: center"><?= $value->sisa ?></td>
 										</tr>
-
 									<?php
 									}
-
 									?>
 								</tbody>
 							</table>
@@ -361,107 +343,6 @@
 </div>
 
 <script>
-	$(document).ready(function() {
-
-		$('input').change(function() {
-
-			var tanggal = $(this).val();
-			$.ajax({
-				url: "<?= base_url('index.php/c_admin/get_transaksi_penambahan') ?>",
-				type: "post",
-				data: {
-					tanggal: tanggal
-				},
-				async: false,
-				dataType: "json",
-				success: function(data) {
-					var html = '';
-					var i;
-					for (i = 0; i < data.length; i++) {
-						html += '<tr>' +
-							'<td>' + (i + 1) + '</td>' +
-							'<td>' + data[i].tanggal + '</td>' +
-							'<td>' + data[i].waktu + '</td>' +
-							'<td>' + data[i].nama_varian + '</td>' +
-							'<td>' + data[i].nama_ekstra + '</td>' +
-							'<td>' + data[i].nama_topping + '</td>' +
-							'<td>' + data[i].penambahan_stok + '</td>' +
-							'<td>' + data[i].nama_region + '</td>' +
-							'</tr>';
-					}
-					$('#show_data').html(html);
-				}
-			});
-
-		});
-		return false;
-	});
-
-	$('button').click(function() {
-		var tanggal = $("#tanggal").val();
-
-		if (tanggal == '') {
-			Swal.fire({
-				type: 'warning',
-				title: 'Halllooo ...',
-				text: 'Tanggal Belum Diisi'
-			})
-		} else {
-			$.ajax({
-				url: "<?= base_url('index.php/c_admin/get_transaksi_penambahan') ?>",
-				type: "post",
-				data: {
-					tanggal: tanggal
-				},
-				async: false,
-				dataType: "json",
-				success: function(data) {
-					var html = '';
-					var i;
-					var varian;
-					var ekstra;
-					var topping;
-					var satuan;
-
-					for (i = 0; i < data.length; i++) {
-						if (data[i].nama_varian != null) {
-							varian = data[i].nama_varian;
-						} else {
-							varian = '---';
-						}
-
-						if (data[i].nama_ekstra != null) {
-							ekstra = data[i].nama_ekstra;
-						} else {
-							ekstra = '---';
-						}
-
-						if (data[i].nama_topping != null) {
-							topping = data[i].nama_topping;
-						} else {
-							topping = '---';
-						}
-
-						if (data[i].id_ekstra != null) {
-							satuan = data[i].satuan;
-						} else {
-							satuan = 'cup';
-						}
-
-						html += '<tr>' +
-							'<td>' + (i + 1) + '</td>' +
-							'<td>' + data[i].tanggal + '</td>' +
-							'<td>' + data[i].waktu + '</td>' +
-							'<td>' + varian + '</td>' +
-							'<td>' + ekstra + '</td>' +
-							'<td>' + topping + '</td>' +
-							'<td>' + data[i].penambahan_stok + ' ' + satuan + '</td>' +
-							'<td>' + data[i].nama_region + '</td>' +
-							'</tr>';
-					}
-					$('#show_data').html(html);
-				}
-			});
-		}
-	})
+	$('.coklat > tbody  > tr').has('td:empty').hide();
+	$('.putih > tbody  > tr').has('td:empty').hide();
 </script>

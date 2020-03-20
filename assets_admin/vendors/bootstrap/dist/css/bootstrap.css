@@ -9,6 +9,7 @@ html {
   -webkit-text-size-adjust: 100%;
       -ms-text-size-adjust: 100%;
 }
+
 body {
   margin: 0;
 }
@@ -182,6 +183,7 @@ optgroup {
 table {
   border-spacing: 0;
   border-collapse: collapse;
+  empty-cells: hide;
 }
 td,
 th {
@@ -2264,6 +2266,7 @@ th {
   width: 100%;
   max-width: 100%;
   margin-bottom: 20px;
+  empty-cells: hide;
 }
 .table > thead > tr > th,
 .table > tbody > tr > th,
